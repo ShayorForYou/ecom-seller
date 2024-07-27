@@ -172,16 +172,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                         borderRadius: 24.0,
                         url: _url,
                         backgroundColor: MyTheme.noColor),
-                    /*Container(
-                      height: 48,
-                      width: 48,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://demo.activeitzone.com/ecommerce_flutter_demo/public/uploads/all/999999999920220118113113.jpg"),
-                              fit: BoxFit.cover)),
-                    ),*/
+                    
                     const SizedBox(
                       width: 10,
                     ),
