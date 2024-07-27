@@ -9,10 +9,9 @@ class AppConfig {
   //enter your purchase code for the app from codecanyon
   static String purchase_code = "ecom123456";
 
-  /// Put your system key generated from this site https://activeitzone.com/activation
   ///  Just replace the system-key with your key
 
-  static String system_key = r"system-key";
+  static String system_key = r"123456";
 
 
   //Default language config
