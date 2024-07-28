@@ -21,7 +21,7 @@ class AppConfig {
 
   //configure this
   //localhost
-  static const bool HTTPS = true;
+  static const bool HTTPS = false;
   static const DOMAIN_PATH = "31.220.77.81:8077";
 
   //do not configure these below
