@@ -20,8 +20,11 @@ import 'package:ecom_seller_app/screens/product/new_product.dart';
 import 'package:ecom_seller_app/screens/product/update_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:toast/toast.dart';
+
+import '../../providers/product_provider.dart';
 
 class Products extends StatefulWidget {
   final bool fromBottomBar;
@@ -63,7 +66,7 @@ class _ProductsState extends State<Products> {
           LangText(context: context).getLocal()!.no_more_products_ucf,
           gravity: Toast.center,
           bgColor: MyTheme.white,
-          textStyle: TextStyle(color: Colors.black));
+          textStyle: const TextStyle(color: Colors.black));
     }
     _productList.addAll(productResponse.data!);
     _showMoreProductLoadingContainer = false;
@@ -90,13 +93,14 @@ class _ProductsState extends State<Products> {
     var response = await ProductRepository().productDuplicateReq(id: id);
     Navigator.pop(loadingContext);
     if (response.result) {
-      resetAll();
+      // resetAll();
+      Provider.of<ProductProvider>(context, listen: false).fetchAll();
     }
     ToastComponent.showDialog(
       response.message,
       gravity: Toast.center,
       duration: 3,
-      textStyle: TextStyle(color: MyTheme.black),
+      textStyle: const TextStyle(color: MyTheme.black),
     );
   }
 
@@ -105,13 +109,14 @@ class _ProductsState extends State<Products> {
     var response = await ProductRepository().productDeleteReq(id: id);
     Navigator.pop(loadingContext);
     if (response.result) {
-      resetAll();
+      // resetAll();
+      Provider.of<ProductProvider>(context, listen: false).fetchAll();
     }
     ToastComponent.showDialog(
       response.message,
       gravity: Toast.center,
       duration: 3,
-      textStyle: TextStyle(color: MyTheme.black),
+      textStyle: const TextStyle(color: MyTheme.black),
     );
   }
 
@@ -130,7 +135,7 @@ class _ProductsState extends State<Products> {
       response.message,
       gravity: Toast.center,
       duration: 3,
-      textStyle: TextStyle(color: MyTheme.black),
+      textStyle: const TextStyle(color: MyTheme.black),
     );
   }
 
@@ -152,7 +157,7 @@ class _ProductsState extends State<Products> {
       response.message,
       gravity: Toast.center,
       duration: 3,
-      textStyle: TextStyle(color: MyTheme.black),
+      textStyle: const TextStyle(color: MyTheme.black),
     );
   }
 
@@ -226,51 +231,59 @@ class _ProductsState extends State<Products> {
 
   @override
   void initState() {
-    scrollControllerPosition();
-    fetchAll();
     super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.hasClients &&
+          _scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        // Load more products
+        Provider.of<ProductProvider>(context, listen: false).loadMoreProducts();
+      }
+    });
+
+    // Initial data fetch
+    Future.microtask(() {
+      Provider.of<ProductProvider>(context, listen: false).fetchAll();
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
     mHeight = MediaQuery.of(context).size.height;
     mWidht = MediaQuery.of(context).size.width;
+    final productProvider = Provider.of<ProductProvider>(context);
+
     return Directionality(
-      textDirection:
-          app_language_rtl.$! ? TextDirection.rtl : TextDirection.ltr,
+      textDirection: app_language_rtl.$! ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         appBar: !widget.fromBottomBar
             ? MyAppBar(
-                    context: context,
-                    title: LangText(context: context).getLocal()!.products_ucf)
-                .show()
+          context: context,
+          title: LangText(context: context).getLocal()!.products_ucf,
+        ).show()
             : null,
         body: RefreshIndicator(
           triggerMode: RefreshIndicatorTriggerMode.anywhere,
           onRefresh: () async {
-            resetAll();
-            // Future.delayed(Duration(seconds: 1));
+            Provider.of<ProductProvider>(context, listen: false).fetchAll();
           },
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             controller: _scrollController,
             child: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 buildTop2BoxContainer(context),
                 Visibility(
-                    visible: seller_package_addon.$,
-                    child: buildPackageUpgradeContainer(context)),
-                SizedBox(
-                  height: 20,
+                  visible: seller_package_addon.$,
+                  child: buildPackageUpgradeContainer(context),
                 ),
+                const SizedBox(height: 20),
                 Container(
-                  child: _isProductInit
-                      ? productsContainer()
-                      : ShimmerHelper()
-                          .buildListShimmer(item_count: 20, item_height: 80.0),
+                  child: productProvider.isProductInit
+                      ? productsContainer(productProvider.productList)
+                      : ShimmerHelper().buildListShimmer(item_count: 20, item_height: 80.0),
                 ),
               ],
             ),
@@ -295,7 +308,7 @@ class _ProductsState extends State<Products> {
             bgColor: MyTheme.app_accent_color_extra_light,
             child: InkWell(
               onTap: () {
-                MyTransaction(context: context).push(Packages());
+                MyTransaction(context: context).push(const Packages());
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -304,28 +317,28 @@ class _ProductsState extends State<Products> {
                     children: [
                       Image.asset("assets/icon/package.png",
                           height: 20, width: 20),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         LangText(context: context)
                             .getLocal()!
                             .current_package_ucf,
-                        style: TextStyle(fontSize: 10, color: MyTheme.grey_153),
+                        style: const TextStyle(fontSize: 10, color: MyTheme.grey_153),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         _currentPackageName!,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 10,
                             color: MyTheme.app_accent_color,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Row(
@@ -334,12 +347,12 @@ class _ProductsState extends State<Products> {
                         LangText(context: context)
                             .getLocal()!
                             .upgrade_package_ucf,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 12,
                             color: MyTheme.app_accent_color,
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       Image.asset("assets/icon/next_arrow.png",
@@ -357,12 +370,12 @@ class _ProductsState extends State<Products> {
 
   Container buildTop2BoxContainer(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
+      margin: const EdgeInsets.symmetric(horizontal: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 //border: Border.all(color: MyTheme.app_accent_border),
@@ -392,7 +405,7 @@ class _ProductsState extends State<Products> {
           Container(
               child: SubmitBtn.show(
             onTap: () {
-              MyTransaction(context: context).push(NewProduct()).then((value) {
+              MyTransaction(context: context).push(const NewProduct()).then((value) {
                 resetAll();
               });
             },
@@ -402,7 +415,7 @@ class _ProductsState extends State<Products> {
             width: mWidht / 2 - 23,
             radius: 10,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               height: 75,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -434,39 +447,38 @@ class _ProductsState extends State<Products> {
     );
   }
 
-  Widget productsContainer() {
+  Widget productsContainer(List<Product> productList) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             LangText(context: context).getLocal()!.all_products_ucf,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: MyTheme.app_accent_color),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: _productList.length + 1,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: productList.length + 1,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                // print(index);
-                if (index == _productList.length) {
+                if (index == productList.length) {
                   return moreProductLoading();
                 }
                 return productItem(
                     index: index,
-                    productId: _productList[index].id,
-                    imageUrl: _productList[index].thumbnailImg,
-                    productTitle: _productList[index].name!,
-                    category: _productList[index].category,
-                    productPrice: _productList[index].price.toString(),
-                    quantity: _productList[index].quantity.toString());
+                    productId: productList[index].id,
+                    imageUrl: productList[index].thumbnailImg,
+                    productTitle: productList[index].name!,
+                    category: productList[index].category,
+                    productPrice: productList[index].price.toString(),
+                    quantity: productList[index].quantity.toString());
               }),
         ],
       ),
@@ -486,7 +498,7 @@ class _ProductsState extends State<Products> {
         backgroundColor: MyTheme.white,
         height: 90,
         width: mWidht,
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           bottom: 20,
         ),
         borderColor: MyTheme.light_grey,
@@ -509,13 +521,13 @@ class _ProductsState extends State<Products> {
                 height: 90.0,
                 fit: BoxFit.cover,
                 url: imageUrl,
-                radius: BorderRadius.only(
+                radius: const BorderRadius.only(
                   topLeft: Radius.circular(5),
                   bottomLeft: Radius.circular(5),
                 ),
               ),
               // Image.asset(ImageUrl,width: 80,height: 80,fit: BoxFit.contain,),
-              SizedBox(
+              const SizedBox(
                 width: 11,
               ),
               Container(
@@ -536,19 +548,19 @@ class _ProductsState extends State<Products> {
                               children: [
                                 Text(
                                   productTitle,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       color: MyTheme.font_grey,
                                       fontWeight: FontWeight.w400),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 3,
                                 ),
                                 Text(
                                   category,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 10,
                                       color: MyTheme.grey_153,
                                       fontWeight: FontWeight.w400),
@@ -571,7 +583,7 @@ class _ProductsState extends State<Products> {
                         children: [
                           Container(
                             child: Text(productPrice,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 13,
                                     color: MyTheme.app_accent_color,
                                     fontWeight: FontWeight.w500)),
@@ -584,13 +596,13 @@ class _ProductsState extends State<Products> {
                                 height: 10,
                                 fit: BoxFit.contain,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 7,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 15.0),
                                 child: Text(quantity,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 13, color: MyTheme.grey_153)),
                               ),
                             ],
@@ -655,12 +667,12 @@ class _ProductsState extends State<Products> {
     return Container(
       width: 35,
       child: PopupMenuButton<MenuOptions>(
-        offset: Offset(-12, 0),
+        offset: const Offset(-12, 0),
         child: Padding(
           padding: EdgeInsets.zero,
           child: Container(
             width: 35,
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             alignment: Alignment.topRight,
             child: Image.asset("assets/icon/more.png",
                 width: 3,
@@ -719,7 +731,7 @@ class _ProductsState extends State<Products> {
                       _productList[index!].status
                           ? getLocal(context).published
                           : getLocal(context).unpublished,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
@@ -759,7 +771,7 @@ class _ProductsState extends State<Products> {
                       _productList[index!].featured
                           ? getLocal(context).featured
                           : getLocal(context).unfeatured,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
@@ -792,8 +804,8 @@ class _ProductsState extends State<Products> {
           return AlertDialog(
               content: Row(
             children: [
-              CircularProgressIndicator(),
-              SizedBox(
+              const CircularProgressIndicator(),
+              const SizedBox(
                 width: 10,
               ),
               Text("${AppLocalizations.of(context)!.please_wait_ucf}"),
@@ -806,7 +818,7 @@ class _ProductsState extends State<Products> {
     return _showMoreProductLoadingContainer
         ? Container(
             alignment: Alignment.center,
-            child: SizedBox(
+            child: const SizedBox(
               height: 40,
               width: 40,
               child: Row(
@@ -820,7 +832,7 @@ class _ProductsState extends State<Products> {
               ),
             ),
           )
-        : SizedBox(
+        : const SizedBox(
             height: 5,
             width: 5,
           );

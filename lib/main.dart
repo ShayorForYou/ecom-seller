@@ -4,6 +4,7 @@ import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 import 'package:ecom_seller_app/lang_config.dart';
 import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/providers/locale_provider.dart';
+import 'package:ecom_seller_app/providers/product_provider.dart';
 import 'package:ecom_seller_app/screens/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +92,8 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
+          ChangeNotifierProvider(create: (context) => ProductProvider()),
+
         ],
         child: Consumer<LocaleProvider>(builder: (context, provider, snapshot) {
           return MaterialApp(

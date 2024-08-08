@@ -41,7 +41,21 @@ class _MainState extends State<Main> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void onTapped(int i) {
-    if (i == 3) {
+    if (i == 1) {
+      slideRightWidget(
+          newPage: const Products(
+            fromBottomBar: false,
+          ),
+          context: context,
+          opaque: true);
+    } else if (i == 2) {
+      slideRightWidget(
+          newPage: const Orders(
+            fromBottomBar: false,
+          ),
+          context: context,
+          opaque: true);
+    } else if (i == 3) {
       // setState(() {
       //   _scaffoldKey.currentState.openEndDrawer();
       // });
