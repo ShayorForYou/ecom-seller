@@ -158,6 +158,7 @@ class ProductRepository {
 
   Future<CommonResponse> addProductResponse(postBody) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/products/add");
+    print(url.toString());
 
     var reqHeader = {
       "App-Language": app_language.$!,
@@ -191,7 +192,7 @@ class ProductRepository {
     };
 
     //print(productId);
-    //print(postBody);
+    print(postBody);
     //print(access_token.$);
 
     final response =

@@ -32,6 +32,7 @@ class ApiRequest {
     if (headers != null) {
       headerMap.addAll(headers);
     }
+    print("post response  $url $body");
     var response = await http.post(uri, headers: headerMap, body: body);
 
     return AIZApiResponse.check(response,

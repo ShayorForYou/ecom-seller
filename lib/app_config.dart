@@ -21,8 +21,9 @@ class AppConfig {
 
   //configure this
   //localhost
-  static const bool HTTPS = false;
-  static const DOMAIN_PATH = "31.220.77.81:8077";
+  static const bool HTTPS = true;
+  static const DOMAIN_PATH = "sobdak.xyz";
+  // static const DOMAIN_PATH = "146.190.202.13:8077";
 
   //do not configure these below
   static const String API_ENDPATH = "api/v2";

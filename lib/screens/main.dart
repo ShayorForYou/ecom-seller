@@ -28,26 +28,27 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   int _currentIndex = 0;
   String title = "";
-  var _children = [
-    Home(
+  final _children = [
+    const Home(
       fromBottombar: true,
     ),
-    Products(
+    const Products(
       fromBottomBar: true,
     ),
-    Orders(fromBottomBar: true),
+    const Orders(fromBottomBar: true),
   ];
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void onTapped(int i) {
     if (i == 1) {
-      slideRightWidget(
-          newPage: const Products(
-            fromBottomBar: false,
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const Products(
+              fromBottomBar: false,
+            ),
           ),
-          context: context,
-          opaque: true);
+        );
     } else if (i == 2) {
       slideRightWidget(
           newPage: const Orders(
@@ -60,7 +61,7 @@ class _MainState extends State<Main> {
       //   _scaffoldKey.currentState.openEndDrawer();
       // });
       //
-      slideRightWidget(newPage: Account(), context: context, opaque: false);
+      slideRightWidget(newPage: const Account(), context: context, opaque: false);
     } else {
       setState(() {
         _currentIndex = i;
@@ -110,7 +111,7 @@ class _MainState extends State<Main> {
             currentIndex: _currentIndex,
             backgroundColor: Colors.white.withOpacity(0.8),
             fixedColor: MyTheme.app_accent_color,
-            unselectedItemColor: Color.fromRGBO(153, 153, 153, 1),
+            unselectedItemColor: const Color.fromRGBO(153, 153, 153, 1),
             items: [
               BottomNavigationBarItem(
                 icon: Padding(
@@ -119,7 +120,7 @@ class _MainState extends State<Main> {
                     "assets/icon/dashboard.png",
                     color: _currentIndex == 0
                         ? MyTheme.app_accent_color
-                        : Color.fromRGBO(153, 153, 153, 1),
+                        : const Color.fromRGBO(153, 153, 153, 1),
                     height: 20,
                   ),
                 ),
@@ -132,7 +133,7 @@ class _MainState extends State<Main> {
                     "assets/icon/products.png",
                     color: _currentIndex == 1
                         ? MyTheme.app_accent_color
-                        : Color.fromRGBO(153, 153, 153, 1),
+                        : const Color.fromRGBO(153, 153, 153, 1),
                     height: 20,
                   ),
                 ),
@@ -145,7 +146,7 @@ class _MainState extends State<Main> {
                     "assets/icon/orders.png",
                     color: _currentIndex == 2
                         ? MyTheme.app_accent_color
-                        : Color.fromRGBO(153, 153, 153, 1),
+                        : const Color.fromRGBO(153, 153, 153, 1),
                     height: 20,
                   ),
                 ),
@@ -158,7 +159,7 @@ class _MainState extends State<Main> {
                     "assets/icon/account.png",
                     color: _currentIndex == 3
                         ? MyTheme.app_accent_color
-                        : Color.fromRGBO(153, 153, 153, 1),
+                        : const Color.fromRGBO(153, 153, 153, 1),
                     height: 20,
                   ),
                 ),
@@ -226,7 +227,7 @@ class _MainState extends State<Main> {
                   height: 24,
                   child: IconButton(
                     splashRadius: 15,
-                    padding: EdgeInsets.all(0.0),
+                    padding: const EdgeInsets.all(0.0),
                     onPressed: () {
                       setState(() {
                         _currentIndex = 0;
@@ -240,7 +241,7 @@ class _MainState extends State<Main> {
                     ),
                   ),
                 ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Text(
@@ -262,14 +263,14 @@ class _MainState extends State<Main> {
                 children: [
                   Text(
                     '${CustomDateTime.getDate}',
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: MyTheme.app_accent_color,
                         fontSize: 10,
                         fontWeight: FontWeight.w400),
                   ),
                   Text(
                     '${CustomDateTime.getDayName}',
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: MyTheme.app_accent_color,
                         fontSize: 10,
                         fontWeight: FontWeight.w400),
@@ -277,7 +278,7 @@ class _MainState extends State<Main> {
                 ],
               )),
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
       ],

@@ -23,7 +23,7 @@ class BusinessSettingRepository {
     // print("business ${body}");
     var response = await ApiRequest.post(url: url, body: jsonEncode(body));
 
-    // print("business ${response.body}");
+    print("business ${response.body} ${response.statusCode} $url ");
 
     return businessSettingListResponseFromJson(response.body);
   }

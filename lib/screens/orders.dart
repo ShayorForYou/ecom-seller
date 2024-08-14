@@ -22,11 +22,11 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  ScrollController _scrollController = ScrollController();
-  ScrollController _xcrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _xcrollController = ScrollController();
 
-  List<PaymentStatus> _paymentStatusList = PaymentStatus.getPaymentStatusList();
-  List<DeliveryStatus> _deliveryStatusList =
+  final List<PaymentStatus> _paymentStatusList = PaymentStatus.getPaymentStatusList();
+  final List<DeliveryStatus> _deliveryStatusList =
       DeliveryStatus.getDeliveryStatusList();
 
   PaymentStatus? _selectedPaymentStatus;
@@ -36,7 +36,7 @@ class _OrdersState extends State<Orders> {
   List<DropdownMenuItem<DeliveryStatus>>? _dropdownDeliveryStatusItems;
 
   //------------------------------------
-  List<dynamic> _orderList = [];
+  final List<dynamic> _orderList = [];
   bool _isInitial = true;
   int _page = 1;
   int? _totalData = 0;
@@ -145,9 +145,9 @@ class _OrdersState extends State<Orders> {
   }
 
   List<DropdownMenuItem<PaymentStatus>> buildDropdownPaymentStatusItems(
-      List _paymentStatusList) {
+      List paymentStatusList) {
     List<DropdownMenuItem<PaymentStatus>> items = [];
-    for (PaymentStatus item in _paymentStatusList as Iterable<PaymentStatus>) {
+    for (PaymentStatus item in paymentStatusList as Iterable<PaymentStatus>) {
       items.add(
         DropdownMenuItem(
           value: item,
@@ -159,10 +159,10 @@ class _OrdersState extends State<Orders> {
   }
 
   List<DropdownMenuItem<DeliveryStatus>> buildDropdownDeliveryStatusItems(
-      List _deliveryStatusList) {
+      List deliveryStatusList) {
     List<DropdownMenuItem<DeliveryStatus>> items = [];
     for (DeliveryStatus item
-        in _deliveryStatusList as Iterable<DeliveryStatus>) {
+        in deliveryStatusList as Iterable<DeliveryStatus>) {
       items.add(
         DropdownMenuItem(
           value: item,
@@ -175,16 +175,15 @@ class _OrdersState extends State<Orders> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          buildTopSection(context),
-          buildOrderListList(),
-        ],
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      buildTopSection(context),
+      buildOrderListList(),
+    ],
       ),
-    ));
+    );
   }
 
   Column buildTopSection(BuildContext context) {
@@ -203,7 +202,7 @@ class _OrdersState extends State<Orders> {
           height: AppBar().preferredSize.height + 20,
           child: MyAppBar(
                   context: context,
-                  title: LangText(context: context).getLocal()!.orders_ucf)
+                  title: LangText(context: context).getLocal().orders_ucf)
               .show(),
         ));
   }
@@ -217,9 +216,9 @@ class _OrdersState extends State<Orders> {
       backgroundColor: Colors.white,
       displacement: 0,
       onRefresh: _onRefresh,
-      child: _isInitial && _orderList.length == 0
+      child: _isInitial && _orderList.isEmpty
           ? buildOrderShimmer()
-          : Container(
+          : SizedBox(
               height: DeviceInfo(context).getHeight() -
                   ((widget.fromBottomBar ? 100 : 78) +
                       AppBar().preferredSize.height),
@@ -227,10 +226,10 @@ class _OrdersState extends State<Orders> {
                 controller: _xcrollController,
                 slivers: [
                   SliverToBoxAdapter(
-                    child: _orderList.length > 0
+                    child: _orderList.isNotEmpty
                         ? ListView.separated(
                             separatorBuilder: (context, index) {
-                              return SizedBox(
+                              return const SizedBox(
                                 height: 20,
                               );
                             },
@@ -245,7 +244,7 @@ class _OrdersState extends State<Orders> {
 
                             itemCount: _orderList.length,
                             scrollDirection: Axis.vertical,
-                            physics: BouncingScrollPhysics(
+                            physics: const BouncingScrollPhysics(
                                 parent: NeverScrollableScrollPhysics()),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
@@ -267,8 +266,7 @@ class _OrdersState extends State<Orders> {
                                 (AppBar().preferredSize.height + 75),
                             child: Center(
                                 child: Text(LangText(context: context)
-                                    .getLocal()!
-                                    .no_data_is_available)),
+                                    .getLocal().no_data_is_available)),
                           ),
                   ),
                 ],
@@ -277,8 +275,8 @@ class _OrdersState extends State<Orders> {
     );
   }
 
-  Container buildOrderShimmer() {
-    return Container(
+  SizedBox buildOrderShimmer() {
+    return SizedBox(
       height: DeviceInfo(context).getHeight() -
           (AppBar().preferredSize.height + 90),
       child: SingleChildScrollView(
@@ -286,7 +284,7 @@ class _OrdersState extends State<Orders> {
         controller: _scrollController,
         itemCount: 10,
         scrollDirection: Axis.vertical,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Padding(
@@ -331,7 +329,7 @@ class _OrdersState extends State<Orders> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
                     _orderList[index].orderCode,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: MyTheme.app_accent_color,
                         fontSize: 13,
                         fontWeight: FontWeight.bold),
@@ -345,14 +343,14 @@ class _OrdersState extends State<Orders> {
                         padding: app_language_rtl.$!
                             ? const EdgeInsets.only(left: 8.0)
                             : const EdgeInsets.only(right: 8.0),
-                        child: Icon(
+                        child: const Icon(
                           Icons.calendar_today_outlined,
                           size: 16,
                           color: MyTheme.font_grey,
                         ),
                       ),
                       Text(_orderList[index].orderDate,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: MyTheme.font_grey,
                               fontSize: 12,
                               fontWeight: FontWeight.w400)),
@@ -367,15 +365,15 @@ class _OrdersState extends State<Orders> {
                         padding: app_language_rtl.$!
                             ? const EdgeInsets.only(left: 8.0)
                             : const EdgeInsets.only(right: 8.0),
-                        child: Icon(
+                        child: const Icon(
                           Icons.credit_card,
                           size: 16,
                           color: MyTheme.font_grey,
                         ),
                       ),
                       Text(
-                          "${LangText(context: context).getLocal()!.payment_status_ucf} - ",
-                          style: TextStyle(
+                          "${LangText(context: context).getLocal().payment_status_ucf} - ",
+                          style: const TextStyle(
                               color: MyTheme.font_grey,
                               fontSize: 12,
                               fontWeight: FontWeight.w400)),
@@ -415,20 +413,20 @@ class _OrdersState extends State<Orders> {
                       padding: app_language_rtl.$!
                           ? const EdgeInsets.only(left: 8.0)
                           : const EdgeInsets.only(right: 8.0),
-                      child: Icon(
+                      child: const Icon(
                         Icons.local_shipping_outlined,
                         size: 16,
                         color: MyTheme.font_grey,
                       ),
                     ),
                     Text(
-                        "${LangText(context: context).getLocal()!.delivery_status_ucf} -",
-                        style: TextStyle(
+                        "${LangText(context: context).getLocal().delivery_status_ucf} -",
+                        style: const TextStyle(
                             color: MyTheme.font_grey,
                             fontSize: 12,
                             fontWeight: FontWeight.w400)),
                     Text(_orderList[index].deliveryStatus,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: MyTheme.font_grey,
                             fontSize: 12,
                             fontWeight: FontWeight.w400)),
@@ -438,7 +436,7 @@ class _OrdersState extends State<Orders> {
             ),
             Text(
               _orderList[index].total,
-              style: TextStyle(
+              style: const TextStyle(
                   color: MyTheme.app_accent_color,
                   fontSize: 16,
                   fontWeight: FontWeight.w500),
@@ -469,7 +467,7 @@ class _OrdersState extends State<Orders> {
   */
   buildFilterSection(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10),
         height: 40,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: AppStyles.layoutMargin),
@@ -492,24 +490,24 @@ class _OrdersState extends State<Orders> {
                 //       horizontal:
                 //           BorderSide(color: MyTheme.light_grey, width: 1))*/
                 //     ),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 height: 36,
                 width: MediaQuery.of(context).size.width * .42,
-                child: new DropdownButton<PaymentStatus>(
+                child: DropdownButton<PaymentStatus>(
                   isExpanded: true,
-                  icon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  icon: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: Icon(Icons.expand_more, color: Colors.black54),
                   ),
                   hint: Text(
-                    LangText(context: context).getLocal()!.all_ucf,
-                    style: TextStyle(
+                    LangText(context: context).getLocal().all_ucf,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 13,
                     ),
                   ),
                   iconSize: 14,
-                  underline: SizedBox(),
+                  underline: const SizedBox(),
                   value: _selectedPaymentStatus,
                   items: _dropdownPaymentStatusItems,
                   onChanged: (PaymentStatus? selectedFilter) {
@@ -526,24 +524,24 @@ class _OrdersState extends State<Orders> {
                 elevation: 5,
                 borderColor: MyTheme.light_grey,
                 backgroundColor: MyTheme.white,
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 height: 36,
                 width: MediaQuery.of(context).size.width * .42,
-                child: new DropdownButton<DeliveryStatus>(
+                child: DropdownButton<DeliveryStatus>(
                   isExpanded: true,
-                  icon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  icon: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.0),
                     child: Icon(Icons.expand_more, color: Colors.black54),
                   ),
                   hint: Text(
-                    LangText(context: context).getLocal()!.all_ucf,
-                    style: TextStyle(
+                    LangText(context: context).getLocal().all_ucf,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 13,
                     ),
                   ),
                   iconSize: 14,
-                  underline: SizedBox(),
+                  underline: const SizedBox(),
                   value: _selectedDeliveryStatus,
                   items: _dropdownDeliveryStatusItems,
                   onChanged: (DeliveryStatus? selectedFilter) {

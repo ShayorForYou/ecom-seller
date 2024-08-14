@@ -16,13 +16,13 @@ class PosRepository {
   Future<PosProductResponse> getPosProducts(
       {brand = "", category = "", keyword = ""}) async {
     String url =
-        ("${AppConfig.BASE_URL_WITH_PREFIX}/pos/products?keyword=$keyword&category=$category&brand=$brand");
-    // print(url);
+        ("${AppConfig.BASE_URL_WITH_PREFIX}/pos/products?keyword=$keyword&category=category-$category&brand=$brand");
 
     final response = await ApiRequest.get(url: url, headers: {
       "App-Language": app_language.$!,
       "Authorization": "Bearer ${access_token.$}",
     });
+    print(access_token.$);
     // print(response.body);
     return posProductResponseFromJson(response.body);
   }
@@ -99,7 +99,7 @@ class PosRepository {
 
     final response =
         await ApiRequest.post(url: url, headers: reqHeader, body: postBody);
-    // print(response.body);
+    print("cart: ${postBody}");
 
     return posUserCartDataResponseFromJson(response.body);
   }
@@ -113,7 +113,7 @@ class PosRepository {
     };
 
     final response = await ApiRequest.get(url: url, headers: reqHeader);
-    // print(response.body);
+    print("delete: ${response.body}");
 
     return commonResponseFromJson(response.body);
   }

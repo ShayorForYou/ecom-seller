@@ -1085,22 +1085,22 @@ class _UpdateProductState extends State<UpdateProduct> {
               LangText(context: context).getLocal()!.categories_ucf,
               isMandatory: true),
           itemSpacer(),
-          _buildDropDownField(LangText(context: context).getLocal()!.brands_ucf,
-              (value) {
-            selectedBrand = value;
-            setChange();
-          }, selectedBrand, brands),
-          itemSpacer(),
-          buildEditTextField(
-              LangText(context: context).getLocal()!.unit_ucf,
-              LangText(context: context).getLocal()!.unit_ucf,
-              unitEditTextController),
-          itemSpacer(),
-          buildEditTextField(
-              LangText(context: context).getLocal()!.weight_in_kg_ucf,
-              "0.0",
-              weightEditTextController),
-          itemSpacer(),
+          // _buildDropDownField(LangText(context: context).getLocal()!.brands_ucf,
+          //     (value) {
+          //   selectedBrand = value;
+          //   setChange();
+          // }, selectedBrand, brands),
+          // itemSpacer(),
+          // buildEditTextField(
+          //     LangText(context: context).getLocal()!.unit_ucf,
+          //     LangText(context: context).getLocal()!.unit_ucf,
+          //     unitEditTextController),
+          // itemSpacer(),
+          // buildEditTextField(
+          //     LangText(context: context).getLocal()!.weight_in_kg_ucf,
+          //     "0.0",
+          //     weightEditTextController),
+          // itemSpacer(),
           buildEditTextField(
               LangText(context: context)
                   .getLocal()!
@@ -1116,12 +1116,12 @@ class _UpdateProductState extends State<UpdateProduct> {
                   .type_and_hit_enter_to_add_a_tag_ucf,
               tagEditTextController,
               isMandatory: true),
-          itemSpacer(),
-          buildEditTextField(
-              LangText(context: context).getLocal()!.barcode_ucf,
-              LangText(context: context).getLocal()!.barcode_ucf,
-              barcodeEditTextController,
-              isMandatory: false),
+          // itemSpacer(),
+          // buildEditTextField(
+          //     LangText(context: context).getLocal()!.barcode_ucf,
+          //     LangText(context: context).getLocal()!.barcode_ucf,
+          //     barcodeEditTextController,
+          //     isMandatory: false),
           if (refund_addon.$)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1157,18 +1157,18 @@ class _UpdateProductState extends State<UpdateProduct> {
             },
           ),
           itemSpacer(),
-          buildGroupItems(
-            LangText(context: context).getLocal()!.vat_n_tax_ucf,
-            Column(
-              children: List.generate(vatTaxList.length, (index) {
-                return buildVatTax(vatTaxList[index].vatTaxModel.name,
-                    vatTaxList[index].amount, (onChangeDropDown) {
-                  vatTaxList[index].selectedItem = onChangeDropDown;
-                }, vatTaxList[index].selectedItem, vatTaxList[index].items);
-              }),
-            ),
-          ),
-          itemSpacer(),
+          // buildGroupItems(
+          //   LangText(context: context).getLocal()!.vat_n_tax_ucf,
+          //   Column(
+          //     children: List.generate(vatTaxList.length, (index) {
+          //       return buildVatTax(vatTaxList[index].vatTaxModel.name,
+          //           vatTaxList[index].amount, (onChangeDropDown) {
+          //         vatTaxList[index].selectedItem = onChangeDropDown;
+          //       }, vatTaxList[index].selectedItem, vatTaxList[index].items);
+          //     }),
+          //   ),
+          // ),
+          // itemSpacer(),
         ],
       ),
     );
@@ -1313,36 +1313,36 @@ class _UpdateProductState extends State<UpdateProduct> {
                     "0",
                     productQuantityEditTextController,
                     isMandatory: true),
-                itemSpacer(),
-                buildEditTextField(
-                    LangText(context: context).getLocal()!.sku_all_capital,
-                    LangText(context: context).getLocal()!.sku_all_capital,
-                    skuEditTextController),
+                // itemSpacer(),
+                // buildEditTextField(
+                //     LangText(context: context).getLocal()!.sku_all_capital,
+                //     LangText(context: context).getLocal()!.sku_all_capital,
+                //     skuEditTextController),
               ],
             ),
           itemSpacer(),
-          buildEditTextField(
-              LangText(context: context).getLocal()!.external_link_ucf,
-              LangText(context: context).getLocal()!.external_link_ucf,
-              externalLinkEditTextController),
-          itemSpacer(height: 10),
-          smallTextForMessage(LangText(context: context)
-              .getLocal()!
-              .leave_it_blank_if_you_do_not_use_external_site_link),
-          itemSpacer(),
-          buildEditTextField(
-              LangText(context: context)
-                  .getLocal()!
-                  .external_link_button_text_ucf,
-              LangText(context: context)
-                  .getLocal()!
-                  .external_link_button_text_ucf,
-              externalLinkButtonTextEditTextController),
-          itemSpacer(height: 10),
-          smallTextForMessage(LangText(context: context)
-              .getLocal()!
-              .leave_it_blank_if_you_do_not_use_external_site_link),
-          itemSpacer(),
+          // buildEditTextField(
+          //     LangText(context: context).getLocal()!.external_link_ucf,
+          //     LangText(context: context).getLocal()!.external_link_ucf,
+          //     externalLinkEditTextController),
+          // itemSpacer(height: 10),
+          // smallTextForMessage(LangText(context: context)
+          //     .getLocal()!
+          //     .leave_it_blank_if_you_do_not_use_external_site_link),
+          // itemSpacer(),
+          // buildEditTextField(
+          //     LangText(context: context)
+          //         .getLocal()!
+          //         .external_link_button_text_ucf,
+          //     LangText(context: context)
+          //         .getLocal()!
+          //         .external_link_button_text_ucf,
+          //     externalLinkButtonTextEditTextController),
+          // itemSpacer(height: 10),
+          // smallTextForMessage(LangText(context: context)
+          //     .getLocal()!
+          //     .leave_it_blank_if_you_do_not_use_external_site_link),
+          // itemSpacer(),
           buildGroupItems(
               LangText(context: context)
                   .getLocal()!
@@ -3057,9 +3057,9 @@ class _UpdateProductState extends State<UpdateProduct> {
           buildTopTapBarItem(
               LangText(context: context).getLocal()!.price_n_stock_ucf, 2),
           tabBarDivider(),
-          buildTopTapBarItem(
-              LangText(context: context).getLocal()!.seo_all_capital, 3),
-          tabBarDivider(),
+          // buildTopTapBarItem(
+          //     LangText(context: context).getLocal()!.seo_all_capital, 3),
+          // tabBarDivider(),
           buildTopTapBarItem(
               LangText(context: context).getLocal()!.shipping_ucf, 4),
         ],

@@ -548,9 +548,10 @@ class _PosManagerState extends State<PosManager> {
 
   getPosProduct(setState) async {
     // todo: for now category no need because of "category-1"
+    // https://sobdak.xyz/api/v2/seller/pos/products?keyword=&category=-10&brand=
     var posProductResponse = await PosRepository().getPosProducts(
         category: selectedCategory?.id,
-        brand: selectedBrand?.key ?? null,
+        brand: "",
         keyword: _searchController.text);
     if (posProductResponse.products!.data!.isEmpty) {
       ToastComponent.showDialog(
@@ -560,9 +561,12 @@ class _PosManagerState extends State<PosManager> {
           textStyle: const TextStyle(color: Colors.black));
     }
     _posProductList.addAll(posProductResponse.products!.data!);
+    print(posProductResponse.products!.data);
     _showMoreProductLoadingContainer = false;
     _isPosProductInit = true;
-    setState(() {});
+    setState(() {
+      print("category is : ${selectedCategory?.id}");
+    });
   }
 
   filterProduct(setState) {
@@ -612,6 +616,7 @@ class _PosManagerState extends State<PosManager> {
 
     ToastComponent.showDialog(response.message);
     reFresh();
+    setState(() {});
   }
 
   fetchAll() {
@@ -642,6 +647,8 @@ class _PosManagerState extends State<PosManager> {
     _cityController.clear();
     _shippingController.clear();
     _discountController.clear();
+    _posProductList.clear();
+    _isUserCartData = false;
   }
 
   reFresh() {
@@ -693,188 +700,200 @@ class _PosManagerState extends State<PosManager> {
   Widget buildBody() {
     return !_isUserCartData
         ? ShimmerHelper().buildPosShimmer()
-        : Column(
-            children: [
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MyWidget.customCardView(
-                      borderRadius: 6,
-                      elevation: 5,
-                      borderColor: MyTheme.light_grey,
-                      backgroundColor: MyTheme.app_accent_color_extra_light,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      height: 36,
-                      width: DeviceInfo(context).getWidth() * .7,
-                      child: DropdownButton<CommonDropDownItem>(
-                        menuMaxHeight: 300,
-                        isDense: true,
-                        underline: Container(),
-                        isExpanded: true,
-                        onChanged: (CommonDropDownItem? value) {
-                          if (value != null) {
-                            selectedCustomer = value;
-                            shippingAddress = [];
-                            getShippingAddress();
-                            updateUserData();
-                            setState(() {});
-                          }
-                        },
-                        icon: const Icon(Icons.arrow_drop_down),
-                        value: selectedCustomer,
-                        items: customers
-                            .map(
-                              (value) => DropdownMenuItem<CommonDropDownItem>(
-                                value: value,
-                                child: Text(
-                                  value.value!,
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => setShippingAddress(),
-                      child: MyWidget.customCardView(
-                        borderRadius: 6,
-                        elevation: 5,
-                        borderColor: MyTheme.light_grey,
-                        backgroundColor: MyTheme.app_accent_color_extra_light,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
-                        height: 36,
-                        width: DeviceInfo(context).getWidth() * .13,
-                        child: Image.asset(
-                          "assets/icon/car2.png",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              itemSpacer(),
-              // product list view and add button
-
-              if (posUserCartData!.cartData!.data!.isEmpty)
-                PosAddProductWidget(
-                  height: 245,
-                  onTap: selectProduct,
-                ),
-
-              if (posUserCartData!.cartData!.data!.isNotEmpty)
-                Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.all(4),
-                      itemCount: posUserCartData!.cartData!.data!.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          itemSpacer(height: 10.0),
-                      itemBuilder: (BuildContext context, int index) {
-                        return PosProductListWidget(
-                          deleteCart: () async {
-                            getCartData();
-                          },
-                          updateCart: () async {
-                            getCartData();
-                          },
-                          productName: posUserCartData!
-                              .cartData!.data![index].productName,
-                          price: posUserCartData!.cartData!.data![index].price
-                              .toString(),
-                          cartId: posUserCartData!.cartData!.data![index].id!,
-                          stock: posUserCartData!
-                              .cartData!.data![index].stockQty
-                              .toString(),
-                          cartQty: posUserCartData!
-                              .cartData!.data![index].cartQuantity
-                              .toString(),
-                          minQty: posUserCartData!
-                                  .cartData!.data![index].minPurchaseQty ??
-                              1,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              if (posUserCartData!.cartData!.data!.isEmpty) const Spacer(),
-              if (posUserCartData!.cartData!.data!.isNotEmpty)
-                PosAddProductWidget(
-                  height: 70,
-                  onTap: selectProduct,
-                ),
-              itemSpacer(height: 10.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 127.0,
-                  child: Column(
-                    children: [
-                      PosTextPrice(
-                          title: getLocal(context).sub_total,
-                          price: posUserCartData!.subtotal.toString()),
-                      itemSpacer(height: 5.0),
-                      PosTextPrice(
-                          title: getLocal(context).tax,
-                          price: posUserCartData!.tax.toString()),
-                      itemSpacer(height: 5.0),
-                      PosTextPrice(
-                          title: getLocal(context).shipping_cost_ucf,
-                          price: posUserCartData!.shippingCost_str.toString()),
-                      itemSpacer(height: 5.0),
-                      PosTextPrice(
-                          title: getLocal(context).discount_ucf,
-                          price: posUserCartData!.discount.toString()),
-                      itemSpacer(),
-                      itemDivider(),
-                      itemSpacer(height: 8.0),
-                      PosTextPrice(
-                          title: getLocal(context).total,
-                          price: posUserCartData!.total.toString()),
-                    ],
-                  ),
-                ),
-              ),
-              itemSpacer(height: 20.0),
-              Padding(
-                padding: const EdgeInsets.only(
-                    right: 20.0, left: 20.0, bottom: 17.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+        : SingleChildScrollView(
+            child: SizedBox(
+              height: DeviceInfo(context).getHeight() * 0.9,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PosBtn(
-                          text: getLocal(context).shipping,
-                          icon: Icons.keyboard_arrow_up,
-                          color: MyTheme.app_accent_color_extra_light,
-                          onTap: shipping,
+                        MyWidget.customCardView(
+                          borderRadius: 6,
+                          elevation: 5,
+                          borderColor: MyTheme.light_grey,
+                          backgroundColor: MyTheme.app_accent_color_extra_light,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          height: 36,
+                          width: DeviceInfo(context).getWidth() * .7,
+                          child: DropdownButton<CommonDropDownItem>(
+                            menuMaxHeight: 300,
+                            isDense: true,
+                            underline: Container(),
+                            isExpanded: true,
+                            onChanged: (CommonDropDownItem? value) {
+                              if (value != null) {
+                                selectedCustomer = value;
+                                shippingAddress = [];
+                                getShippingAddress();
+                                updateUserData();
+                                setState(() {});
+                              }
+                            },
+                            icon: const Icon(Icons.arrow_drop_down),
+                            value: selectedCustomer,
+                            items: customers
+                                .map(
+                                  (value) =>
+                                      DropdownMenuItem<CommonDropDownItem>(
+                                    value: value,
+                                    child: Text(
+                                      value.value!,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
                         ),
-                        itemSpacer(width: 10.0),
-                        PosBtn(
-                            text: getLocal(context).discount_ucf,
-                            icon: Icons.keyboard_arrow_up,
-                            color: MyTheme.app_accent_color_extra_light,
-                            onTap: discount)
+                        GestureDetector(
+                          onTap: () => setShippingAddress(),
+                          child: MyWidget.customCardView(
+                            borderRadius: 6,
+                            elevation: 5,
+                            borderColor: MyTheme.light_grey,
+                            backgroundColor:
+                                MyTheme.app_accent_color_extra_light,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            height: 36,
+                            width: DeviceInfo(context).getWidth() * .13,
+                            child: Image.asset(
+                              "assets/icon/car2.png",
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    PosBtn(
-                        text: getLocal(context).place_order,
-                        color: MyTheme.app_accent_color,
-                        textColor: MyTheme.white,
-                        fontWeight: FontWeight.bold,
-                        onTap: orderSummery)
-                  ],
-                ),
-              )
-            ],
+                  ),
+                  itemSpacer(),
+                  // product list view and add button
+
+                  if (posUserCartData!.cartData!.data!.isEmpty)
+                    PosAddProductWidget(
+                      height: 245,
+                      onTap: selectProduct,
+                    ),
+
+                  if (posUserCartData!.cartData!.data!.isNotEmpty)
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.all(4),
+                          itemCount: posUserCartData!.cartData!.data!.length,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              itemSpacer(height: 10.0),
+                          itemBuilder: (BuildContext context, int index) {
+                            return PosProductListWidget(
+                              deleteCart: () async {
+                                getCartData();
+                              },
+                              updateCart: () async {
+                                getCartData();
+                              },
+                              productName: posUserCartData!
+                                  .cartData!.data![index].productName,
+                              image: posUserCartData!
+                                  .cartData!.data![index].thumbnailImage,
+                              price: posUserCartData!
+                                  .cartData!.data![index].price
+                                  .toString(),
+                              cartId:
+                                  posUserCartData!.cartData!.data![index].id!,
+                              stock: posUserCartData!
+                                  .cartData!.data![index].stockQty
+                                  .toString(),
+                              cartQty: posUserCartData!
+                                  .cartData!.data![index].cartQuantity
+                                  .toString(),
+                              minQty: posUserCartData!
+                                      .cartData!.data![index].minPurchaseQty ??
+                                  1,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  if (posUserCartData!.cartData!.data!.isEmpty) const Spacer(),
+                  if (posUserCartData!.cartData!.data!.isNotEmpty)
+                    PosAddProductWidget(
+                      height: 70,
+                      onTap: selectProduct,
+                    ),
+                  itemSpacer(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 127.0,
+                      child: Column(
+                        children: [
+                          PosTextPrice(
+                              title: getLocal(context).sub_total,
+                              price: posUserCartData!.subtotal.toString()),
+                          itemSpacer(height: 5.0),
+                          PosTextPrice(
+                              title: getLocal(context).tax,
+                              price: posUserCartData!.tax.toString()),
+                          itemSpacer(height: 5.0),
+                          PosTextPrice(
+                              title: getLocal(context).shipping_cost_ucf,
+                              price:
+                                  posUserCartData!.shippingCost_str.toString()),
+                          itemSpacer(height: 5.0),
+                          PosTextPrice(
+                              title: getLocal(context).discount_ucf,
+                              price: posUserCartData!.discount.toString()),
+                          itemSpacer(),
+                          itemDivider(),
+                          itemSpacer(height: 8.0),
+                          PosTextPrice(
+                              title: getLocal(context).total,
+                              price: posUserCartData!.total.toString()),
+                        ],
+                      ),
+                    ),
+                  ),
+                  itemSpacer(height: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        right: 20.0, left: 20.0, bottom: 17.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            PosBtn(
+                              text: getLocal(context).shipping,
+                              icon: Icons.keyboard_arrow_up,
+                              color: MyTheme.app_accent_color_extra_light,
+                              onTap: shipping,
+                            ),
+                            itemSpacer(width: 10.0),
+                            PosBtn(
+                                text: getLocal(context).discount_ucf,
+                                icon: Icons.keyboard_arrow_up,
+                                color: MyTheme.app_accent_color_extra_light,
+                                onTap: discount)
+                          ],
+                        ),
+                        PosBtn(
+                            text: getLocal(context).place_order,
+                            color: MyTheme.app_accent_color,
+                            textColor: MyTheme.white,
+                            fontWeight: FontWeight.bold,
+                            onTap: orderSummery)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           );
   }
 
@@ -911,16 +930,16 @@ class _PosManagerState extends State<PosManager> {
                       color: MyTheme.font_grey),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Text(
-                  getLocal(context).select_brand_ucf,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: MyTheme.font_grey),
-                ),
-              ),
+              // Expanded(
+              //   flex: 1,
+              //   child: Text(
+              //     getLocal(context).select_brand_ucf,
+              //     style: const TextStyle(
+              //         fontSize: 14,
+              //         fontWeight: FontWeight.bold,
+              //         color: MyTheme.font_grey),
+              //   ),
+              // ),
             ],
           ),
           Padding(
@@ -959,40 +978,40 @@ class _PosManagerState extends State<PosManager> {
                             .toList(),
                       ),
                     )),
-                itemSpacer(width: 8.0),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 46,
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 18, vertical: 10),
-                    decoration: MDecoration.decoration1(),
-                    child: DropdownButton<CommonDropDownItem>(
-                      menuMaxHeight: 300,
-                      isDense: true,
-                      underline: Container(),
-                      isExpanded: true,
-                      onChanged: (CommonDropDownItem? value) {
-                        selectedBrand = value;
-                        setState(() {});
-                        filterProduct(setState);
-                      },
-                      icon: const Icon(Icons.arrow_drop_down),
-                      value: selectedBrand,
-                      items: brands
-                          .map(
-                            (value) => DropdownMenuItem<CommonDropDownItem>(
-                              value: value,
-                              child: Text(
-                                value.value!,
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
+                // itemSpacer(width: 8.0),
+                // Expanded(
+                //   flex: 1,
+                //   child: Container(
+                //     height: 46,
+                //     width: double.infinity,
+                //     padding: const EdgeInsets.symmetric(
+                //         horizontal: 18, vertical: 10),
+                //     decoration: MDecoration.decoration1(),
+                //     child: DropdownButton<CommonDropDownItem>(
+                //       menuMaxHeight: 300,
+                //       isDense: true,
+                //       underline: Container(),
+                //       isExpanded: true,
+                //       onChanged: (CommonDropDownItem? value) {
+                //         selectedBrand = value;
+                //         setState(() {});
+                //         filterProduct(setState);
+                //       },
+                //       icon: const Icon(Icons.arrow_drop_down),
+                //       value: selectedBrand,
+                //       items: brands
+                //           .map(
+                //             (value) => DropdownMenuItem<CommonDropDownItem>(
+                //               value: value,
+                //               child: Text(
+                //                 value.value!,
+                //               ),
+                //             ),
+                //           )
+                //           .toList(),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -1063,7 +1082,7 @@ class _PosManagerState extends State<PosManager> {
                             width: 84.0,
                             height: 70.0,
                             fit: BoxFit.cover,
-                            url: "imageUrl",
+                            url: cartData?[index].thumbnailImage,
                             radius: const BorderRadius.only(
                               topLeft: Radius.circular(5),
                               bottomLeft: Radius.circular(5),
@@ -1196,31 +1215,32 @@ class _PosManagerState extends State<PosManager> {
           itemSpacer(height: 10.0),
           SizedBox(
             width: double.infinity,
-            height: 110.0,
-            child: Column(
-              children: [
-                PosTextPrice(
-                    title: getLocal(context).sub_total_all_capital,
-                    price: posUserCartData?.subtotal),
-                itemSpacer(height: 3.0),
-                PosTextPrice(
-                    title: getLocal(context).tax_all_capital,
-                    price: posUserCartData?.tax),
-                itemSpacer(height: 3.0),
-                PosTextPrice(
-                    title: getLocal(context).shipping_cost_all_capital,
-                    price: posUserCartData!.shippingCost_str),
-                itemSpacer(height: 3.0),
-                PosTextPrice(
-                    title: getLocal(context).discount_all_capital,
-                    price: posUserCartData?.discount),
-                itemSpacer(),
-                itemDivider(),
-                itemSpacer(height: 5.0),
-                PosTextPrice(
-                    title: getLocal(context).total_amount_ucf,
-                    price: posUserCartData?.total),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  PosTextPrice(
+                      title: getLocal(context).sub_total_all_capital,
+                      price: posUserCartData?.subtotal),
+                  itemSpacer(height: 3.0),
+                  PosTextPrice(
+                      title: getLocal(context).tax_all_capital,
+                      price: posUserCartData?.tax),
+                  itemSpacer(height: 3.0),
+                  PosTextPrice(
+                      title: getLocal(context).shipping_cost_all_capital,
+                      price: posUserCartData!.shippingCost_str),
+                  itemSpacer(height: 3.0),
+                  PosTextPrice(
+                      title: getLocal(context).discount_all_capital,
+                      price: posUserCartData?.discount),
+                  itemSpacer(),
+                  itemDivider(),
+                  itemSpacer(height: 5.0),
+                  PosTextPrice(
+                      title: getLocal(context).total_amount_ucf,
+                      price: posUserCartData?.total),
+                ],
+              ),
             ),
           ),
           itemSpacer(height: 5.0),

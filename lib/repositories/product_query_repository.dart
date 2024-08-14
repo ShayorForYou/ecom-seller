@@ -10,7 +10,6 @@ class ProductQueryRepository {
   Future<ProductQueriesResponse> getProductQueriesList({
     page = 1,
   }) async {
-    $();
     String url =
         ("${AppConfig.BASE_URL_WITH_PREFIX}/products/queries?page=$page");
 
@@ -25,7 +24,6 @@ class ProductQueryRepository {
   }
 
   Future<ProductQueryReplyResponse> getProductQueryDetails(id) async {
-    $();
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/products/query-show/$id");
 
     var reqHeader = {

@@ -16,7 +16,7 @@ class BannedUser extends Middleware<bool, http.Response> {
       if (jsonData.containsKey("status") && jsonData['status'] == "banned") {
         AuthHelper().clearUserData();
         Navigator.pushAndRemoveUntil(OneContext().context!,
-            MaterialPageRoute(builder: (context) => Main()), (route) => false);
+            MaterialPageRoute(builder: (context) => Main()), (route) => true);
         return false;
       }
     }

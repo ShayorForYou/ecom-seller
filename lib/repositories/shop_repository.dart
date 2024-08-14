@@ -133,7 +133,7 @@ class ShopRepository {
     final response =
         await ApiRequest.post(url: url, headers: header, body: post_body);
 
-    // print("shop info " + response.body.toString());
+    print("shop info " + response.body.toString() + url);
     return commonResponseFromJson(response.body);
   }
 }

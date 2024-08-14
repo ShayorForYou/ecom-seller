@@ -4,8 +4,10 @@
 
 import 'dart:convert';
 
-LoginResponse loginResponseFromJson(String str) =>
-    LoginResponse.fromJson(json.decode(str));
+LoginResponse loginResponseFromJson(String str) {
+  print("loginResponseFromJson: $str");
+ return LoginResponse.fromJson(json.decode(str));
+}
 
 String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 

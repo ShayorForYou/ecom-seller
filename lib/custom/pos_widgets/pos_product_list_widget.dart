@@ -81,6 +81,7 @@ class _PosProductListWidgetState extends State<PosProductListWidget> {
   void initState() {
     // TODO: implement initState
     localCartQty = int.parse(widget.cartQty);
+    print(widget.image);
     super.initState();
   }
 
@@ -103,7 +104,7 @@ class _PosProductListWidgetState extends State<PosProductListWidget> {
               width: 84.0,
               height: 90.0,
               fit: BoxFit.cover,
-              url: "imageUrl",
+              url: widget.image,
               radius: const BorderRadius.only(
                 topLeft: Radius.circular(5),
                 bottomLeft: Radius.circular(5),
