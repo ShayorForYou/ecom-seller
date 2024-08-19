@@ -53,7 +53,7 @@ class _ProductsState extends State<Products> {
   //MenuOptions _menuOptionSelected = MenuOptions.Published;
 
   ScrollController _scrollController =
-      new ScrollController(initialScrollOffset: 0);
+      ScrollController(initialScrollOffset: 0);
 
   // double variables
   double mHeight = 0.0, mWidht = 0.0;
@@ -62,11 +62,13 @@ class _ProductsState extends State<Products> {
   getProductList() async {
     var productResponse = await ProductRepository().getProducts(page: _page);
     if (productResponse.data!.isEmpty) {
-      ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.no_more_products_ucf,
+      if(context.mounted) {
+        ToastComponent.showDialog(
+          LangText(context: context).getLocal().no_more_products_ucf,
           gravity: Toast.center,
           bgColor: MyTheme.white,
           textStyle: const TextStyle(color: Colors.black));
+      }
     }
     _productList.addAll(productResponse.data!);
     _showMoreProductLoadingContainer = false;
@@ -91,10 +93,10 @@ class _ProductsState extends State<Products> {
   duplicateProduct(int? id) async {
     loading();
     var response = await ProductRepository().productDuplicateReq(id: id);
-    Navigator.pop(loadingContext);
+    if(context.mounted) Navigator.pop(loadingContext);
     if (response.result) {
       // resetAll();
-      Provider.of<ProductProvider>(context, listen: false).fetchAll();
+      if(context.mounted) Provider.of<ProductProvider>(context, listen: false).fetchAll();
     }
     ToastComponent.showDialog(
       response.message,
@@ -107,10 +109,10 @@ class _ProductsState extends State<Products> {
   deleteProduct(int? id) async {
     loading();
     var response = await ProductRepository().productDeleteReq(id: id);
-    Navigator.pop(loadingContext);
+    if(context.mounted) Navigator.pop(loadingContext);
     if (response.result) {
       // resetAll();
-      Provider.of<ProductProvider>(context, listen: false).fetchAll();
+      if(context.mounted) Provider.of<ProductProvider>(context, listen: false).fetchAll();
     }
     ToastComponent.showDialog(
       response.message,
@@ -124,13 +126,13 @@ class _ProductsState extends State<Products> {
     loading();
     var response = await ProductRepository()
         .productStatusChangeReq(id: id, status: value ? 1 : 0);
-    Navigator.pop(loadingContext);
+    if(context.mounted) Navigator.pop(loadingContext);
     if (response.result) {
       // _productStatus[index] = value;
       _productList[index!].status = value;
       resetAll();
     }
-    Navigator.pop(switchContext);
+    if(context.mounted) Navigator.pop(switchContext);
     ToastComponent.showDialog(
       response.message,
       gravity: Toast.center,
@@ -144,14 +146,14 @@ class _ProductsState extends State<Products> {
     loading();
     var response = await ProductRepository()
         .productFeaturedChangeReq(id: id, featured: value ? 1 : 0);
-    Navigator.pop(loadingContext);
+    if(context.mounted) Navigator.pop(loadingContext);
 
     if (response.result) {
       // _productFeatured[index]=value;
       _productList[index!].featured = value;
       resetAll();
     }
-    Navigator.pop(featuredSwitchContext);
+    if(context.mounted) Navigator.pop(featuredSwitchContext);
 
     ToastComponent.showDialog(
       response.message,
@@ -260,7 +262,7 @@ class _ProductsState extends State<Products> {
         appBar: !widget.fromBottomBar
             ? MyAppBar(
           context: context,
-          title: LangText(context: context).getLocal()!.products_ucf,
+          title: LangText(context: context).getLocal().products_ucf,
         ).show()
             : null,
         body: RefreshIndicator(
@@ -322,8 +324,7 @@ class _ProductsState extends State<Products> {
                       ),
                       Text(
                         LangText(context: context)
-                            .getLocal()!
-                            .current_package_ucf,
+                            .getLocal().current_package_ucf,
                         style: const TextStyle(fontSize: 10, color: MyTheme.grey_153),
                       ),
                       const SizedBox(
@@ -345,8 +346,7 @@ class _ProductsState extends State<Products> {
                     children: [
                       Text(
                         LangText(context: context)
-                            .getLocal()!
-                            .upgrade_package_ucf,
+                            .getLocal().upgrade_package_ucf,
                         style: const TextStyle(
                             fontSize: 12,
                             color: MyTheme.app_accent_color,
@@ -389,7 +389,7 @@ class _ProductsState extends State<Products> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      LangText(context: context).getLocal()!.remaining_uploads,
+                      LangText(context: context).getLocal().remaining_uploads,
                       style: MyTextStyle().dashboardBoxText(context),
                     ),
                     Text(
@@ -421,7 +421,7 @@ class _ProductsState extends State<Products> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    LangText(context: context).getLocal()!.add_new_product_ucf,
+                    LangText(context: context).getLocal().add_new_product_ucf,
                     style: MyTextStyle()
                         .dashboardBoxText(context)
                         .copyWith(color: MyTheme.app_accent_color),
@@ -454,7 +454,7 @@ class _ProductsState extends State<Products> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            LangText(context: context).getLocal()!.all_products_ucf,
+            LangText(context: context).getLocal().all_products_ucf,
             style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -625,7 +625,7 @@ class _ProductsState extends State<Products> {
               width: DeviceInfo(context).getWidth() * 1.5,
               child: AlertDialog(
                 title: Text(
-                  LangText(context: context).getLocal()!.warning_ucf,
+                  LangText(context: context).getLocal().warning_ucf,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -633,8 +633,7 @@ class _ProductsState extends State<Products> {
                 ),
                 content: Text(
                   LangText(context: context)
-                      .getLocal()!
-                      .do_you_want_to_delete_it,
+                      .getLocal().do_you_want_to_delete_it,
                   style: const TextStyle(
                       fontWeight: FontWeight.w400, fontSize: 14),
                 ),
@@ -645,7 +644,7 @@ class _ProductsState extends State<Products> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        LangText(context: context).getLocal()!.no_ucf,
+                        LangText(context: context).getLocal().no_ucf,
                         style: TextStyle(color: MyTheme.white, fontSize: 12),
                       )),
                   Buttons(
@@ -655,7 +654,7 @@ class _ProductsState extends State<Products> {
                         deleteProduct(id);
                       },
                       child: Text(
-                          LangText(context: context).getLocal()!.yes_ucf,
+                          LangText(context: context).getLocal().yes_ucf,
                           style:
                               TextStyle(color: MyTheme.white, fontSize: 12))),
                 ],

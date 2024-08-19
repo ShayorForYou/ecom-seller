@@ -111,12 +111,12 @@ class MyWidget {
       shadowColor: shadowColor,
       color: backgroundColor,
       margin: margin,
-      child: child,
       shape: RoundedRectangleBorder(
         side: BorderSide(color: borderColor, width: borderWidth),
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       elevation: elevation,
+      child: child,
       //color: backgroundColor,
     );
   }

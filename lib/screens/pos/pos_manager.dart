@@ -252,12 +252,12 @@ class _PosManagerState extends State<PosManager> {
     if (selectedCustomer?.key?.isEmpty ?? true) {
       if (_nameController.text.trim().toString().isEmpty) {
         ToastComponent.showDialog(
-            LangText(context: context).getLocal()!.name_required,
+            LangText(context: context).getLocal().name_required,
             gravity: Toast.center);
         return false;
       } else if (_emailController.text.trim().toString().isEmpty) {
         ToastComponent.showDialog(
-            LangText(context: context).getLocal()!.email_required,
+            LangText(context: context).getLocal().email_required,
             gravity: Toast.center);
         return false;
       }
@@ -265,32 +265,32 @@ class _PosManagerState extends State<PosManager> {
 
     if (_shippingAddressController.text.trim().toString().isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.address_required,
+          LangText(context: context).getLocal().address_required,
           gravity: Toast.center);
       return false;
     } else if (_countryController.text.trim().toString().isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.country_required,
+          LangText(context: context).getLocal().country_required,
           gravity: Toast.center);
       return false;
     } else if (_stateController.text.trim().toString().isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.state_required,
+          LangText(context: context).getLocal().state_required,
           gravity: Toast.center);
       return false;
     } else if (_cityController.text.trim().toString().isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.city_required,
+          LangText(context: context).getLocal().city_required,
           gravity: Toast.center);
       return false;
     } else if (_postalCodeController.text.trim().toString().isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.postal_code_required,
+          LangText(context: context).getLocal().postal_code_required,
           gravity: Toast.center);
       return false;
     } else if (_phoneController.text.trim().toString().isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.phone_number_required,
+          LangText(context: context).getLocal().phone_number_required,
           gravity: Toast.center);
       return false;
     }
@@ -402,7 +402,7 @@ class _PosManagerState extends State<PosManager> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                LangText(context: context).getLocal()!.select_products_ucf,
+                LangText(context: context).getLocal().select_products_ucf,
                 style: const TextStyle(
                     fontSize: 16, color: MyTheme.app_accent_color),
               ),
@@ -486,7 +486,7 @@ class _PosManagerState extends State<PosManager> {
   getCategories() async {
     var categoryResponse = await ProductRepository().getCategoryRes();
     categories.add(CategoryModel(
-        levelText: LangText(context: context).getLocal()!.select_ucf, id: ""));
+        levelText: LangText(context: context).getLocal().select_ucf, id: ""));
     categoryResponse.data!.forEach((element) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
@@ -505,7 +505,7 @@ class _PosManagerState extends State<PosManager> {
   }
 
   setChildCategory(List<Category> child) {
-    child.forEach((element) {
+    for (var element in child) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
           level: element.level,
@@ -518,13 +518,13 @@ class _PosManagerState extends State<PosManager> {
       if (element.child!.isNotEmpty) {
         setChildCategory(element.child!);
       }
-    });
+    }
   }
 
   getBrands() async {
     var brandsRes = await ProductRepository().getBrandRes();
     brands.add(CommonDropDownItem(
-        "", LangText(context: context).getLocal()!.select_ucf));
+        "", LangText(context: context).getLocal().select_ucf));
     brandsRes.data!.forEach((element) {
       brands.addAll([
         CommonDropDownItem("${element.id}", element.name),
@@ -555,7 +555,7 @@ class _PosManagerState extends State<PosManager> {
         keyword: _searchController.text);
     if (posProductResponse.products!.data!.isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.no_more_products_ucf,
+          LangText(context: context).getLocal().no_more_products_ucf,
           gravity: Toast.center,
           bgColor: MyTheme.white,
           textStyle: const TextStyle(color: Colors.black));
