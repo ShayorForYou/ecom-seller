@@ -4,7 +4,7 @@ class AppConfig {
   //this shows in the splash screen
   static String copyright_text = "@ e-Com " + this_year;
   //this shows in the splash screen
-  static String app_name = "E-Com Seller app";
+  static String app_name = "Upokari e-Com";
 
   //enter your purchase code for the app from codecanyon
   static String purchase_code = "ecom123456";

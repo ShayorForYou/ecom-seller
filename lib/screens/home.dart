@@ -11,13 +11,21 @@ import 'package:ecom_seller_app/helpers/shimmer_helper.dart';
 import 'package:ecom_seller_app/helpers/shop_info_helper.dart';
 import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/repositories/shop_repository.dart';
+import 'package:ecom_seller_app/screens/orders.dart';
 import 'package:ecom_seller_app/screens/packages.dart';
+import 'package:ecom_seller_app/screens/payment_history.dart';
 import 'package:ecom_seller_app/screens/payment_setting.dart';
+import 'package:ecom_seller_app/screens/pos/pos_manager.dart';
+import 'package:ecom_seller_app/screens/product/products.dart';
+import 'package:ecom_seller_app/screens/refund_request.dart';
 import 'package:ecom_seller_app/screens/shop_settings/shop_settings.dart';
 import 'package:ecom_seller_app/screens/verify_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../custom/chart2.dart';
+import 'chat_list.dart';
+import 'coupon/coupons.dart';
+import 'money_withdraw.dart';
 
 class Home extends StatefulWidget {
   final bool fromBottombar;
@@ -43,7 +51,7 @@ class _HomeState extends State<Home> {
 
   //List
   List<ChartData> chartValues = [];
-  List<ProductOfTop> product = [];
+  List<CriteriaProducts> product = [];
   List<String> logoSliders = [];
   List<CategoryWiseProductResponse> categoryWiseProducts = [];
 
@@ -58,7 +66,7 @@ class _HomeState extends State<Home> {
       _pacakgeExpDate = "...";
 
   Future<bool> _getTop12Product() async {
-    var response = await ShopRepository().getTop12ProductRequest();
+    var response = await ShopRepository().ordersByCriteria();
     product.addAll(response.data!);
     _faceTopProducts = true;
     setState(() {});
@@ -151,40 +159,46 @@ class _HomeState extends State<Home> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-    top4Boxes(),
-    packageContainer(),
-    SizedBox(
-      height: AppStyles.listItemsMargin,
-    ),
-    featureContainer(),
-    SizedBox(
-      height: AppStyles.listItemsMargin,
-    ),
-    if (!verify_form_submitted.$ && !shop_verify.$)
-      Column(
-        children: [
-          verifyContainer(),
-          SizedBox(
-            height: AppStyles.listItemsMargin,
+        top4Boxes(),
+        // packageContainer(),
+        // SizedBox(
+        //   height: AppStyles.listItemsMargin,
+        // ),
+        SizedBox(
+          height: AppStyles.listItemsMargin,
+        ),
+        chartContainer(),
+        SizedBox(
+          height: AppStyles.listItemsMargin,
+        ),
+        featureContainer(),
+
+        SizedBox(
+          height: AppStyles.listItemsMargin,
+        ),
+
+        if (!verify_form_submitted.$ && !shop_verify.$)
+          Column(
+            children: [
+              verifyContainer(),
+              SizedBox(
+                height: AppStyles.listItemsMargin,
+              ),
+            ],
           ),
-        ],
-      ),
-    settingContainer(),
-    SizedBox(
-      height: AppStyles.listItemsMargin,
-    ),
-    chartContainer(),
-    SizedBox(
-      height: AppStyles.listItemsMargin,
-    ),
-    categoryWiseProduct(),
-    Container(
-      height: AppStyles.listItemsMargin,
-    ),
-    topProductsContainer(),
-    SizedBox(
-      height: AppStyles.listItemsMargin,
-    ),
+        settingContainer(),
+        SizedBox(
+          height: AppStyles.listItemsMargin,
+        ),
+
+        // categoryWiseProduct(),
+        // Container(
+        //   height: AppStyles.listItemsMargin,
+        // ),
+        // topProductsContainer(),
+        // SizedBox(
+        //   height: AppStyles.listItemsMargin,
+        // ),
       ],
     );
   }
@@ -242,7 +256,8 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 15.0),
                         child: Text(
                           LangText(context: context)
-                              .getLocal().no_data_is_available,
+                              .getLocal()
+                              .no_data_is_available,
                           style: const TextStyle(
                               fontSize: 14,
                               color: MyTheme.app_accent_color,
@@ -296,7 +311,8 @@ class _HomeState extends State<Home> {
                   child: Text(
                     product[index].name!,
                     maxLines: 2,
-                    style: const TextStyle(fontSize: 12, color: MyTheme.font_grey),
+                    style:
+                        const TextStyle(fontSize: 12, color: MyTheme.font_grey),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -389,7 +405,8 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 15.0),
                         child: Text(
                           LangText(context: context)
-                              .getLocal().no_data_is_available,
+                              .getLocal()
+                              .no_data_is_available,
                           style: const TextStyle(
                               fontSize: 14,
                               color: MyTheme.app_accent_color,
@@ -796,7 +813,8 @@ class _HomeState extends State<Home> {
                             children: [
                               Text(
                                 LangText(context: context)
-                                    .getLocal().current_package_ucf,
+                                    .getLocal()
+                                    .current_package_ucf,
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: MyTheme.app_accent_color,
@@ -822,15 +840,15 @@ class _HomeState extends State<Home> {
                             children: [
                               Text(
                                 LangText(context: context)
-                                    .getLocal().product_upload_limit_ucf,
+                                    .getLocal()
+                                    .product_upload_limit_ucf,
                                 style: const TextStyle(
                                     fontSize: 10,
                                     color: MyTheme.grey_153,
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${_prodcutUploadLimit!} ${LangText(context: context)
-                                        .getLocal().times_all_lower}",
+                                "${_prodcutUploadLimit!} ${LangText(context: context).getLocal().times_all_lower}",
                                 style: const TextStyle(
                                     fontSize: 10,
                                     color: MyTheme.grey_153,
@@ -842,7 +860,8 @@ class _HomeState extends State<Home> {
                             children: [
                               Text(
                                 LangText(context: context)
-                                    .getLocal().package_expires_at_ucf,
+                                    .getLocal()
+                                    .package_expires_at_ucf,
                                 style: const TextStyle(
                                     fontSize: 10,
                                     color: MyTheme.grey_153,
@@ -862,7 +881,8 @@ class _HomeState extends State<Home> {
                           ),
                           InkWell(
                             onTap: () {
-                              MyTransaction(context: context).push(const Packages());
+                              MyTransaction(context: context)
+                                  .push(const Packages());
                             },
                             child: MyWidget().myContainer(
                                 bgColor: MyTheme.app_accent_color,
@@ -871,7 +891,8 @@ class _HomeState extends State<Home> {
                                 width: DeviceInfo(context).getWidth() / 2.2,
                                 child: Text(
                                   LangText(context: context)
-                                      .getLocal().upgrade_package_ucf,
+                                      .getLocal()
+                                      .upgrade_package_ucf,
                                   style: TextStyle(
                                       fontSize: 12,
                                       color: MyTheme.white,
@@ -892,138 +913,138 @@ class _HomeState extends State<Home> {
     return Container(
       width: DeviceInfo(context).getWidth(),
       padding: EdgeInsets.symmetric(horizontal: AppStyles.layoutMargin),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          MyWidget.customCardView(
-              borderWidth: 1,
-              elevation: 5,
-              borderRadius: 10,
-              //padding:EdgeInsets.symmetric(vertical: 5),
-              width: DeviceInfo(context).getWidth() / 2 - 23,
-              height: DeviceInfo(context).getWidth() / 2 - 20,
-              borderColor: MyTheme.app_accent_border,
-              backgroundColor: MyTheme.app_accent_color_extra_light,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        LangText(context: context)
-                            .getLocal().shop_settings_ucf,
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: MyTheme.app_accent_color),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        LangText(context: context)
-                            .getLocal().manage_n_organize_your_shop,
-                        style: const TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.normal,
-                            color: MyTheme.app_accent_color),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                  Image.asset(
-                    "assets/icon/shop_setting.png",
-                    color: MyTheme.app_accent_color,
-                    height: 32,
-                    width: 32,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      MyTransaction(context: context).push(const ShopSettings());
-                    },
-                    child: MyWidget().myContainer(
-                      bgColor: MyTheme.app_accent_color,
-                      child: Text(
-                        LangText(context: context).getLocal().go_to_settings,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 12, color: Colors.white),
-                      ),
-                      width: DeviceInfo(context).getWidth() / 3,
-                      height: 30,
-                      borderRadius: 6,
-                    ),
-                  )
-                ],
-              )),
-          const SizedBox(
-            width: 14,
-          ),
-          MyWidget.customCardView(
-              elevation: 5,
-              borderRadius: 10,
-              borderWidth: 1,
-              //padding:EdgeInsets.symmetric(vertical: 5),
-              width: DeviceInfo(context).getWidth() / 2 - 23,
-              height: DeviceInfo(context).getWidth() / 2 - 20,
-              borderColor: MyTheme.app_accent_border,
-              backgroundColor: MyTheme.app_accent_color_extra_light,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        LangText(context: context)
-                            .getLocal().payment_settings_ucf,
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: MyTheme.app_accent_color),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        LangText(context: context)
-                            .getLocal().configure_your_payment_method,
-                        style: const TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.normal,
-                            color: MyTheme.app_accent_color),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                  Image.asset(
-                    "assets/icon/payment_setting.png",
-                    color: MyTheme.app_accent_color,
-                    height: 32,
-                    width: 32,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      MyTransaction(context: context).push(const PaymentSetting());
-                    },
-                    child: MyWidget().myContainer(
-                      bgColor: MyTheme.app_accent_color,
-                      child: Text(
-                        LangText(context: context)
-                            .getLocal().configure_now_ucf,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 12, color: Colors.white),
-                      ),
-                      width: DeviceInfo(context).getWidth() / 3,
-                      height: 30,
-                      borderRadius: 6,
-                    ),
-                  )
-                ],
-              )),
-        ],
-      ),
+      // child: Row(
+      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     MyWidget.customCardView(
+      //         borderWidth: 1,
+      //         elevation: 5,
+      //         borderRadius: 10,
+      //         //padding:EdgeInsets.symmetric(vertical: 5),
+      //         width: DeviceInfo(context).getWidth() / 2 - 23,
+      //         height: DeviceInfo(context).getWidth() / 2 - 20,
+      //         borderColor: MyTheme.app_accent_border,
+      //         backgroundColor: MyTheme.app_accent_color_extra_light,
+      //         child: Column(
+      //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //           children: [
+      //             Column(
+      //               children: [
+      //                 Text(
+      //                   LangText(context: context)
+      //                       .getLocal().shop_settings_ucf,
+      //                   style: const TextStyle(
+      //                       fontSize: 14,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: MyTheme.app_accent_color),
+      //                   textAlign: TextAlign.center,
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 5,
+      //                 ),
+      //                 Text(
+      //                   LangText(context: context)
+      //                       .getLocal().manage_n_organize_your_shop,
+      //                   style: const TextStyle(
+      //                       fontSize: 10,
+      //                       fontWeight: FontWeight.normal,
+      //                       color: MyTheme.app_accent_color),
+      //                   textAlign: TextAlign.center,
+      //                 ),
+      //               ],
+      //             ),
+      //             Image.asset(
+      //               "assets/icon/shop_setting.png",
+      //               color: MyTheme.app_accent_color,
+      //               height: 32,
+      //               width: 32,
+      //             ),
+      //             InkWell(
+      //               onTap: () {
+      //                 MyTransaction(context: context).push(const ShopSettings());
+      //               },
+      //               child: MyWidget().myContainer(
+      //                 bgColor: MyTheme.app_accent_color,
+      //                 child: Text(
+      //                   LangText(context: context).getLocal().go_to_settings,
+      //                   textAlign: TextAlign.center,
+      //                   style: const TextStyle(fontSize: 12, color: Colors.white),
+      //                 ),
+      //                 width: DeviceInfo(context).getWidth() / 3,
+      //                 height: 30,
+      //                 borderRadius: 6,
+      //               ),
+      //             )
+      //           ],
+      //         )),
+      //     const SizedBox(
+      //       width: 14,
+      //     ),
+      //     MyWidget.customCardView(
+      //         elevation: 5,
+      //         borderRadius: 10,
+      //         borderWidth: 1,
+      //         //padding:EdgeInsets.symmetric(vertical: 5),
+      //         width: DeviceInfo(context).getWidth() / 2 - 23,
+      //         height: DeviceInfo(context).getWidth() / 2 - 20,
+      //         borderColor: MyTheme.app_accent_border,
+      //         backgroundColor: MyTheme.app_accent_color_extra_light,
+      //         child: Column(
+      //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //           children: [
+      //             Column(
+      //               children: [
+      //                 Text(
+      //                   LangText(context: context)
+      //                       .getLocal().payment_settings_ucf,
+      //                   style: const TextStyle(
+      //                       fontSize: 14,
+      //                       fontWeight: FontWeight.bold,
+      //                       color: MyTheme.app_accent_color),
+      //                   textAlign: TextAlign.center,
+      //                 ),
+      //                 const SizedBox(
+      //                   height: 5,
+      //                 ),
+      //                 Text(
+      //                   LangText(context: context)
+      //                       .getLocal().configure_your_payment_method,
+      //                   style: const TextStyle(
+      //                       fontSize: 10,
+      //                       fontWeight: FontWeight.normal,
+      //                       color: MyTheme.app_accent_color),
+      //                   textAlign: TextAlign.center,
+      //                 ),
+      //               ],
+      //             ),
+      //             Image.asset(
+      //               "assets/icon/payment_setting.png",
+      //               color: MyTheme.app_accent_color,
+      //               height: 32,
+      //               width: 32,
+      //             ),
+      //             InkWell(
+      //               onTap: () {
+      //                 MyTransaction(context: context).push(const PaymentSetting());
+      //               },
+      //               child: MyWidget().myContainer(
+      //                 bgColor: MyTheme.app_accent_color,
+      //                 child: Text(
+      //                   LangText(context: context)
+      //                       .getLocal().configure_now_ucf,
+      //                   textAlign: TextAlign.center,
+      //                   style: const TextStyle(fontSize: 12, color: Colors.white),
+      //                 ),
+      //                 width: DeviceInfo(context).getWidth() / 3,
+      //                 height: 30,
+      //                 borderRadius: 6,
+      //               ),
+      //             )
+      //           ],
+      //         )),
+      //   ],
+      // ),
     );
   }
 
@@ -1047,7 +1068,8 @@ class _HomeState extends State<Home> {
               children: [
                 Text(
                   LangText(context: context)
-                      .getLocal().your_account_is_unverified,
+                      .getLocal()
+                      .your_account_is_unverified,
                   style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -1101,175 +1123,252 @@ class _HomeState extends State<Home> {
   }
 
   Widget featureContainer() {
-    return Container(
-        width: DeviceInfo(context).getWidth(),
-        alignment: Alignment.center,
-        color: MyTheme.app_accent_color,
-        //padding: EdgeInsets.symmetric(horizontal: 15.0,),
-        height: 90,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(
-                FeaturesList(context).getFeatureList().length, (index) {
-              return Container(
-                  child: Padding(
-                padding: EdgeInsets.only(
-                    right: 22.0,
-                    left: index == 0 &&
-                            FeaturesList(context).getFeatureList().length > 3
-                        ? 22
-                        : 0),
-                child: FeaturesList(context).getFeatureList()[index],
-              ));
-            }),
-          ),
-        ));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          children: [
+            InkWell(
+              onTap: () {
+                MyTransaction(context: context).push(const PosManager());
+              },
+              child: MyWidget.homePageTopBox(context,
+                  elevation: 5,
+                  title: 'Pos Manager',
+                  iconUrl: 'assets/icon/pos_system.png'),
+            ),
+            InkWell(
+              onTap: () {
+                MyTransaction(context: context).push(ChatList());
+              },
+              child: MyWidget.homePageTopBox(context,
+                  title: 'Chat', iconUrl: 'assets/icon/chat.png'),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RefundRequest()));
+              },
+              child: MyWidget.homePageTopBox(context,
+                  elevation: 5,
+                  title: 'Refund Request',
+                  iconUrl: 'assets/icon/refund.png'),
+            ),
+            InkWell(
+              onTap: () {
+                MyTransaction(context: context).push(Coupons());
+              },
+              child: MyWidget.homePageTopBox(context,
+                  elevation: 5,
+                  title: 'Coupons',
+                  iconUrl: 'assets/icon/coupon.png'),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            InkWell(
+              onTap: () {
+                MyTransaction(context: context).push(MoneyWithdraw());
+              },
+              child: MyWidget.homePageTopBox(context,
+                  elevation: 5,
+                  title: 'Withdraw Money',
+                  iconUrl: 'assets/icon/withdraw.png'),
+            ),
+            InkWell(
+              onTap: () {
+                MyTransaction(context: context).push(PaymentHistory());
+              },
+              child: MyWidget.homePageTopBox(context,
+                  elevation: 5,
+                  title: 'Payment History',
+                  iconUrl: 'assets/icon/payment_history.png'),
+            ),
+          ],
+        )
+      ],
+    );
+    // return Container(
+    //     width: DeviceInfo(context).getWidth(),
+    //     alignment: Alignment.center,
+    //     color: MyTheme.app_accent_color,
+    //     //padding: EdgeInsets.symmetric(horizontal: 15.0,),
+    //     height: 90,
+    //     child: SingleChildScrollView(
+    //       scrollDirection: Axis.horizontal,
+    //       child: Row(
+    //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //         children: List.generate(
+    //             FeaturesList(context).getFeatureList().length, (index) {
+    //           return Container(
+    //               child: Padding(
+    //             padding: EdgeInsets.only(
+    //                 right: 22.0,
+    //                 left: index == 0 &&
+    //                         FeaturesList(context).getFeatureList().length > 3
+    //                     ? 22
+    //                     : 0),
+    //             child: FeaturesList(context).getFeatureList()[index],
+    //           ));
+    //         }),
+    //       ),
+    //     ));
   }
 
   Widget top4Boxes() {
-    return Container(
-      child: Stack(
-        children: [
-          /* Container(
-            height: 240,
+    return Stack(
+      children: [
+        // Column(
+        //   children: [
+        //     Container(
+        //       height: 170,
+        //       width: DeviceInfo(context).getWidth(),
+        //       child: MyWidget.imageSlider(
+        //           imageUrl: logoSliders, context: context),
+        //     ),
+        //     Container(
+        //       height: 70,
+        //       width: DeviceInfo(context).getWidth(),
+        //     ),
+        //   ],
+        // ),
+
+        // Positioned(
+        //   top: 0,
+        //   child: SizedBox(
+        //     height: 170,
+        //     width: DeviceInfo(context).getWidth(),
+        //     child:
+        //         MyWidget.imageSlider(imageUrl: logoSliders, context: context),
+        //   ),
+        // ),
+
+        // this container only for transparent color
+        // Container(
+        //   height: 240,
+        //   decoration: const BoxDecoration(
+        //     gradient: LinearGradient(
+        //       begin: Alignment.topCenter,
+        //       end: Alignment.bottomCenter,
+        //       colors: [
+        //         Color.fromRGBO(255, 255, 255, 0),
+        //         Color.fromRGBO(255, 255, 255, .15),
+        //         Color.fromRGBO(255, 255, 255, .25),
+        //         Color.fromRGBO(255, 255, 255, .50),
+        //         Color.fromRGBO(255, 255, 255, .9),
+        //         Color.fromRGBO(255, 255, 255, 1),
+        //         Color.fromRGBO(255, 255, 255, 1),
+        //         Color.fromRGBO(255, 255, 255, 1),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+
+        Container(
+            color: Colors.transparent,
+            // margin: EdgeInsets.only(top: 60),
+            //color: MyTheme.red,
+            //height: 190,
+            width: DeviceInfo(context).getWidth(),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: 170,
-                  width: DeviceInfo(context).getWidth(),
-                  child: MyWidget.imageSlider(
-                      imageUrl: logoSliders, context: context),
-                ),
-                Container(
-
-                  height: 70,
-                  width: DeviceInfo(context).getWidth(),
-                ),
-              ],
-            ),
-          ),*/
-          Positioned(
-            top: 0,
-            child: SizedBox(
-              height: 170,
-              width: DeviceInfo(context).getWidth(),
-              child:
-                  MyWidget.imageSlider(imageUrl: logoSliders, context: context),
-            ),
-          ),
-
-          // this container only for transparent color
-          Container(
-            height: 240,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color.fromRGBO(255, 255, 255, 0),
-                  Color.fromRGBO(255, 255, 255, .15),
-                  Color.fromRGBO(255, 255, 255, .25),
-                  Color.fromRGBO(255, 255, 255, .50),
-                  Color.fromRGBO(255, 255, 255, .9),
-                  Color.fromRGBO(255, 255, 255, 1),
-                  Color.fromRGBO(255, 255, 255, 1),
-                  Color.fromRGBO(255, 255, 255, 1),
-                ],
-              ),
-            ),
-          ),
-
-          Positioned(
-            bottom: 0,
-            child: Container(
-                color: Colors.transparent,
-                // margin: EdgeInsets.only(top: 60),
-                //color: MyTheme.red,
-                //height: 190,
-                width: DeviceInfo(context).getWidth(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        MyWidget.homePageTopBox(context,
-                            elevation: 5,
-                            title: LangText(context: context)
-                                .getLocal().products_ucf,
-                            counter: _productsCount,
-                            iconUrl: 'assets/icon/products.png'),
-                        MyWidget.homePageTopBox(context,
-                            title: LangText(context: context)
-                                .getLocal().rating_ucf,
-                            counter: _rattingCount,
-                            iconUrl: 'assets/icon/rating.png'),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        MyTransaction(context: context).push(const Products(
+                          fromBottomBar: false,
+                        ));
+                      },
+                      child: MyWidget.homePageTopBox(context,
+                          elevation: 5,
+                          title: LangText(context: context)
+                              .getLocal()
+                              .products_ucf,
+                          counter: _productsCount,
+                          iconUrl: 'assets/icon/products.png'),
                     ),
-                    Row(
-                      children: [
-                        MyWidget.homePageTopBox(context,
-                            elevation: 5,
-                            title: LangText(context: context)
-                                .getLocal().total_orders_ucf,
-                            counter: _totalOrdersCount,
-                            iconUrl: 'assets/icon/orders.png'),
-                        MyWidget.homePageTopBox(context,
-                            elevation: 5,
-                            title: LangText(context: context)
-                                .getLocal().total_sales_ucf,
-                            counter: _totalSalesCount,
-                            iconUrl: 'assets/icon/sales.png'),
-                      ],
-                    )
+                    MyWidget.homePageTopBox(context,
+                        title:
+                            LangText(context: context).getLocal().rating_ucf,
+                        counter: _rattingCount,
+                        iconUrl: 'assets/icon/rating.png'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        MyTransaction(context: context).push(const Orders());
+                      },
+                      child: MyWidget.homePageTopBox(context,
+                          elevation: 5,
+                          title: LangText(context: context)
+                              .getLocal()
+                              .total_orders_ucf,
+                          counter: _totalOrdersCount,
+                          iconUrl: 'assets/icon/orders.png'),
+                    ),
+                    MyWidget.homePageTopBox(context,
+                        elevation: 5,
+                        title: LangText(context: context)
+                            .getLocal()
+                            .total_sales_ucf,
+                        counter: _totalSalesCount,
+                        iconUrl: 'assets/icon/sales.png'),
                   ],
                 )
+              ],
+            )
 
 /*
-              GridView.count(
-                physics: NeverScrollableScrollPhysics(),
-                primary: false,
-                padding:  EdgeInsets.all(AppStyles.layoutMargin),
-                crossAxisSpacing: 14,
-                mainAxisSpacing: 14,
-                crossAxisCount: 2,
-                childAspectRatio:DeviceInfo(context).getHeightInPercent(),
-                children: <Widget>[
-                  MyWidget.homePageTopBox(context,
-                      elevation: 5,
-                      title: LangText(context: context)
-                          .getLocal()
-                          .product_screen_products,
-                      counter: _productsCount,
-                      iconUrl: 'assets/icon/products.png'),
-                  MyWidget.homePageTopBox(context,
-                      title:
-                      LangText(context: context).getLocal().common_rating,
-                      counter: _rattingCount,
-                      iconUrl: 'assets/icon/rating.png'),
+          GridView.count(
+            physics: NeverScrollableScrollPhysics(),
+            primary: false,
+            padding:  EdgeInsets.all(AppStyles.layoutMargin),
+            crossAxisSpacing: 14,
+            mainAxisSpacing: 14,
+            crossAxisCount: 2,
+            childAspectRatio:DeviceInfo(context).getHeightInPercent(),
+            children: <Widget>[
+              MyWidget.homePageTopBox(context,
+                  elevation: 5,
+                  title: LangText(context: context)
+                      .getLocal()
+                      .product_screen_products,
+                  counter: _productsCount,
+                  iconUrl: 'assets/icon/products.png'),
+              MyWidget.homePageTopBox(context,
+                  title:
+                  LangText(context: context).getLocal().common_rating,
+                  counter: _rattingCount,
+                  iconUrl: 'assets/icon/rating.png'),
 
-                  MyWidget.homePageTopBox(context,
-                      elevation: 5,
-                      title: LangText(context: context)
-                          .getLocal()
-                          .common_total_orders,
-                      counter: _totalOrdersCount,
-                      iconUrl: 'assets/icon/orders.png'),
-                  MyWidget.homePageTopBox(context,
-                      elevation: 5,
-                      title: LangText(context: context)
-                          .getLocal()
-                          .common_total_sales,
-                      counter: _totalSalesCount,
-                      iconUrl: 'assets/icon/sales.png')
-                ],
-              ),*/
+              MyWidget.homePageTopBox(context,
+                  elevation: 5,
+                  title: LangText(context: context)
+                      .getLocal()
+                      .common_total_orders,
+                  counter: _totalOrdersCount,
+                  iconUrl: 'assets/icon/orders.png'),
+              MyWidget.homePageTopBox(context,
+                  elevation: 5,
+                  title: LangText(context: context)
+                      .getLocal()
+                      .common_total_sales,
+                  counter: _totalSalesCount,
+                  iconUrl: 'assets/icon/sales.png')
+            ],
+          ),*/
 
-                ),
-          ),
-        ],
-      ),
+            ),
+      ],
     );
   }
 }

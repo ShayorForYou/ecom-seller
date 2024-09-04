@@ -35,9 +35,9 @@ class OrderRepository {
     return orderListResponseFromJson(response.body);
   }
 
-  Future<OrderDetailResponse> getOrderDetails({@required int? id = 0}) async {
+  Future<OrderDetailResponse> getOrderDetails({int? id = 0}) async {
     String url =
-        ("${AppConfig.BASE_URL_WITH_PREFIX}/orders/details/" + id.toString());
+        ("${AppConfig.BASE_URL_WITH_PREFIX}/orders/details/$id");
     // print("details url:" + url.toString());
     final response = await ApiRequest.get(url: url, headers: {
       "Authorization": "Bearer ${access_token.$}",

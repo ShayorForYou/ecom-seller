@@ -25,16 +25,27 @@ class ShopRepository {
 
     return verificationFormResponseFromJson(response.body);
   }
-
-  Future<Top12ProductResponse> getTop12ProductRequest() async {
-    String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/dashboard/top-12-product");
+  //
+  // Future getTop12ProductRequest() async {
+  //   String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/dashboard/top-12-product");
+  //
+  //   Map<String, String> header = {
+  //     "App-Language": app_language.$!,
+  //     "Authorization": "Bearer ${access_token.$}",
+  //   };
+  //   final response = await ApiRequest.get(url: url, headers: header);
+  //   return ordersByCriteriaFromJson(response.body);
+  // }
+  Future<OrdersByCriteria> ordersByCriteria() async {
+    String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/dashboard/orders-by-criteria/unseen");
 
     Map<String, String> header = {
       "App-Language": app_language.$!,
       "Authorization": "Bearer ${access_token.$}",
     };
     final response = await ApiRequest.get(url: url, headers: header);
-    return top12ProductResponseFromJson(response.body);
+    print("ordersByCriteria res${response.body}");
+    return ordersByCriteriaFromJson(response.body);
   }
 
   Future<Map<String, ChartResponse>> chartRequest() async {
@@ -105,7 +116,13 @@ class ShopRepository {
       "Authorization": "Bearer ${access_token.$}",
     };
     final response = await ApiRequest.get(url: url, headers: header);
-    // print("shop info " + response.body.toString());
+    var responseBody = jsonDecode(response.body);
+
+    if (responseBody['status'] == 200) {
+      List<Map<String, dynamic>> childUsers = List<Map<String, dynamic>>.from(responseBody['child_users']);
+      child_users.$ = childUsers;
+      child_users.save();
+    }
     return shopInfoResponseFromJson(response.body);
   }
 
@@ -133,7 +150,7 @@ class ShopRepository {
     final response =
         await ApiRequest.post(url: url, headers: header, body: post_body);
 
-    print("shop info " + response.body.toString() + url);
+    print("shop info ${response.body}$url");
     return commonResponseFromJson(response.body);
   }
 }

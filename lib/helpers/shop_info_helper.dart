@@ -27,7 +27,7 @@ class ShopInfoHelper{
     shop_verify.$=_shopInfo.shopInfo!.verified!;
     shop_verify.save();
 
-    verify_form_submitted.$=_shopInfo.shopInfo!.is_submitted_form!;
+    verify_form_submitted.$=_shopInfo.shopInfo!.isSubmittedForm!;
     verify_form_submitted.save();
   }
 

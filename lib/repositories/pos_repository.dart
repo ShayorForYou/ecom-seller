@@ -14,16 +14,16 @@ import '../helpers/shared_value_helper.dart';
 
 class PosRepository {
   Future<PosProductResponse> getPosProducts(
-      {brand = "", category = "", keyword = ""}) async {
+      {brand = "", category = "", keyword = "", seller_id}) async {
     String url =
-        ("${AppConfig.BASE_URL_WITH_PREFIX}/pos/products?keyword=$keyword&category=category-$category&brand=$brand");
+        ("${AppConfig.BASE_URL_WITH_PREFIX}/pos/products?keyword=$keyword&category=category-$category&brand=$brand&seller_id=$seller_id");
 
     final response = await ApiRequest.get(url: url, headers: {
       "App-Language": app_language.$!,
       "Authorization": "Bearer ${access_token.$}",
     });
     print(access_token.$);
-    // print(response.body);
+    print("resposne body: ${response.body}");
     return posProductResponseFromJson(response.body);
   }
 

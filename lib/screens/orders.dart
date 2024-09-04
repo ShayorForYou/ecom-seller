@@ -141,6 +141,7 @@ class _OrdersState extends State<Orders> {
     _isInitial = false;
     _totalData = orderResponse.meta!.total;
     _showLoadingContainer = false;
+    print("total data: ${orderResponse.toJson()}");
     setState(() {});
   }
 
@@ -175,13 +176,15 @@ class _OrdersState extends State<Orders> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      buildTopSection(context),
-      buildOrderListList(),
-    ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        buildTopSection(context),
+        buildOrderListList(),
+      ],
+        ),
       ),
     );
   }

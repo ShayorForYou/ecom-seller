@@ -326,13 +326,13 @@ class MyWidget {
     return Image.asset(
       url,
       color: MyTheme.white.withOpacity(0.5),
-      height: 32,
-      width: 32,
+      height: 24,
+      width: 24,
     );
   }
 
   static Widget homePageTopBox(BuildContext context,
-      {required String title, required counter, required iconUrl,double elevation = 0.0}) {
+      {required String title, counter, required iconUrl,double elevation = 0.0}) {
     return customCardView(
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.only(top: 14,left: 14),
@@ -345,16 +345,16 @@ class MyWidget {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   title,
                   style: MyTextStyle().dashboardBoxText(context),
                 ),
-                Text(
+               counter != null ? Text(
                   counter,
                   style: MyTextStyle().dashboardBoxNumber(context),
-                ),
+                ): SizedBox.shrink(),
               ],
             ),
             MyWidget.boxImage(iconUrl)

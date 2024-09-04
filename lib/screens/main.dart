@@ -20,6 +20,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:route_transitions/route_transitions.dart';
 
+import '../data_model/top_12_product_response.dart';
+import '../repositories/shop_repository.dart';
+
 class Main extends StatefulWidget {
   @override
   _MainState createState() => _MainState();
@@ -69,9 +72,20 @@ class _MainState extends State<Main> {
     }
   }
 
+  int totalOrders = 0;
+
+  Future<void> fetchOrders() async {
+    OrdersByCriteria response = await ShopRepository().ordersByCriteria();
+    setState(() {
+      totalOrders = response.meta?.total ?? 0;
+    });
+  }
+
   void initState() {
     // TODO: implement initState
     ShopInfoHelper().setShopInfo();
+    fetchOrders();
+
     //re appear statusbar in case it was not there in the previous page
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
@@ -106,6 +120,7 @@ class _MainState extends State<Main> {
           // padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
+
             // landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
             onTap: onTapped,
             currentIndex: _currentIndex,
@@ -142,13 +157,52 @@ class _MainState extends State<Main> {
               BottomNavigationBarItem(
                 icon: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Image.asset(
-                    "assets/icon/orders.png",
-                    color: _currentIndex == 2
-                        ? MyTheme.app_accent_color
-                        : const Color.fromRGBO(153, 153, 153, 1),
-                    height: 20,
-                  ),
+                  child:
+                  //orders icon with red badge
+
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Image.asset(
+                        "assets/icon/orders.png",
+                        color: _currentIndex == 2
+                            ? MyTheme.app_accent_color
+                            : const Color.fromRGBO(153, 153, 153, 1),
+                        height: 20,
+                      ),
+                     if(totalOrders > 0) Positioned(
+                        right: -6,
+                        top: -2,
+                        child: Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 12,
+                            minHeight: 12,
+                          ),
+                          child:  Text(
+                            totalOrders.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+
+                  // Image.asset(
+                  //   "assets/icon/orders.png",
+                  //   color: _currentIndex == 2
+                  //       ? MyTheme.app_accent_color
+                  //       : const Color.fromRGBO(153, 153, 153, 1),
+                  //   height: 20,
+                  // ),
                 ),
                 label: LangText(context: context).getLocal()!.orders_ucf,
               ),

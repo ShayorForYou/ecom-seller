@@ -46,8 +46,9 @@ class _ShopDeliveryBoyPickupPointState
     if ((_lat == "" && _lang == "") || (_lat == null && _lang == null)) {
       setDummyInitialLocation();
     } else {
-      setInitialLocation(response.shopInfo!.deliveryPickupLatitude.toString(),
-          response.shopInfo!.deliveryPickupLongitude.toString());
+      // setInitialLocation(response.shopInfo!.deliveryPickupLatitude.toString(),
+      //     response.shopInfo!.deliveryPickupLongitude.toString());
+      setDummyInitialLocation();
     }
     return true;
   }

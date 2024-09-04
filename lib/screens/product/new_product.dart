@@ -906,33 +906,33 @@ class _NewProductState extends State<NewProduct> {
             setChange();
           }, thumbnailImage),
           itemSpacer(),
-          buildGroupItems(
-              LangText(context: context).getLocal()!.product_videos_ucf,
-              _buildDropDownField(
-                  LangText(context: context).getLocal()!.video_provider_ucf,
-                  (newValue) {
-                selectedVideoType = newValue;
-                setChange();
-              }, selectedVideoType, videoType)),
-          itemSpacer(),
-          buildEditTextField(
-              LangText(context: context).getLocal()!.video_link_ucf,
-              LangText(context: context).getLocal()!.video_link_ucf,
-              videoLinkEditTextController),
-          itemSpacer(height: 10),
-          smallTextForMessage(
-              LangText(context: context).getLocal()!.video_link_des),
-          itemSpacer(),
-          buildGroupItems(
-            LangText(context: context).getLocal()!.pdf_description_ucf,
-            chooseSingleFileField(
-                LangText(context: context).getLocal()!.pdf_specification_ucf,
-                "", (onChosenFile) {
-              pdfDes = onChosenFile;
-              setChange();
-            }, pdfDes),
-          ),
-          itemSpacer()
+          // buildGroupItems(
+          //     LangText(context: context).getLocal()!.product_videos_ucf,
+          //     _buildDropDownField(
+          //         LangText(context: context).getLocal()!.video_provider_ucf,
+          //         (newValue) {
+          //       selectedVideoType = newValue;
+          //       setChange();
+          //     }, selectedVideoType, videoType)),
+          // itemSpacer(),
+          // buildEditTextField(
+          //     LangText(context: context).getLocal()!.video_link_ucf,
+          //     LangText(context: context).getLocal()!.video_link_ucf,
+          //     videoLinkEditTextController),
+          // itemSpacer(height: 10),
+          // smallTextForMessage(
+          //     LangText(context: context).getLocal()!.video_link_des),
+          // itemSpacer(),
+          // buildGroupItems(
+          //   LangText(context: context).getLocal()!.pdf_description_ucf,
+          //   chooseSingleFileField(
+          //       LangText(context: context).getLocal()!.pdf_specification_ucf,
+          //       "", (onChosenFile) {
+          //     pdfDes = onChosenFile;
+          //     setChange();
+          //   }, pdfDes),
+          // ),
+          // itemSpacer()
         ],
       ),
     );
@@ -957,20 +957,16 @@ class _NewProductState extends State<NewProduct> {
                   onPressed: () async {
                     dateTimeRange = await _buildPickDate();
 
-                    _statAndEndTime = intl.DateFormat('MM/d/y')
-                            .format(dateTimeRange!.start)
-                            .toString() +
-                        " - " +
-                        intl.DateFormat('MM/d/y')
-                            .format(dateTimeRange!.end)
-                            .toString();
+                    _statAndEndTime = "${intl.DateFormat('MM/d/y')
+                            .format(dateTimeRange!.start)} - ${intl.DateFormat('MM/d/y')
+                            .format(dateTimeRange!.end)}";
                     setChange();
                   },
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Text(
                     _statAndEndTime,
-                    style: TextStyle(fontSize: 12, color: MyTheme.grey_153),
+                    style: const TextStyle(fontSize: 12, color: MyTheme.grey_153),
                   ),
                 ),
               )),
@@ -1866,22 +1862,22 @@ class _NewProductState extends State<NewProduct> {
             ),
           ),
         ),
-        if (shortMessage.isNotEmpty)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                shortMessage,
-                style: TextStyle(fontSize: 8, color: MyTheme.grey_153),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
+        // if (shortMessage.isNotEmpty)
+        //   Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       SizedBox(
+        //         height: 10,
+        //       ),
+        //       Text(
+        //         shortMessage,
+        //         style: TextStyle(fontSize: 8, color: MyTheme.grey_153),
+        //       ),
+        //       SizedBox(
+        //         height: 10,
+        //       ),
+        //     ],
+        //   ),
         if (selectedFile != null)
           Stack(
             fit: StackFit.passthrough,
@@ -2698,8 +2694,8 @@ class _NewProductState extends State<NewProduct> {
           // buildTopTapBarItem(
           //     LangText(context: context).getLocal()!.seo_all_capital, 3),
           // tabBarDivider(),
-          buildTopTapBarItem(
-              LangText(context: context).getLocal()!.shipping_ucf, 4),
+          // buildTopTapBarItem(
+          //     LangText(context: context).getLocal()!.shipping_ucf, 4),
         ],
       ),
     );

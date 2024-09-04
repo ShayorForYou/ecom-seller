@@ -1199,32 +1199,32 @@ class _UpdateProductState extends State<UpdateProduct> {
             setChange();
           }, thumbnailImage),
           itemSpacer(),
-          buildGroupItems(
-              LangText(context: context).getLocal().product_videos_ucf,
-              _buildDropDownField(
-                  LangText(context: context).getLocal().video_provider_ucf,
-                  (newValue) {
-                selectedVideoType = newValue;
-                setChange();
-              }, selectedVideoType, videoType)),
-          itemSpacer(),
-          buildEditTextField(
-              LangText(context: context).getLocal().video_link_ucf,
-              LangText(context: context).getLocal().video_link_ucf,
-              videoLinkEditTextController),
-          itemSpacer(height: 10),
-          smallTextForMessage(
-              LangText(context: context).getLocal().video_link_des),
-          itemSpacer(),
-          buildGroupItems(
-              LangText(context: context).getLocal().pdf_description_ucf,
-              chooseSingleFileField(
-                  LangText(context: context).getLocal().pdf_specification_ucf,
-                  "", (onChosenFile) {
-                pdfDes = onChosenFile;
-                setChange();
-              }, pdfDes)),
-          itemSpacer()
+          // buildGroupItems(
+          //     LangText(context: context).getLocal().product_videos_ucf,
+          //     _buildDropDownField(
+          //         LangText(context: context).getLocal().video_provider_ucf,
+          //         (newValue) {
+          //       selectedVideoType = newValue;
+          //       setChange();
+          //     }, selectedVideoType, videoType)),
+          // itemSpacer(),
+          // buildEditTextField(
+          //     LangText(context: context).getLocal().video_link_ucf,
+          //     LangText(context: context).getLocal().video_link_ucf,
+          //     videoLinkEditTextController),
+          // itemSpacer(height: 10),
+          // smallTextForMessage(
+          //     LangText(context: context).getLocal().video_link_des),
+          // itemSpacer(),
+          // buildGroupItems(
+          //     LangText(context: context).getLocal().pdf_description_ucf,
+          //     chooseSingleFileField(
+          //         LangText(context: context).getLocal().pdf_specification_ucf,
+          //         "", (onChosenFile) {
+          //       pdfDes = onChosenFile;
+          //       setChange();
+          //     }, pdfDes)),
+          // itemSpacer()
         ],
       ),
     );
@@ -2153,22 +2153,22 @@ class _UpdateProductState extends State<UpdateProduct> {
             ),
           ),
         ),
-        if (shortMessage.isNotEmpty)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                shortMessage,
-                style: const TextStyle(fontSize: 8, color: MyTheme.grey_153),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
+        // if (shortMessage.isNotEmpty)
+        //   Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       const SizedBox(
+        //         height: 10,
+        //       ),
+        //       Text(
+        //         shortMessage,
+        //         style: const TextStyle(fontSize: 8, color: MyTheme.grey_153),
+        //       ),
+        //       const SizedBox(
+        //         height: 10,
+        //       ),
+        //     ],
+        //   ),
         if (selectedFile != null)
           Stack(
             fit: StackFit.passthrough,
@@ -3034,8 +3034,8 @@ class _UpdateProductState extends State<UpdateProduct> {
           // buildTopTapBarItem(
           //     LangText(context: context).getLocal()!.seo_all_capital, 3),
           // tabBarDivider(),
-          buildTopTapBarItem(
-              LangText(context: context).getLocal().shipping_ucf, 4),
+          // buildTopTapBarItem(
+          //     LangText(context: context).getLocal().shipping_ucf, 4),
         ],
       ),
     );

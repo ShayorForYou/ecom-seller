@@ -70,6 +70,10 @@ class _PosManagerState extends State<PosManager> {
       TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _transactionController = TextEditingController();
+  List? sellersData = child_users.$;
+
+  Seller? selectedSeller;
+  int selectedSellerID = 0;
 
   // Initial Selected Value
   bool isSetCustomerInfo = false;
@@ -81,6 +85,7 @@ class _PosManagerState extends State<PosManager> {
 // category
   CategoryModel? selectedCategory;
   List<CategoryModel> categories = [];
+  List<Seller> sellers = [];
 
   //brand
   CommonDropDownItem? selectedBrand;
@@ -379,6 +384,7 @@ class _PosManagerState extends State<PosManager> {
     _selected_city = null;
     _postalCodeController.clear();
     _phoneController.clear();
+    posUserCartData = null;
 
     // shippingAddress = [];
     // getShippingAddress(id: selectedCustomer!.key);
@@ -429,8 +435,16 @@ class _PosManagerState extends State<PosManager> {
                 child: Column(
                   children: [
                     buildSearchBox(setState),
-                    itemSpacer(height: 10.0),
-                    buildSelectCategoryBrand(setState),
+                    itemSpacer(height: 40.0),
+                    Row(
+                      children: [
+                        buildSelectCategoryBrand(setState),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        buildSelectSeller(setState),
+                      ],
+                    ),
                     itemSpacer(height: 10.0),
                     SizedBox(
                       height: 533,
@@ -485,8 +499,7 @@ class _PosManagerState extends State<PosManager> {
 
   getCategories() async {
     var categoryResponse = await ProductRepository().getCategoryRes();
-    categories.add(CategoryModel(
-        levelText: LangText(context: context).getLocal().select_ucf, id: ""));
+    categories.add(CategoryModel(levelText: 'All Categories', id: ""));
     categoryResponse.data!.forEach((element) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
@@ -501,6 +514,25 @@ class _PosManagerState extends State<PosManager> {
     if (categories.isNotEmpty) {
       selectedCategory = categories.first;
     }
+    setState(() {});
+  }
+
+  getSellers() {
+    var sellerResponse = child_users.$; // Assuming this gets a list of sellers.
+
+    // Add the default "Select" option
+    sellers.add(Seller(0, "My Products"));
+
+    // Add the sellers from the response
+    for (var element in sellerResponse) {
+      sellers.add(Seller(element['id'], element['name']));
+    }
+
+    // Set the default selected seller to be the first item (default "Select" option)
+    selectedSeller = sellers.first;
+    print("selectedSeller: ${selectedSeller?.name}");
+
+    // Notify the framework to rebuild the UI
     setState(() {});
   }
 
@@ -547,12 +579,15 @@ class _PosManagerState extends State<PosManager> {
   }
 
   getPosProduct(setState) async {
+    print('child_users ${child_users.$}');
     // todo: for now category no need because of "category-1"
     // https://sobdak.xyz/api/v2/seller/pos/products?keyword=&category=-10&brand=
     var posProductResponse = await PosRepository().getPosProducts(
         category: selectedCategory?.id,
         brand: "",
+        seller_id: selectedSellerID == 0 ? seller_id.$ : selectedSellerID,
         keyword: _searchController.text);
+
     if (posProductResponse.products!.data!.isEmpty) {
       ToastComponent.showDialog(
           LangText(context: context).getLocal().no_more_products_ucf,
@@ -623,6 +658,7 @@ class _PosManagerState extends State<PosManager> {
     getCartData();
     getCustomers();
     getCategories();
+    getSellers();
     getBrands();
   }
 
@@ -912,9 +948,7 @@ class _PosManagerState extends State<PosManager> {
   }
 
   Widget buildSelectCategoryBrand(setState) {
-    return SizedBox(
-      height: 70,
-      width: double.infinity,
+    return Expanded(
       child: Column(
         children: [
           Row(
@@ -955,6 +989,8 @@ class _PosManagerState extends State<PosManager> {
                           horizontal: 18, vertical: 10),
                       decoration: MDecoration.decoration1(),
                       child: DropdownButton<CategoryModel>(
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 12),
                         menuMaxHeight: 300,
                         isDense: true,
                         underline: Container(),
@@ -1012,6 +1048,86 @@ class _PosManagerState extends State<PosManager> {
                 //     ),
                 //   ),
                 // ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSelectSeller(setState) {
+    return Expanded(
+      child: Column(
+        children: [
+          const Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Text(
+                  'Select Seller',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: MyTheme.font_grey),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 46,
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: DropdownButton<Seller>(
+                      underline: Container(),
+                      style: const TextStyle(color: Colors.black, fontSize: 12),
+                      isExpanded: true,
+                      value: selectedSeller,
+                      onChanged: (Seller? value) {
+                        selectedSeller = value;
+                        selectedSellerID = value!.id;
+                        filterProduct(setState);
+                      },
+                      items: sellers
+                          .map<DropdownMenuItem<Seller>>((Seller seller) {
+                        return DropdownMenuItem<Seller>(
+                          value: seller,
+                          child: Text(seller.name),
+                        );
+                      }).toList(),
+                      // DropdownButton<Seller>(
+                      //   menuMaxHeight: 300,
+                      //   isDense: true,
+                      //   underline: Container(),
+                      //   isExpanded: true,
+                      //   onChanged: (Seller? value) {
+                      //     selectedSeller = value;
+                      //     selectedSellerID = value!.id;
+                      //     filterProduct(setState);
+                      //     setState(() {});
+                      //   },
+                      //   icon: const Icon(Icons.arrow_drop_down),
+                      //   value: selectedSeller,
+                      //   items: sellersData
+                      //       ?.map((data) => DropdownMenuItem<Seller>(
+                      //             value: Seller(data['id'], data['name']),
+                      //             child: Text(data['name']),
+                      //           ))
+                      //       .toList(),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

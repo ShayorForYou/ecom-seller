@@ -11,6 +11,11 @@ final SharedValue<String?> access_token = SharedValue(
   key: "access_token", // disk storage key for shared_preferences
 );
 
+final SharedValue<List<Map<String, dynamic>>> child_users = SharedValue(
+  value: [], // initial value
+  key: "child_users", // disk storage key for shared_preferences
+);
+
 final SharedValue<int?> seller_id = SharedValue(
   value: 0, // initial value
   key: "seller_id", // disk storage key for shared_preferences

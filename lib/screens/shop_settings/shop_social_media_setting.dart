@@ -34,7 +34,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
     var response = await ShopRepository().getShopInfo();
     Navigator.pop(loadingContext);
     facebookEditController.text = response.shopInfo!.facebook!;
-    instagramEditController.text = response.shopInfo!.instagram;
+    instagramEditController.text = response.shopInfo!.instagram!;
     twitterEditController.text = response.shopInfo!.twitter!;
     googleEditController.text = response.shopInfo!.google!;
     youtubeEditController.text = response.shopInfo!.youtube!;

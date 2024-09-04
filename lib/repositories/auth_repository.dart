@@ -62,7 +62,7 @@ class AuthRepository {
     String url = ("${AppConfig.BASE_URL}/auth/login");
 
     //print("login url " + url.toString());
-    // print("login body " + post_body.toString());
+    print("login body " + post_body.toString());
 
     final response = await ApiRequest.post(
         url: url,

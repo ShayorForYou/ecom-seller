@@ -28,3 +28,20 @@ class CategoryModel {
     levelText = "$tmpTxt $levelText";
   }
 }
+
+class Seller {
+  final int id;
+  final String name;
+
+  Seller(this.id, this.name);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Seller &&
+              runtimeType == other.runtimeType &&
+              id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
+}

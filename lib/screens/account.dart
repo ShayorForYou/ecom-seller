@@ -15,11 +15,14 @@ import 'package:ecom_seller_app/screens/commission_history.dart';
 import 'package:ecom_seller_app/screens/login.dart';
 import 'package:ecom_seller_app/screens/main.dart';
 import 'package:ecom_seller_app/screens/orders.dart';
+import 'package:ecom_seller_app/screens/payment_setting.dart';
 import 'package:ecom_seller_app/screens/pos/pos_config.dart';
 import 'package:ecom_seller_app/screens/pos/pos_manager.dart';
 import 'package:ecom_seller_app/screens/product/products.dart';
 import 'package:ecom_seller_app/screens/profile.dart';
+import 'package:ecom_seller_app/screens/shop_settings/shop_settings.dart';
 import 'package:ecom_seller_app/screens/uploads/upload_file.dart';
+import 'package:ecom_seller_app/screens/vendors_details.dart';
 import 'package:ecom_seller_app/screens/whole_sale_product/products.dart';
 import 'package:flutter/material.dart';
 import 'package:one_context/one_context.dart';
@@ -34,10 +37,10 @@ class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
 
   @override
-  _AccountState createState() => _AccountState();
+  AccountState createState() => AccountState();
 }
 
-class _AccountState extends State<Account> with TickerProviderStateMixin {
+class AccountState extends State<Account> with TickerProviderStateMixin {
   late AnimationController controller;
   Animation? animation;
 
@@ -45,6 +48,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
   bool _faceData = false;
   bool _auctionExpand = false;
   bool _posExpand = false;
+  bool _paymentExpand = false;
 
   String? _url = "",
       _name = "...",
@@ -84,6 +88,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
 
   final ExpansionTileController expansionTileController =
       ExpansionTileController();
+
   logoutReq() async {
     var response = await AuthRepository().getLogoutResponse();
 
@@ -110,7 +115,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
         response.message!,
         gravity: Toast.center,
         duration: 3,
-        textStyle: TextStyle(color: MyTheme.black),
+        textStyle: const TextStyle(color: MyTheme.black),
       );
     }
   }
@@ -163,7 +168,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
 
               //header
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   children: [
                     MyWidget.roundImageWithPlaceholder(
@@ -172,7 +177,6 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                         borderRadius: 24.0,
                         url: _url,
                         backgroundColor: MyTheme.noColor),
-                    
                     const SizedBox(
                       width: 10,
                     ),
@@ -180,14 +184,14 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "" + _name.toString(),
+                          "$_name",
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: MyTheme.white),
                         ),
                         Text(
-                          "" + _email.toString(),
+                          "$_email",
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -208,7 +212,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                               width: 5,
                             ),
                             Text(
-                              "" + _rating!,
+                              _rating!,
                               style: const TextStyle(
                                   fontSize: 12,
                                   color: MyTheme.app_accent_border),
@@ -292,7 +296,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                 height: 1,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 height: 80,
                 alignment: Alignment.center,
                 child: SizedBox(
@@ -316,7 +320,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                               width: 26,
                             ),
                             Text(
-                              LangText(context: context).getLocal()!.logout_ucf,
+                              LangText(context: context).getLocal().logout_ucf,
                               style:
                                   TextStyle(fontSize: 14, color: MyTheme.white),
                             ),
@@ -390,7 +394,45 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                         width: 26,
                       ),
                       Text(
-                        LangText(context: context).getLocal()!.profile_ucf,
+                        LangText(context: context).getLocal().profile_ucf,
+                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                      ),
+                    ],
+                  ),
+                  const Icon(
+                    Icons.navigate_next_rounded,
+                    size: 20,
+                    color: MyTheme.app_accent_border,
+                  )
+                ],
+              ),
+            ),
+          ),
+
+          //Todo: manage vendors
+          SizedBox(
+            height: 40,
+            child: Buttons(
+              onPressed: () {
+                // MyTransaction(context: context).push(const ManageVendors());
+                MyTransaction(context: context).push(const VendorDetails());
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/icon/account.png',
+                        width: 16,
+                        height: 16,
+                        color: MyTheme.app_accent_border,
+                      ),
+                      const SizedBox(
+                        width: 26,
+                      ),
+                      Text(
+                        'Manage Vendors',
                         style: TextStyle(fontSize: 14, color: MyTheme.white),
                       ),
                     ],
@@ -426,7 +468,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                       ),
                       Text(
                         LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .change_language_ucf,
                         style: TextStyle(fontSize: 14, color: MyTheme.white),
                       ),
@@ -441,7 +483,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 40,
             child: Buttons(
               onPressed: () {
@@ -475,7 +517,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                         width: 26,
                       ),
                       Text(
-                        LangText(context: context).getLocal()!.dashboard_ucf,
+                        LangText(context: context).getLocal().dashboard_ucf,
                         style: TextStyle(fontSize: 14, color: MyTheme.white),
                       ),
                     ],
@@ -510,7 +552,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                         width: 26,
                       ),
                       Text(
-                        LangText(context: context).getLocal()!.orders_ucf,
+                        LangText(context: context).getLocal().orders_ucf,
                         style: TextStyle(fontSize: 14, color: MyTheme.white),
                       ),
                     ],
@@ -543,7 +585,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                         width: 26,
                       ),
                       Text(
-                        LangText(context: context).getLocal()!.products_ucf,
+                        LangText(context: context).getLocal().products_ucf,
                         style: TextStyle(fontSize: 14, color: MyTheme.white),
                       ),
                     ],
@@ -579,7 +621,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                       ),
                       Text(
                         LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .digital_product_ucf,
                         style: TextStyle(fontSize: 14, color: MyTheme.white),
                       ),
@@ -595,9 +637,119 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
             ),
           ),
           if (pos_manager_activation.$) buildPosSystem(),
+          //payment expandable options
+          Container(
+            height: _paymentExpand ? 100 : 44,
+            alignment: Alignment.topCenter,
+            padding: const EdgeInsets.only(top: 10.0),
+            child: InkWell(
+              onTap: () {
+                _paymentExpand = !_paymentExpand;
+                setState(() {});
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset('assets/icon/payment_setting.png',
+                              width: 16,
+                              height: 16,
+                              color: MyTheme.app_accent_border),
+                          //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_border),
+                          const SizedBox(
+                            width: 26,
+                          ),
+                          Text(
+                            "Shop configuration",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: MyTheme.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        _paymentExpand
+                            ? Icons.keyboard_arrow_down
+                            : Icons.navigate_next_rounded,
+                        size: 20,
+                        color: MyTheme.app_accent_border,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Visibility(
+                    visible: _paymentExpand,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 40),
+                      width: DeviceInfo(context).getWidth(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () => MyTransaction(context: context)
+                                .push(const PaymentSetting()),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '-',
+                                  style: TextStyle(
+                                    color: MyTheme.white,
+                                  ),
+                                ),
+                                Text(
+                                  '  Payment settings',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: MyTheme.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
+                            onTap: () => MyTransaction(context: context)
+                                .push(const ShopSettings()),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '-',
+                                  style: TextStyle(
+                                    color: MyTheme.white,
+                                  ),
+                                ),
+                                Text(
+                                  '  Shop settings',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: MyTheme.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+
           if (wholesale_addon_installed.$)
             optionModel(
-              LangText(context: context).getLocal()!.wholesale_products_ucf,
+              LangText(context: context).getLocal().wholesale_products_ucf,
               'assets/icon/wholesale.png',
               const WholeSaleProducts(),
             ),
@@ -628,9 +780,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                               width: 26,
                             ),
                             Text(
-                              LangText(context: context)
-                                  .getLocal()!
-                                  .auction_ucf,
+                              LangText(context: context).getLocal().auction_ucf,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: MyTheme.white,
@@ -674,7 +824,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   Text(
-                                    '  ${LangText(context: context).getLocal()!.auction_product_ucf}',
+                                    '  ${LangText(context: context).getLocal().auction_product_ucf}',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: MyTheme.white,
@@ -701,7 +851,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   Text(
-                                    '  ${LangText(context: context).getLocal()!.auction_order_ucf}',
+                                    '  ${LangText(context: context).getLocal().auction_order_ucf}',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: MyTheme.white,
@@ -738,7 +888,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                       ),
                       Text(
                         LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .commission_history_ucf,
                         style: TextStyle(fontSize: 14, color: MyTheme.white),
                       ),
@@ -774,7 +924,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                         width: 26,
                       ),
                       Text(
-                        LangText(context: context).getLocal()!.upload_file_ucf,
+                        LangText(context: context).getLocal().upload_file_ucf,
                         style: TextStyle(fontSize: 14, color: MyTheme.white),
                       ),
                     ],
@@ -811,7 +961,7 @@ class _AccountState extends State<Account> with TickerProviderStateMixin {
                         ),
                         Text(
                           LangText(context: context)
-                              .getLocal()!
+                              .getLocal()
                               .product_queries_ucf,
                           style: TextStyle(fontSize: 14, color: MyTheme.white),
                         ),

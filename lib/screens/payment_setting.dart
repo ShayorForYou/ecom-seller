@@ -64,7 +64,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
     accountName = response.shopInfo!.bankAccName;
     accountNumber = response.shopInfo!.bankAccNo;
     bankRoutingNumber = response.shopInfo!.bankRoutingNo.toString();
-    bankPayment = response.shopInfo!.bank_payment_status.toString();
+    bankPayment = response.shopInfo!.bankPaymentStatus.toString();
     cashPayment = response.shopInfo!.cashOnDeliveryStatus.toString();
 
     print(bankPayment);
