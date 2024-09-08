@@ -31,12 +31,28 @@ static TextStyle bigFontSize(){
  TextStyle dashboardBoxNumber(context){
     return TextStyle(
       fontSize: (DeviceInfo(context).getWidth()/100)*5,
-      color: MyTheme.white,
+      color: MyTheme.app_accent_color,
       fontWeight: FontWeight.bold
     );
   }
 
  TextStyle dashboardBoxText(context){
+    return TextStyle(
+
+        fontSize: (DeviceInfo(context).getWidth()/100)*3.5,
+      color: MyTheme.app_accent_color,
+      fontWeight: FontWeight.normal
+    );
+  }
+  TextStyle productBoxNumber(context){
+    return TextStyle(
+      fontSize: (DeviceInfo(context).getWidth()/100)*5,
+      color: MyTheme.white,
+      fontWeight: FontWeight.bold
+    );
+  }
+
+ TextStyle productBoxText(context){
     return TextStyle(
 
         fontSize: (DeviceInfo(context).getWidth()/100)*3.5,

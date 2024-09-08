@@ -8,6 +8,7 @@ class InputDecorations {
       Color borderColor = MyTheme.app_accent_border,
       Color fillColor = const Color.fromRGBO(255, 255, 255, 0)}) {
     return InputDecoration(
+      filled: true,
         fillColor: fillColor,
         hintText: hint_text,
         hintStyle: TextStyle(fontSize: 12.0, color: hintTextColor),

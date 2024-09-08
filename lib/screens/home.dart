@@ -151,55 +151,59 @@ class _HomeState extends State<Home> {
             child: dashboard(),
           ),
         ],
+
       ),
     );
   }
 
   Widget dashboard() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        top4Boxes(),
-        // packageContainer(),
-        // SizedBox(
-        //   height: AppStyles.listItemsMargin,
-        // ),
-        SizedBox(
-          height: AppStyles.listItemsMargin,
-        ),
-        chartContainer(),
-        SizedBox(
-          height: AppStyles.listItemsMargin,
-        ),
-        featureContainer(),
-
-        SizedBox(
-          height: AppStyles.listItemsMargin,
-        ),
-
-        if (!verify_form_submitted.$ && !shop_verify.$)
-          Column(
-            children: [
-              verifyContainer(),
-              SizedBox(
-                height: AppStyles.listItemsMargin,
-              ),
-            ],
+    return SizedBox(
+      height: DeviceInfo(context).getHeight() ,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          top4Boxes(),
+          // packageContainer(),
+          // SizedBox(
+          //   height: AppStyles.listItemsMargin,
+          // ),
+          SizedBox(
+            height: AppStyles.listItemsMargin,
           ),
-        settingContainer(),
-        SizedBox(
-          height: AppStyles.listItemsMargin,
-        ),
+          chartContainer(),
+          SizedBox(
+            height: AppStyles.listItemsMargin,
+          ),
+          featureContainer(),
 
-        // categoryWiseProduct(),
-        // Container(
-        //   height: AppStyles.listItemsMargin,
-        // ),
-        // topProductsContainer(),
-        // SizedBox(
-        //   height: AppStyles.listItemsMargin,
-        // ),
-      ],
+          SizedBox(
+            height: AppStyles.listItemsMargin,
+          ),
+
+          if (!verify_form_submitted.$ && !shop_verify.$)
+            Column(
+              children: [
+                verifyContainer(),
+                SizedBox(
+                  height: AppStyles.listItemsMargin,
+                ),
+              ],
+            ),
+          settingContainer(),
+          SizedBox(
+            height: AppStyles.listItemsMargin,
+          ),
+
+          // categoryWiseProduct(),
+          // Container(
+          //   height: AppStyles.listItemsMargin,
+          // ),
+          // topProductsContainer(),
+          // SizedBox(
+          //   height: AppStyles.listItemsMargin,
+          // ),
+        ],
+      ),
     );
   }
 
@@ -506,9 +510,9 @@ class _HomeState extends State<Home> {
       margin: const EdgeInsets.symmetric(horizontal: 15),
       // padding: EdgeInsets.symmetric(vertical: 10),
       child: MyWidget.customCardView(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.only(bottom: 10),
         elevation: 5,
-        height: 190,
+        height: 300,
         shadowColor: MyTheme.app_accent_color_extra_light,
         backgroundColor: MyTheme.white,
         width: DeviceInfo(context).getWidth(),
@@ -525,18 +529,45 @@ class _HomeState extends State<Home> {
             // ),
             Positioned(
               left: 0,
-              child: Text(
-                LangText(context: context).getLocal().sales_stat_ucf,
-                style: const TextStyle(
-                    fontSize: 14,
-                    color: MyTheme.app_accent_color,
-                    fontWeight: FontWeight.bold),
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                  color: MyTheme.app_accent_color.withOpacity(0.7),
+                ),
+                height: 40,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Sales stats',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: MyTheme.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+
+                    ],
+                  ),
+                ),
               ),
+
+              // Text(
+              //   LangText(context: context).getLocal().sales_stat_ucf,
+              //   style: const TextStyle(
+              //       fontSize: 14,
+              //       color: MyTheme.app_accent_color,
+              //       fontWeight: FontWeight.bold),
+              // ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 18.0),
+              padding: const EdgeInsets.only(top: 50.0),
               child: SizedBox(
-                  height: 190,
+                  height: 230,
                   width: DeviceInfo(context).getWidth(),
                   child: const MChart()),
             ),

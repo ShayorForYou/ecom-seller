@@ -18,7 +18,7 @@ class PosAddProductWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(
         horizontal: 20,
       ),
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
         color: MyTheme.app_accent_color_extra_light,
@@ -36,7 +36,11 @@ class PosAddProductWidget extends StatelessWidget {
       ),
       child: IconButton(
         onPressed: onTap,
-        icon: Image.asset('assets/icon/big_plus.png'),
+        // icon: Image.asset('assets/icon/big_plus.png'),
+        icon: const Icon(Icons.add_circle_rounded,
+        size: 80,
+          color: MyTheme.app_accent_color,
+        ),
       ),
     );
   }

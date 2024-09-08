@@ -45,7 +45,7 @@ class _NewProductState extends State<NewProduct> {
 
   String _statAndEndTime = "Select Date";
 
-  double mHeight = 0.0, mWidht = 0.0;
+  double mHeight = 0.0, mWidth = 0.0;
   int _selectedTabIndex = 0;
   bool isColorActive = false;
   bool isRefundable = false;
@@ -687,7 +687,7 @@ class _NewProductState extends State<NewProduct> {
   @override
   Widget build(BuildContext context) {
     mHeight = MediaQuery.of(context).size.height;
-    mWidht = MediaQuery.of(context).size.width;
+    mWidth = MediaQuery.of(context).size.width;
     Loading.setInstance(context);
     return Directionality(
       textDirection:
@@ -711,7 +711,7 @@ class _NewProductState extends State<NewProduct> {
         children: [
           Container(
               color: MyTheme.app_accent_color.withOpacity(0.7),
-              width: mWidht / 2,
+              width: mWidth / 2,
               child: Buttons(
                   onPressed: () async {
                     submitProduct("unpublish");
@@ -722,7 +722,7 @@ class _NewProductState extends State<NewProduct> {
                   ))),
           Container(
               color: MyTheme.app_accent_color,
-              width: mWidht / 2,
+              width: mWidth / 2,
               child: Buttons(
                   onPressed: () async {
                     submitProduct("publish");
@@ -877,14 +877,14 @@ class _NewProductState extends State<NewProduct> {
       child: Row(
         children: [
           SizedBox(
-            width: (mWidht / 2) - 25,
+            width: (mWidth / 2) - 25,
             child: buildEditTextField(title, "0", controller),
           ),
           Spacer(),
           _buildDropDownField("", (newValue) {
             onChangeDropDown(newValue);
             setChange();
-          }, selectedDropdown, iteams, width: (mWidht / 2) - 25),
+          }, selectedDropdown, iteams, width: (mWidth / 2) - 25),
         ],
       ),
     );
@@ -951,7 +951,7 @@ class _NewProductState extends State<NewProduct> {
               LangText(context: context).getLocal()!.discount_date_range_ucf,
               Container(
                 height: 45,
-                width: mWidht,
+                width: mWidth,
                 decoration: MDecoration.decoration1(),
                 child: Buttons(
                   onPressed: () async {
@@ -976,7 +976,7 @@ class _NewProductState extends State<NewProduct> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: (mWidht / 2) - 20,
+                width: (mWidth / 2) - 20,
                 child: buildEditTextField(
                     LangText(context: context).getLocal()!.discount_ucf,
                     "0",
@@ -985,7 +985,7 @@ class _NewProductState extends State<NewProduct> {
               ),
               Spacer(),
               SizedBox(
-                width: (mWidht / 2) - 20,
+                width: (mWidth / 2) - 20,
                 child: _buildDropDownField('', (onchange) {
                   selectedProductDiscountType = onchange;
                   setChange();
@@ -1114,7 +1114,7 @@ class _NewProductState extends State<NewProduct> {
           buildCommonSingleField(
               LangText(context: context).getLocal()!.attributes_ucf,
               Container(
-                width: mWidht,
+                width: mWidth,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                 decoration: MDecoration.decoration1(),
@@ -1212,7 +1212,7 @@ class _NewProductState extends State<NewProduct> {
             Container(
                 padding: EdgeInsets.all(8),
                 height: 150,
-                width: mWidht,
+                width: mWidth,
                 decoration: MDecoration.decoration1(),
                 child: TextField(
                     controller: metaDescriptionEditTextController,
@@ -1294,7 +1294,7 @@ class _NewProductState extends State<NewProduct> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
                                       color: MyTheme.white),
-                                  width: (mWidht * 0.5),
+                                  width: (mWidth * 0.5),
                                   height: 46,
                                   child: TextField(
                                     keyboardType: TextInputType.number,
@@ -1349,7 +1349,7 @@ class _NewProductState extends State<NewProduct> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: mWidht / 2,
+                            width: mWidth / 2,
                             padding: const EdgeInsets.only(left: 14.0),
                             child: TextField(
                               keyboardType: TextInputType.number,
@@ -1532,9 +1532,9 @@ class _NewProductState extends State<NewProduct> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-                width: mWidht * 0.15, child: buildFieldTitle(attributeName)),
+                width: mWidth * 0.15, child: buildFieldTitle(attributeName)),
             Container(
-              width: mWidht * 0.6,
+              width: mWidth * 0.6,
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               decoration: MDecoration.decoration1(),
               child: DropdownButton<CommonDropDownItem>(
@@ -1559,7 +1559,7 @@ class _NewProductState extends State<NewProduct> {
               ),
             ),
             Container(
-              width: mWidht * 0.10,
+              width: mWidth * 0.10,
               child: IconButton(
                   onPressed: () {
                     remove(index);
@@ -2060,7 +2060,7 @@ class _NewProductState extends State<NewProduct> {
         ),
         Container(
           height: 250,
-          width: mWidht,
+          width: mWidth,
           child: FlutterSummernote(
               showBottomToolbar: false,
               value: description,
@@ -2110,7 +2110,7 @@ class _NewProductState extends State<NewProduct> {
         title,
         Container(
             height: 250,
-            width: width ?? mWidht,
+            width: width ?? mWidth,
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
             decoration: MDecoration.decoration1(),
             child: SingleChildScrollView(
@@ -2136,7 +2136,7 @@ class _NewProductState extends State<NewProduct> {
       {double? width}) {
     return Container(
       height: 46,
-      width: width ?? mWidht,
+      width: width ?? mWidth,
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
       decoration: MDecoration.decoration1(),
       child: DropdownButton<CommonDropDownItem>(
@@ -2168,7 +2168,7 @@ class _NewProductState extends State<NewProduct> {
       {double? width}) {
     return Container(
       height: 46,
-      width: width ?? mWidht,
+      width: width ?? mWidth,
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
       decoration: MDecoration.decoration1(),
       child: DropdownButton<CommonDropDownItem>(
@@ -2215,7 +2215,7 @@ class _NewProductState extends State<NewProduct> {
         title,
         Container(
           height: 46,
-          width: width ?? mWidht,
+          width: width ?? mWidth,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: MyTheme.app_accent_color_extra_light),
@@ -2504,7 +2504,7 @@ class _NewProductState extends State<NewProduct> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                        width: (mWidht / 3),
+                        width: (mWidth / 3),
                         child: Text(
                           productVariations[index].name!,
                           style: MyTextStyle.smallFontSize()
@@ -2514,7 +2514,7 @@ class _NewProductState extends State<NewProduct> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: MyTheme.app_accent_color_extra_light),
-                      width: (mWidht / 3),
+                      width: (mWidth / 3),
                       child: TextField(
                         keyboardType: TextInputType.number,
                         controller:
@@ -2547,7 +2547,7 @@ class _NewProductState extends State<NewProduct> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: MyTheme.white),
-                            width: (mWidht * 0.6),
+                            width: (mWidth * 0.6),
                             child: TextField(
                               controller: productVariations[index]
                                   .skuEditTextController,
@@ -2579,7 +2579,7 @@ class _NewProductState extends State<NewProduct> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: MyTheme.white),
-                            width: (mWidht * 0.6),
+                            width: (mWidth * 0.6),
                             child: TextField(
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -2612,7 +2612,7 @@ class _NewProductState extends State<NewProduct> {
                             ),
                           ),
                           SizedBox(
-                            width: (mWidht * 0.6),
+                            width: (mWidth * 0.6),
                             child: imageField("", (onChosenImage) {
                               productVariations[index].photo = onChosenImage;
                               setChange();
@@ -2765,7 +2765,7 @@ class _NewProductState extends State<NewProduct> {
       ),
       backgroundColor: Colors.white,
       bottom: PreferredSize(
-        preferredSize: Size(mWidht, 50),
+        preferredSize: Size(mWidth, 50),
         child: buildTapBar(),
       ),
     );

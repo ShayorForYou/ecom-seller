@@ -169,6 +169,7 @@ class MyWidget {
       child: Container(
         width: width,
         height: height,
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: radius,
           border: border??  Border.all(width: 0,color: MyTheme.noColor),
@@ -325,7 +326,7 @@ class MyWidget {
   static Image boxImage(url) {
     return Image.asset(
       url,
-      color: MyTheme.white.withOpacity(0.5),
+      color: MyTheme.app_accent_color.withOpacity(0.5),
       height: 24,
       width: 24,
     );
@@ -337,7 +338,7 @@ class MyWidget {
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.only(top: 14,left: 14),
         borderRadius:10,
-        backgroundColor: MyTheme.app_accent_color,
+        backgroundColor: MyTheme.white,
         height: 75,
         width: DeviceInfo(context).getWidth() / 2 - 20,
         child: Row(
@@ -351,6 +352,7 @@ class MyWidget {
                   title,
                   style: MyTextStyle().dashboardBoxText(context),
                 ),
+                counter != null ? SizedBox(height: 10,) : SizedBox.shrink(),
                counter != null ? Text(
                   counter,
                   style: MyTextStyle().dashboardBoxNumber(context),

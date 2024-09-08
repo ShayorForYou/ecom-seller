@@ -56,7 +56,7 @@ class _ProductsState extends State<Products> {
       ScrollController(initialScrollOffset: 0);
 
   // double variables
-  double mHeight = 0.0, mWidht = 0.0;
+  double mHeight = 0.0, mWidth = 0.0;
   int _page = 1;
 
   getProductList() async {
@@ -253,7 +253,7 @@ class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     mHeight = MediaQuery.of(context).size.height;
-    mWidht = MediaQuery.of(context).size.width;
+    mWidth = MediaQuery.of(context).size.width;
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Directionality(
@@ -382,7 +382,7 @@ class _ProductsState extends State<Products> {
                 color: MyTheme.app_accent_color,
               ),
               height: 75,
-              width: mWidht / 2 - 23,
+              width: mWidth / 2 - 23,
               child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -390,11 +390,11 @@ class _ProductsState extends State<Products> {
                   children: [
                     Text(
                       LangText(context: context).getLocal().remaining_uploads,
-                      style: MyTextStyle().dashboardBoxText(context),
+                      style: MyTextStyle().productBoxText(context),
                     ),
                     Text(
                       _remainingProduct,
-                      style: MyTextStyle().dashboardBoxNumber(context),
+                      style: MyTextStyle().productBoxNumber(context),
                     ),
                   ],
                 ),
@@ -412,7 +412,7 @@ class _ProductsState extends State<Products> {
             borderColor: MyTheme.app_accent_color,
             backgroundColor: MyTheme.app_accent_color_extra_light,
             height: 75,
-            width: mWidht / 2 - 23,
+            width: mWidth / 2 - 23,
             radius: 10,
             child: Container(
               padding: const EdgeInsets.all(10),
@@ -497,7 +497,7 @@ class _ProductsState extends State<Products> {
         elevation: 5,
         backgroundColor: MyTheme.white,
         height: 90,
-        width: mWidht,
+        width: mWidth,
         margin: const EdgeInsets.only(
           bottom: 20,
         ),
@@ -531,7 +531,7 @@ class _ProductsState extends State<Products> {
                 width: 11,
               ),
               Container(
-                width: mWidht - 129,
+                width: mWidth - 129,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -542,7 +542,7 @@ class _ProductsState extends State<Products> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: mWidht - 170,
+                            width: mWidth - 170,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

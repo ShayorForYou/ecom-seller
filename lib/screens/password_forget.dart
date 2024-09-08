@@ -104,8 +104,21 @@ class _PasswordForgetState extends State<PasswordForget> {
       textDirection:
           app_language_rtl.$! ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: MyTheme.app_accent_color,
-        body: Container(
+        appBar: AppBar(
+          backgroundColor: MyTheme.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: MyTheme.font_grey,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        backgroundColor: MyTheme.white,
+        body: SizedBox(
           width: double.infinity,
           child: SingleChildScrollView(
               child: Column(
@@ -113,10 +126,10 @@ class _PasswordForgetState extends State<PasswordForget> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 40.0, bottom: 15),
-                child: Container(
-                  width: 75,
-                  height: 75,
-                  child: Image.asset('assets/logo/white_logo.png'),
+                child: SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: Image.asset('assets/logo/seller.png'),
                 ),
               ),
               Padding(
@@ -124,12 +137,12 @@ class _PasswordForgetState extends State<PasswordForget> {
                 child: Text(
                   getLocal(context).forget_password_ucf,
                   style: TextStyle(
-                      color: MyTheme.white,
+                      color: MyTheme.app_accent_color,
                       fontSize: 18,
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: _screen_width * (3 / 4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +154,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                             ? getLocal(context).email_ucf
                             : getLocal(context).phone_ucf,
                         style: const TextStyle(
-                            color: MyTheme.app_accent_border,
+                            color: MyTheme.app_accent_color,
                             fontWeight: FontWeight.w400,
                             fontSize: 12),
                       ),
@@ -158,12 +171,13 @@ class _PasswordForgetState extends State<PasswordForget> {
                                   borderRadius: BorderRadius.circular(10),
                                   color: Color.fromRGBO(255, 255, 255, 0.5)),
                               child: TextField(
-                                style: TextStyle(color: MyTheme.white),
+                                style: TextStyle(color: MyTheme.app_accent_color),
                                 controller: _emailController,
                                 autofocus: false,
                                 decoration:
                                     InputDecorations.buildInputDecoration_1(
                                         borderColor: MyTheme.noColor,
+                                        fillColor: MyTheme.app_accent_color_extra_light,
                                         hint_text: LangText(context: context)
                                             .getLocal()!
                                             .sellerexample,
@@ -202,7 +216,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                                 autoValidateMode: AutovalidateMode.disabled,
                                 selectorTextStyle:
                                     TextStyle(color: MyTheme.font_grey),
-                                textStyle: TextStyle(color: Colors.white54),
+                                textStyle: TextStyle(color: MyTheme.app_accent_color),
                                 initialValue: phoneCode,
                                 textFieldController: _phoneNumberController,
                                 formatInput: true,
@@ -236,7 +250,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                               child: Text(
                                 "or, Login with ${_send_code_by == "email" ? 'a phone' : 'an email'}",
                                 style: TextStyle(
-                                    color: MyTheme.white,
+                                    color: MyTheme.app_accent_color,
                                     fontStyle: FontStyle.italic,
                                     decoration: TextDecoration.underline),
                               ),
@@ -244,6 +258,9 @@ class _PasswordForgetState extends State<PasswordForget> {
                           ],
                         ),
                       ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Text(
                       _send_code_by == "email"
                           ? LangText(context: context)
@@ -272,14 +289,14 @@ class _PasswordForgetState extends State<PasswordForget> {
                         child: Buttons(
                           width: MediaQuery.of(context).size.width,
                           //height: 50,
-                          color: MyTheme.white,
+                          color: MyTheme.app_accent_color,
                           shape: RoundedRectangleBorder(
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(12.0))),
                           child: Text(
                             getLocal(context).send_code_ucf,
                             style: TextStyle(
-                                color: MyTheme.app_accent_color,
+                                color: MyTheme.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600),
                           ),

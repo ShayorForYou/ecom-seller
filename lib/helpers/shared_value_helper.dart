@@ -70,7 +70,7 @@ final SharedValue<bool> delivery_boy_addon = SharedValue(
   key: "delivery_boy_addon", // disk storage key for shared_preferences
 );
 final SharedValue<bool> otp_addon_installed = SharedValue(
-  value: false, // initial value
+  value: true, // initial value
   key: "otp_addon_installed", // disk storage key for shared_preferences
 );
 final SharedValue<bool> wholesale_addon_installed = SharedValue(

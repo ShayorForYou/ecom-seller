@@ -22,6 +22,7 @@ import 'package:ecom_seller_app/screens/product/products.dart';
 import 'package:ecom_seller_app/screens/profile.dart';
 import 'package:ecom_seller_app/screens/shop_settings/shop_settings.dart';
 import 'package:ecom_seller_app/screens/uploads/upload_file.dart';
+import 'package:ecom_seller_app/screens/vendors.dart';
 import 'package:ecom_seller_app/screens/vendors_details.dart';
 import 'package:ecom_seller_app/screens/whole_sale_product/products.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ import 'package:one_context/one_context.dart';
 import 'package:route_transitions/route_transitions.dart';
 import 'package:toast/toast.dart';
 
+import '../custom/CommonFunctoins.dart';
 import 'auction/auction_product.dart';
 import 'digital_product/digital_product.dart';
 import 'product_queries/product_queries.dart';
@@ -89,6 +91,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
   final ExpansionTileController expansionTileController =
       ExpansionTileController();
 
+  _onLogoutPressed() {
+      CommonFunctions(context).appLogoutDialog(
+        onLogout: () {
+          logoutReq();
+        },
+      );
+    }
+
   logoutReq() async {
     var response = await AuthRepository().getLogoutResponse();
 
@@ -110,6 +120,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
             }),
         (route) => false,
       );
+
     } else {
       ToastComponent.showDialog(
         response.message!,
@@ -148,7 +159,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: MyTheme.app_accent_color,
+      color: MyTheme.white,
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -188,7 +199,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: MyTheme.white),
+                              color: MyTheme.app_accent_color),
                         ),
                         Text(
                           "$_email",
@@ -196,7 +207,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color:
-                                  MyTheme.app_accent_border.withOpacity(0.8)),
+                                  MyTheme.app_accent_color),
                         ),
                         const SizedBox(
                           height: 10,
@@ -215,7 +226,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                               _rating!,
                               style: const TextStyle(
                                   fontSize: 12,
-                                  color: MyTheme.app_accent_border),
+                                  color: MyTheme.app_accent_color),
                             ),
                             const SizedBox(
                               width: 10,
@@ -237,7 +248,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                               _verified!,
                               style: const TextStyle(
                                   fontSize: 12,
-                                  color: MyTheme.app_accent_border),
+                                  color: MyTheme.app_accent_color),
                             ),
                             seller_package_addon.$ && _package!.isNotEmpty
                                 ? Row(
@@ -259,7 +270,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                                         _package!,
                                         style: const TextStyle(
                                             fontSize: 12,
-                                            color: MyTheme.app_accent_border),
+                                            color: MyTheme.app_accent_color),
                                       ),
                                     ],
                                   )
@@ -303,7 +314,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                   height: 40,
                   child: Buttons(
                     onPressed: () {
-                      logoutReq();
+                      _onLogoutPressed();
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -314,7 +325,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                               'assets/icon/logout.png',
                               width: 16,
                               height: 16,
-                              color: MyTheme.app_accent_border,
+                              color: MyTheme.app_accent_color,
                             ),
                             const SizedBox(
                               width: 26,
@@ -322,14 +333,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                             Text(
                               LangText(context: context).getLocal().logout_ucf,
                               style:
-                                  TextStyle(fontSize: 14, color: MyTheme.white),
+                                  TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                             ),
                           ],
                         ),
                         const Icon(
                           Icons.navigate_next_rounded,
                           size: 20,
-                          color: MyTheme.app_accent_border,
+                          color: MyTheme.app_accent_color,
                         )
                       ],
                     ),
@@ -361,7 +372,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
           child: const Icon(
             Icons.close,
             size: 24,
-            color: MyTheme.app_accent_border,
+            color: MyTheme.app_accent_color,
           ),
         ),
       ),
@@ -388,21 +399,21 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         'assets/icon/profile.png',
                         width: 16,
                         height: 16,
-                        color: MyTheme.app_accent_border,
+                        color: MyTheme.app_accent_color,
                       ),
                       const SizedBox(
                         width: 26,
                       ),
                       Text(
                         LangText(context: context).getLocal().profile_ucf,
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -414,8 +425,8 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
             height: 40,
             child: Buttons(
               onPressed: () {
-                // MyTransaction(context: context).push(const ManageVendors());
-                MyTransaction(context: context).push(const VendorDetails());
+                MyTransaction(context: context).push(const ManageVendors());
+                // MyTransaction(context: context).push(const VendorDetails());
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -426,21 +437,21 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         'assets/icon/account.png',
                         width: 16,
                         height: 16,
-                        color: MyTheme.app_accent_border,
+                        color: MyTheme.app_accent_color,
                       ),
                       const SizedBox(
                         width: 26,
                       ),
                       Text(
                         'Manage Vendors',
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -461,7 +472,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         'assets/icon/language.png',
                         width: 16,
                         height: 16,
-                        color: MyTheme.app_accent_border,
+                        color: MyTheme.app_accent_color,
                       ),
                       const SizedBox(
                         width: 26,
@@ -470,14 +481,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         LangText(context: context)
                             .getLocal()
                             .change_language_ucf,
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -511,21 +522,21 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         'assets/icon/dashboard.png',
                         width: 16,
                         height: 16,
-                        color: MyTheme.app_accent_border,
+                        color: MyTheme.app_accent_color,
                       ),
                       const SizedBox(
                         width: 26,
                       ),
                       Text(
                         LangText(context: context).getLocal().dashboard_ucf,
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -546,21 +557,21 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         'assets/icon/orders.png',
                         width: 16,
                         height: 16,
-                        color: MyTheme.app_accent_border,
+                        color: MyTheme.app_accent_color,
                       ),
                       const SizedBox(
                         width: 26,
                       ),
                       Text(
                         LangText(context: context).getLocal().orders_ucf,
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -580,20 +591,20 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                       Image.asset('assets/icon/products.png',
                           width: 16,
                           height: 16,
-                          color: MyTheme.app_accent_border),
+                          color: MyTheme.app_accent_color),
                       const SizedBox(
                         width: 26,
                       ),
                       Text(
                         LangText(context: context).getLocal().products_ucf,
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -614,7 +625,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         'assets/icon/download.png',
                         width: 16,
                         height: 16,
-                        color: MyTheme.app_accent_border,
+                        color: MyTheme.app_accent_color,
                       ),
                       const SizedBox(
                         width: 26,
@@ -623,14 +634,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         LangText(context: context)
                             .getLocal()
                             .digital_product_ucf,
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -658,8 +669,8 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                           Image.asset('assets/icon/payment_setting.png',
                               width: 16,
                               height: 16,
-                              color: MyTheme.app_accent_border),
-                          //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_border),
+                              color: MyTheme.app_accent_color),
+                          //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_color),
                           const SizedBox(
                             width: 26,
                           ),
@@ -667,7 +678,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                             "Shop configuration",
                             style: TextStyle(
                               fontSize: 14,
-                              color: MyTheme.white,
+                              color: MyTheme.app_accent_color,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -678,7 +689,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                             ? Icons.keyboard_arrow_down
                             : Icons.navigate_next_rounded,
                         size: 20,
-                        color: MyTheme.app_accent_border,
+                        color: MyTheme.app_accent_color,
                       )
                     ],
                   ),
@@ -701,14 +712,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                                 Text(
                                   '-',
                                   style: TextStyle(
-                                    color: MyTheme.white,
+                                    color: MyTheme.app_accent_color,
                                   ),
                                 ),
                                 Text(
                                   '  Payment settings',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: MyTheme.white,
+                                    color: MyTheme.app_accent_color,
                                   ),
                                 ),
                               ],
@@ -725,14 +736,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                                 Text(
                                   '-',
                                   style: TextStyle(
-                                    color: MyTheme.white,
+                                    color: MyTheme.app_accent_color,
                                   ),
                                 ),
                                 Text(
                                   '  Shop settings',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: MyTheme.white,
+                                    color: MyTheme.app_accent_color,
                                   ),
                                 ),
                               ],
@@ -774,8 +785,8 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                             Image.asset('assets/icon/auction.png',
                                 width: 16,
                                 height: 16,
-                                color: MyTheme.app_accent_border),
-                            //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_border),
+                                color: MyTheme.app_accent_color),
+                            //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_color),
                             const SizedBox(
                               width: 26,
                             ),
@@ -783,7 +794,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                               LangText(context: context).getLocal().auction_ucf,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: MyTheme.white,
+                                color: MyTheme.app_accent_color,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -794,7 +805,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                               ? Icons.keyboard_arrow_down
                               : Icons.navigate_next_rounded,
                           size: 20,
-                          color: MyTheme.app_accent_border,
+                          color: MyTheme.app_accent_color,
                         )
                       ],
                     ),
@@ -820,14 +831,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                                   Text(
                                     '-',
                                     style: TextStyle(
-                                      color: MyTheme.white,
+                                      color: MyTheme.app_accent_color,
                                     ),
                                   ),
                                   Text(
                                     '  ${LangText(context: context).getLocal().auction_product_ucf}',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: MyTheme.white,
+                                      color: MyTheme.app_accent_color,
                                     ),
                                   ),
                                 ],
@@ -847,14 +858,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                                   Text(
                                     '-',
                                     style: TextStyle(
-                                      color: MyTheme.white,
+                                      color: MyTheme.app_accent_color,
                                     ),
                                   ),
                                   Text(
                                     '  ${LangText(context: context).getLocal().auction_order_ucf}',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: MyTheme.white,
+                                      color: MyTheme.app_accent_color,
                                     ),
                                   ),
                                 ],
@@ -882,7 +893,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                       Image.asset('assets/icon/commission_history.png',
                           width: 16,
                           height: 16,
-                          color: MyTheme.app_accent_border),
+                          color: MyTheme.app_accent_color),
                       const SizedBox(
                         width: 26,
                       ),
@@ -890,14 +901,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         LangText(context: context)
                             .getLocal()
                             .commission_history_ucf,
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -917,22 +928,22 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                       const Icon(
                         Icons.upload_file,
                         size: 16,
-                        color: MyTheme.app_accent_border,
+                        color: MyTheme.app_accent_color,
                       ),
-                      //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_border),
+                      //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_color),
                       const SizedBox(
                         width: 26,
                       ),
                       Text(
                         LangText(context: context).getLocal().upload_file_ucf,
-                        style: TextStyle(fontSize: 14, color: MyTheme.white),
+                        style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                       ),
                     ],
                   ),
                   const Icon(
                     Icons.navigate_next_rounded,
                     size: 20,
-                    color: MyTheme.app_accent_border,
+                    color: MyTheme.app_accent_color,
                   )
                 ],
               ),
@@ -953,9 +964,9 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                         const Icon(
                           Icons.question_mark_rounded,
                           size: 16,
-                          color: MyTheme.app_accent_border,
+                          color: MyTheme.app_accent_color,
                         ),
-                        //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_border),
+                        //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_color),
                         const SizedBox(
                           width: 26,
                         ),
@@ -963,14 +974,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                           LangText(context: context)
                               .getLocal()
                               .product_queries_ucf,
-                          style: TextStyle(fontSize: 14, color: MyTheme.white),
+                          style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                         ),
                       ],
                     ),
                     const Icon(
                       Icons.navigate_next_rounded,
                       size: 20,
-                      color: MyTheme.app_accent_border,
+                      color: MyTheme.app_accent_color,
                     )
                   ],
                 ),
@@ -994,20 +1005,20 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
             Row(
               children: [
                 Image.asset(logo,
-                    width: 16, height: 16, color: MyTheme.app_accent_border),
+                    width: 16, height: 16, color: MyTheme.app_accent_color),
                 const SizedBox(
                   width: 26,
                 ),
                 Text(
                   title,
-                  style: TextStyle(fontSize: 14, color: MyTheme.white),
+                  style: TextStyle(fontSize: 14, color: MyTheme.app_accent_color),
                 ),
               ],
             ),
             const Icon(
               Icons.navigate_next_rounded,
               size: 20,
-              color: MyTheme.app_accent_border,
+              color: MyTheme.app_accent_color,
             )
           ],
         ),
@@ -1036,8 +1047,8 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                     Image.asset('assets/icon/pos_system.png',
                         width: 16,
                         height: 16,
-                        color: MyTheme.app_accent_border),
-                    //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_border),
+                        color: MyTheme.app_accent_color),
+                    //Image.asset('assets/icon/commission_history.png',width: 16,height: 16,color: MyTheme.app_accent_color),
                     const SizedBox(
                       width: 26,
                     ),
@@ -1045,7 +1056,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                       "POS System",
                       style: TextStyle(
                         fontSize: 14,
-                        color: MyTheme.white,
+                        color: MyTheme.app_accent_color,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -1056,7 +1067,7 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                       ? Icons.keyboard_arrow_down
                       : Icons.navigate_next_rounded,
                   size: 20,
-                  color: MyTheme.app_accent_border,
+                  color: MyTheme.app_accent_color,
                 )
               ],
             ),
@@ -1079,14 +1090,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                           Text(
                             '-',
                             style: TextStyle(
-                              color: MyTheme.white,
+                              color: MyTheme.app_accent_color,
                             ),
                           ),
                           Text(
                             '  Pos Manager',
                             style: TextStyle(
                               fontSize: 14,
-                              color: MyTheme.white,
+                              color: MyTheme.app_accent_color,
                             ),
                           ),
                         ],
@@ -1103,14 +1114,14 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
                           Text(
                             '-',
                             style: TextStyle(
-                              color: MyTheme.white,
+                              color: MyTheme.app_accent_color,
                             ),
                           ),
                           Text(
                             '  Pos Configuration',
                             style: TextStyle(
                               fontSize: 14,
-                              color: MyTheme.white,
+                              color: MyTheme.app_accent_color,
                             ),
                           ),
                         ],

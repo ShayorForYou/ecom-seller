@@ -124,7 +124,7 @@ class _MainState extends State<Main> {
             // landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
             onTap: onTapped,
             currentIndex: _currentIndex,
-            backgroundColor: Colors.white.withOpacity(0.8),
+            backgroundColor: Colors.white,
             fixedColor: MyTheme.app_accent_color,
             unselectedItemColor: const Color.fromRGBO(153, 153, 153, 1),
             items: [
@@ -271,7 +271,7 @@ class _MainState extends State<Main> {
             },),*/
           _currentIndex == 0
               ? Image.asset(
-                  'assets/logo/app_logo_small.png',
+                  'assets/logo/seller.png',
                   height: 34,
                   width: 26,
                   //color: MyTheme.dark_grey,

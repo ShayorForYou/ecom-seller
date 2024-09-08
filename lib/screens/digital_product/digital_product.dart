@@ -458,11 +458,11 @@ class _DigitalProductsState extends State<DigitalProducts> {
                 children: [
                   Text(
                     LangText(context: context).getLocal()!.remaining_uploads,
-                    style: MyTextStyle().dashboardBoxText(context),
+                    style: MyTextStyle().productBoxText(context),
                   ),
                   Text(
                     _remainingProduct,
-                    style: MyTextStyle().dashboardBoxNumber(context),
+                    style: MyTextStyle().productBoxNumber(context),
                   ),
                 ],
               )),

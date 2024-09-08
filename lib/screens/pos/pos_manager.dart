@@ -858,7 +858,7 @@ class _PosManagerState extends State<PosManager> {
                   if (posUserCartData!.cartData!.data!.isEmpty) const Spacer(),
                   if (posUserCartData!.cartData!.data!.isNotEmpty)
                     PosAddProductWidget(
-                      height: 70,
+                      height: 120,
                       onTap: selectProduct,
                     ),
                   itemSpacer(height: 10.0),
@@ -1085,10 +1085,7 @@ class _PosManagerState extends State<PosManager> {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 18, vertical: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(color: Colors.grey.shade300),
-                    ),
+                    decoration: MDecoration.decoration1(),
                     child: DropdownButton<Seller>(
                       underline: Container(),
                       style: const TextStyle(color: Colors.black, fontSize: 12),
@@ -1103,28 +1100,12 @@ class _PosManagerState extends State<PosManager> {
                           .map<DropdownMenuItem<Seller>>((Seller seller) {
                         return DropdownMenuItem<Seller>(
                           value: seller,
-                          child: Text(seller.name),
+                          child: Text(
+                            seller.name,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         );
                       }).toList(),
-                      // DropdownButton<Seller>(
-                      //   menuMaxHeight: 300,
-                      //   isDense: true,
-                      //   underline: Container(),
-                      //   isExpanded: true,
-                      //   onChanged: (Seller? value) {
-                      //     selectedSeller = value;
-                      //     selectedSellerID = value!.id;
-                      //     filterProduct(setState);
-                      //     setState(() {});
-                      //   },
-                      //   icon: const Icon(Icons.arrow_drop_down),
-                      //   value: selectedSeller,
-                      //   items: sellersData
-                      //       ?.map((data) => DropdownMenuItem<Seller>(
-                      //             value: Seller(data['id'], data['name']),
-                      //             child: Text(data['name']),
-                      //           ))
-                      //       .toList(),
                     ),
                   ),
                 ),

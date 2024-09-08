@@ -13,6 +13,7 @@ import 'package:ecom_seller_app/repositories/address_repository.dart';
 import 'package:ecom_seller_app/repositories/auth_repository.dart';
 import 'package:ecom_seller_app/screens/main.dart';
 import 'package:ecom_seller_app/screens/password_forget.dart';
+import 'package:ecom_seller_app/screens/registration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -65,8 +66,8 @@ class _LoginState extends State<Login> {
   @override
   void dispose() {
     //before going to other screen show statusbar
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+    //     overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
   }
 
@@ -96,6 +97,7 @@ class _LoginState extends State<Login> {
     loading();
     var loginResponse = await AuthRepository().getLoginResponse(
         _login_by == 'email' ? email : _phone, password, _login_by);
+    print('email ${_login_by == 'email' ? email : _phone}');
     Navigator.pop(loadingContext);
 
     if (loginResponse.result == true) {
@@ -130,7 +132,7 @@ class _LoginState extends State<Login> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: MyTheme.login_reg_screen_color,
+        backgroundColor: MyTheme.white,
         body: buildBody(context),
       ),
     );
@@ -145,63 +147,53 @@ class _LoginState extends State<Login> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
-            Text(
-              LangText(context: context).getLocal()!.hi_welcome_to_all_lower,
-              style: TextStyle(
-                  color: MyTheme.app_accent_border,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w300),
-            ),
-            SizedBox(
-              height: 20,
-            ),
+            // Text(
+            //   LangText(context: context).getLocal().hi_welcome_to_all_lower,
+            //   style: const TextStyle(
+            //       color: MyTheme.app_accent_border,
+            //       fontSize: 20,
+            //       fontWeight: FontWeight.w300),
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: MyTheme.app_accent_border),
-                        borderRadius: BorderRadius.circular(10)),
-                    width: 72,
-                    height: 72,
+                    padding: const EdgeInsets.all(8),
+                    // decoration: BoxDecoration(
+                    //     border: Border.all(color: MyTheme.app_accent_border),
+                    //     borderRadius: BorderRadius.circular(10)),
+                    width: 200,
+                    height: 200,
                     child: Image.asset(
-                      "assets/logo/white_logo.png",
+                      "assets/logo/seller.png",
                       height: 48,
                       width: 36,
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 10,
-                ),
-                Container(
-                  width: _screen_width / 2,
-                  child: Text(
-                    AppConfig.app_name,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500),
-                  ),
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(
+            const Padding(
+              padding: EdgeInsets.only(
                 top: 40,
                 bottom: 30.0,
               ),
-              child: Text(
-                LangText(context: context)
-                    .getLocal()!
-                    .login_to_your_account_all_lower,
-                style: TextStyle(
-                    color: MyTheme.app_accent_border,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w300),
-              ),
+              // child: Text(
+              //   LangText(context: context)
+              //       .getLocal().login_to_your_account_all_lower,
+              //   style: const TextStyle(
+              //       color: MyTheme.app_accent_color,
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.w300),
+              // ),
             ),
 
             // login form container
@@ -214,12 +206,12 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: Text(
                       _login_by == "email"
-                          ? LangText(context: context).getLocal()!.email_ucf
+                          ? LangText(context: context).getLocal().email_ucf
                           : LangText(context: context)
-                              .getLocal()!
+                              .getLocal()
                               .login_screen_phone,
                       style: const TextStyle(
-                          color: MyTheme.app_accent_border,
+                          color: MyTheme.app_accent_color,
                           fontWeight: FontWeight.w400,
                           fontSize: 12),
                     ),
@@ -234,16 +226,20 @@ class _LoginState extends State<Login> {
                             height: 36,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color.fromRGBO(255, 255, 255, 0.5)),
+                                color:
+                                    const Color.fromRGBO(255, 255, 255, 0.5)),
                             child: TextField(
-                              style: TextStyle(color: MyTheme.white),
+                              style: const TextStyle(
+                                  color: MyTheme.app_accent_color),
                               controller: _emailController,
                               autofocus: false,
                               decoration:
                                   InputDecorations.buildInputDecoration_1(
                                       borderColor: MyTheme.noColor,
+                                      fillColor:
+                                          MyTheme.app_accent_color_extra_light,
                                       hint_text: LangText(context: context)
-                                          .getLocal()!
+                                          .getLocal()
                                           .sellerexample,
                                       hintTextColor: MyTheme.dark_grey),
                             ),
@@ -260,32 +256,36 @@ class _LoginState extends State<Login> {
                           Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color.fromRGBO(255, 255, 255, 0.5)),
+                                color:
+                                    const Color.fromRGBO(255, 255, 255, 0.5)),
                             height: 36,
                             child: CustomInternationalPhoneNumberInput(
                               countries: countries_code,
                               onInputChanged: (PhoneNumber number) {
-                                print(number.phoneNumber);
-                                setState(() {
-                                  _phone = number.phoneNumber;
-                                });
+                                if (countries_code.contains('BD')) {
+                                  setState(() {
+                                    _phone = '${number.parseNumber()}';
+                                  });
+                                }
                               },
                               onInputValidated: (bool value) {
                                 print('on input validation ${value}');
                               },
-                              selectorConfig: SelectorConfig(
+                              selectorConfig: const SelectorConfig(
                                 selectorType: PhoneInputSelectorType.DIALOG,
                               ),
                               ignoreBlank: false,
                               autoValidateMode: AutovalidateMode.disabled,
                               selectorTextStyle:
-                                  TextStyle(color: MyTheme.font_grey),
-                              textStyle: TextStyle(color: Colors.white54),
+                                  const TextStyle(color: MyTheme.font_grey),
+                              textStyle:
+                                  TextStyle(color: MyTheme.app_accent_color),
                               initialValue: phoneCode,
                               textFieldController: _phoneNumberController,
                               formatInput: true,
-                              keyboardType: TextInputType.numberWithOptions(
-                                  signed: true, decimal: true),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      signed: true, decimal: true),
                               inputDecoration:
                                   InputDecorations.buildInputDecoration_phone(
                                       hint_text: "01XXX XXX XXX"),
@@ -300,7 +300,7 @@ class _LoginState extends State<Login> {
                   if (otp_addon_installed.$)
                     Row(
                       children: [
-                        Spacer(),
+                        const Spacer(),
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -310,20 +310,23 @@ class _LoginState extends State<Login> {
                           },
                           child: Text(
                             "or, Login with ${_login_by == "email" ? 'a phone' : 'an email'}",
-                            style: TextStyle(
-                                color: MyTheme.white,
+                            style: const TextStyle(
+                                color: MyTheme.app_accent_color,
                                 fontStyle: FontStyle.italic,
                                 decoration: TextDecoration.underline),
                           ),
                         ),
                       ],
                     ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: Text(
                       getLocal(context).password_ucf,
-                      style: TextStyle(
-                          color: MyTheme.app_accent_border,
+                      style: const TextStyle(
+                          color: MyTheme.app_accent_color,
                           fontWeight: FontWeight.w400,
                           fontSize: 12),
                     ),
@@ -336,7 +339,7 @@ class _LoginState extends State<Login> {
                         Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Color.fromRGBO(255, 255, 255, 0.5)),
+                              color: const Color.fromRGBO(255, 255, 255, 0.5)),
                           height: 36,
                           child: TextField(
                             controller: _passwordController,
@@ -344,10 +347,12 @@ class _LoginState extends State<Login> {
                             obscureText: true,
                             enableSuggestions: false,
                             autocorrect: false,
-                            style: TextStyle(color: MyTheme.white),
+                            style: const TextStyle(
+                                color: MyTheme.app_accent_color),
                             decoration: InputDecorations.buildInputDecoration_1(
                                 borderColor: MyTheme.noColor,
                                 hint_text: "• • • • • • • •",
+                                fillColor: MyTheme.app_accent_color_extra_light,
                                 hintTextColor: MyTheme.dark_grey),
                           ),
                         ),
@@ -362,8 +367,8 @@ class _LoginState extends State<Login> {
                             },
                             child: Text(
                               getLocal(context).forget_password_ucf,
-                              style: TextStyle(
-                                  color: MyTheme.white,
+                              style: const TextStyle(
+                                  color: MyTheme.app_accent_color,
                                   fontStyle: FontStyle.italic,
                                   decoration: TextDecoration.underline),
                             ),
@@ -384,16 +389,16 @@ class _LoginState extends State<Login> {
                       child: Buttons(
                         width: MediaQuery.of(context).size.width,
                         height: 50,
-                        color: Colors.white.withOpacity(0.8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: const BorderRadius.all(
+                        color: MyTheme.app_accent_color.withOpacity(0.8),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
                             Radius.circular(11.0),
                           ),
                         ),
                         child: Text(
                           getLocal(context).log_in,
                           style: TextStyle(
-                              color: MyTheme.app_accent_color,
+                              color: MyTheme.white,
                               fontSize: 17,
                               fontWeight: FontWeight.w500),
                         ),
@@ -412,12 +417,36 @@ class _LoginState extends State<Login> {
               ),
               child: Container(
                 alignment: Alignment.center,
-                child: Text(
-                  LangText(context: context)
-                      .getLocal()!
-                      .in_case_of_any_difficulties_contact_with_admin,
-                  style:
-                      TextStyle(fontSize: 12, color: MyTheme.app_accent_border),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return Registration();
+                    }));
+                  },
+                  child: const Text.rich(
+                    TextSpan(
+                      text: 'Don\'t have an account? ',
+                      style: TextStyle(
+                          fontSize: 12, color: MyTheme.app_accent_color),
+                      children: [
+                        TextSpan(
+                          text: 'Register here',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: MyTheme.app_accent_color,
+                              fontWeight: FontWeight.w500,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Text(
+                  //   LangText(context: context)
+                  //       .getLocal().in_case_of_any_difficulties_contact_with_admin,
+                  //   style:
+                  //       const TextStyle(fontSize: 12, color: MyTheme.app_accent_color),
+                  // ),
                 ),
               ),
             ),

@@ -37,4 +37,31 @@ class CommonFunctions {
               ),
             ));
   }
+
+  appLogoutDialog({
+    Function? onLogout,
+  }) {
+    showDialog(
+        context: context,
+        builder: (context) => Directionality(
+              textDirection:
+                  app_language_rtl.$! ? TextDirection.rtl : TextDirection.ltr,
+              child: AlertDialog(
+                content: const Text('Do you want to logout?'),
+                actions: [
+                  Buttons(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onLogout!();
+                      },
+                      child: Text(AppLocalizations.of(context)!.yes_ucf)),
+                  Buttons(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(AppLocalizations.of(context)!.no_ucf)),
+                ],
+              ),
+            ));
+  }
 }
