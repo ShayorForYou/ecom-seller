@@ -23,7 +23,7 @@ import '../data_model/auction_product_bids_response.dart';
 class ProductRepository {
   Future<ProductsResponse> getProducts({name = "", page = 1}) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/products/all"
-        "?page=${page}&name=${name}");
+        "?page=$page&name=$name");
 
     final response = await ApiRequest.get(url: url, headers: {
       "App-Language": app_language.$!,
@@ -35,7 +35,7 @@ class ProductRepository {
 
   Future<ProductsResponse> getWholesaleProducts({name = "", page = 1}) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/wholesale-products"
-        "?page=${page}&name=${name}");
+        "?page=$page&name=$name");
 
     final response = await ApiRequest.get(url: url, headers: {
       "App-Language": app_language.$!,
@@ -47,7 +47,7 @@ class ProductRepository {
   Future<AuctionProductListResponse> getAuctionProducts(
       {name = "", page = 1}) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/auction-products"
-        "?page=${page}&name=${name}");
+        "?page=$page&name=$name");
 
     final response = await ApiRequest.get(url: url, headers: {
       "App-Language": app_language.$!,
@@ -301,7 +301,7 @@ class ProductRepository {
   productStatusChangeReq({required id, status}) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/product/change-status");
 
-    var post_body = jsonEncode({"id": id, "status": status});
+    var postBody = jsonEncode({"id": id, "status": status});
     var reqHeader = {
       "App-Language": app_language.$!,
       "Authorization": "Bearer ${access_token.$}",
@@ -309,7 +309,7 @@ class ProductRepository {
     };
 
     final response =
-        await ApiRequest.post(url: url, headers: reqHeader, body: post_body);
+        await ApiRequest.post(url: url, headers: reqHeader, body: postBody);
 
     //print("product res  "+response.body.toString());
     return deleteProductFromJson(response.body);
@@ -318,7 +318,7 @@ class ProductRepository {
   productFeaturedChangeReq({required id, required featured}) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/product/change-featured");
 
-    var post_body = jsonEncode({"id": id, "featured_status": featured});
+    var postBody = jsonEncode({"id": id, "featured_status": featured});
     var reqHeader = {
       "App-Language": app_language.$!,
       "Authorization": "Bearer ${access_token.$}",
@@ -326,7 +326,7 @@ class ProductRepository {
     };
 
     final response =
-        await ApiRequest.post(url: url, headers: reqHeader, body: post_body);
+        await ApiRequest.post(url: url, headers: reqHeader, body: postBody);
 
     //print("product res  "+response.body.toString());
     return deleteProductFromJson(response.body);

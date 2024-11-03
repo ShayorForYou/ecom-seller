@@ -27,8 +27,7 @@ import 'new_auction_product.dart';
 class AuctionProduct extends StatefulWidget {
   final bool fromBottomBar;
 
-  const AuctionProduct({Key? key, this.fromBottomBar = false})
-      : super(key: key);
+  const AuctionProduct({super.key, this.fromBottomBar = false});
 
   @override
   AuctionProductState createState() => AuctionProductState();
@@ -46,8 +45,8 @@ class AuctionProductState extends State<AuctionProduct> {
   late BuildContext switchContext;
   late BuildContext featuredSwitchContext;
 
-  ScrollController _scrollController =
-      new ScrollController(initialScrollOffset: 0);
+  final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: 0);
 
   // double variables
   double mHeight = 0.0, mWidht = 0.0;
@@ -58,7 +57,7 @@ class AuctionProductState extends State<AuctionProduct> {
         await ProductRepository().getAuctionProducts(page: _page);
     if (productResponse.data!.isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.no_more_products_ucf,
+          LangText(context: context).getLocal().no_more_products_ucf,
           gravity: Toast.center,
           bgColor: MyTheme.white,
           textStyle: TextStyle(color: Colors.black));
@@ -185,7 +184,7 @@ class AuctionProductState extends State<AuctionProduct> {
             ? MyAppBar(
                     context: context,
                     title: LangText(context: context)
-                        .getLocal()!
+                        .getLocal()
                         .auction_product_screen_title)
                 .show()
             : null,
@@ -253,7 +252,7 @@ class AuctionProductState extends State<AuctionProduct> {
                     ),
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .current_package_ucf,
                       style: TextStyle(fontSize: 10, color: MyTheme.grey_153),
                     ),
@@ -276,7 +275,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   children: [
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .upgrade_package_ucf,
                       style: const TextStyle(
                           fontSize: 12,
@@ -318,7 +317,7 @@ class AuctionProductState extends State<AuctionProduct> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  LangText(context: context).getLocal()!.remaining_uploads,
+                  LangText(context: context).getLocal().remaining_uploads,
                   style: MyTextStyle().dashboardBoxText(context),
                 ),
                 Text(
@@ -355,7 +354,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   children: [
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .add_new_product_ucf,
                       style: MyTextStyle()
                           .dashboardBoxText(context)
@@ -390,7 +389,7 @@ class AuctionProductState extends State<AuctionProduct> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            LangText(context: context).getLocal()!.all_products_ucf,
+            LangText(context: context).getLocal().all_products_ucf,
             style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -473,7 +472,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       width: mWidht - 160,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -504,7 +503,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   children: [
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .auction_start_date_ucf,
                       style: const TextStyle(
                           fontSize: 12,
@@ -524,7 +523,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   children: [
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .auction_end_date_ucf,
                       style: const TextStyle(
                           fontSize: 12,
@@ -544,7 +543,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   children: [
                     Text(
                         LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .auction_total_bids_ucf,
                         style: const TextStyle(
                             fontSize: 12,
@@ -562,7 +561,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   children: [
                     Text(
                         LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .auction_price_ucf,
                         style: const TextStyle(
                             fontSize: 12,
@@ -588,12 +587,12 @@ class AuctionProductState extends State<AuctionProduct> {
         width: DeviceInfo(context).getWidth() * 1.5,
         child: AlertDialog(
           title: Text(
-            LangText(context: context).getLocal()!.warning_ucf,
+            LangText(context: context).getLocal().warning_ucf,
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 15, color: MyTheme.red),
           ),
           content: Text(
-            LangText(context: context).getLocal()!.do_you_want_to_delete_it,
+            LangText(context: context).getLocal().do_you_want_to_delete_it,
             style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
           ),
           actions: [
@@ -603,7 +602,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   Navigator.pop(context);
                 },
                 child: Text(
-                  LangText(context: context).getLocal()!.no_ucf,
+                  LangText(context: context).getLocal().no_ucf,
                   style: TextStyle(color: MyTheme.white, fontSize: 12),
                 )),
             Buttons(
@@ -612,7 +611,7 @@ class AuctionProductState extends State<AuctionProduct> {
                   Navigator.pop(context);
                   deleteProduct(id);
                 },
-                child: Text(LangText(context: context).getLocal()!.yes_ucf,
+                child: Text(LangText(context: context).getLocal().yes_ucf,
                     style: TextStyle(color: MyTheme.white, fontSize: 12))),
           ],
         ),
@@ -641,16 +640,16 @@ class AuctionProductState extends State<AuctionProduct> {
           if (canEdit)
             PopupMenuItem<MenuOptions>(
               value: MenuOptions.Edit,
-              child: Text(LangText(context: context).getLocal()!.edit_ucf),
+              child: Text(LangText(context: context).getLocal().edit_ucf),
             ),
           PopupMenuItem<MenuOptions>(
             value: MenuOptions.ViewAllBids,
             child: Text(
-                LangText(context: context).getLocal()!.auction_view_bids_ucf),
+                LangText(context: context).getLocal().auction_view_bids_ucf),
           ),
           PopupMenuItem<MenuOptions>(
             value: MenuOptions.Delete,
-            child: Text(LangText(context: context).getLocal()!.delete_ucf),
+            child: Text(LangText(context: context).getLocal().delete_ucf),
           ),
         ],
       ),

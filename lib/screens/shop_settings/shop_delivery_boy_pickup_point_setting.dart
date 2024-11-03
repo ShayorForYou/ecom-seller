@@ -18,7 +18,7 @@ import 'package:one_context/one_context.dart';
 import 'package:toast/toast.dart';
 
 class ShopDeliveryBoyPickupPoint extends StatefulWidget {
-  const ShopDeliveryBoyPickupPoint({Key? key}) : super(key: key);
+  const ShopDeliveryBoyPickupPoint({super.key});
 
   @override
   State<ShopDeliveryBoyPickupPoint> createState() =>
@@ -31,8 +31,8 @@ class _ShopDeliveryBoyPickupPointState
 
   late BuildContext loadingContext;
 
-  String _lat = "";
-  String _lang = "";
+  String? _lat = "";
+  String? _lang = "";
 
   bool faceAllData = false;
   LatLng kInitialPosition = LatLng(51.52034098371205, -0.12637399200000668);
@@ -41,22 +41,30 @@ class _ShopDeliveryBoyPickupPointState
     var response = await ShopRepository().getShopInfo();
     _lat = response.shopInfo!.deliveryPickupLatitude.toString();
     _lang = response.shopInfo!.deliveryPickupLongitude.toString();
+    print("lat: $_lat, lang: $_lang");
 
     faceAllData = true;
     if ((_lat == "" && _lang == "") || (_lat == null && _lang == null)) {
       setDummyInitialLocation();
-    } else {
-      // setInitialLocation(response.shopInfo!.deliveryPickupLatitude.toString(),
-      //     response.shopInfo!.deliveryPickupLongitude.toString());
+    }
+    else {
+      setInitialLocation(response.shopInfo!.deliveryPickupLatitude.toString(),
+          response.shopInfo!.deliveryPickupLongitude.toString());
       setDummyInitialLocation();
     }
     return true;
   }
-
   setInitialLocation(lat, lng) {
-    kInitialPosition = LatLng(double.parse(lat), double.parse(lng));
+    kInitialPosition = LatLng(
+      double.tryParse(lat) ?? 0.0,
+      double.tryParse(lng) ?? 0.0,
+    );
     setState(() {});
   }
+  // setInitialLocation(lat, lng) {
+  //   kInitialPosition = LatLng(double.parse(lat), double.parse(lng));
+  //   setState(() {});
+  // }
 
   setDummyInitialLocation() {
     kInitialPosition = LatLng(51.52034098371205, -0.12637399200000668);
@@ -92,7 +100,7 @@ class _ShopDeliveryBoyPickupPointState
   }*/
 
   updateInfo() async {
-    if (_lat == null || _lat.isEmpty || _lang == null || _lang.isEmpty) {
+    if (_lat == null || _lat!.isEmpty || _lang == null || _lang!.isEmpty) {
       ToastComponent.showDialog(
           LangText(context: OneContext().context).getLocal().please_pick_place,
           bgColor: MyTheme.white,
@@ -127,7 +135,7 @@ class _ShopDeliveryBoyPickupPointState
       appBar: MyAppBar(
               context: context,
               title: LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .delivery_boy_pickup_point)
           .show(),
       body: SingleChildScrollView(
@@ -158,7 +166,7 @@ class _ShopDeliveryBoyPickupPointState
                 height: 10,
               ),
               Text(
-                LangText(context: context).getLocal()!.longitude_ucf,
+                LangText(context: context).getLocal().longitude_ucf,
                 style: TextStyle(
                     fontSize: 12,
                     color: MyTheme.font_grey,
@@ -183,7 +191,7 @@ class _ShopDeliveryBoyPickupPointState
                 height: 10,
               ),
               Text(
-                LangText(context: context).getLocal()!.latitude_ucf,
+                LangText(context: context).getLocal().latitude_ucf,
                 style: TextStyle(
                     fontSize: 12,
                     color: MyTheme.font_grey,
@@ -221,7 +229,7 @@ class _ShopDeliveryBoyPickupPointState
                     updateInfo();
                   },
                   child: Text(
-                    LangText(context: context).getLocal()!.update_location,
+                    LangText(context: context).getLocal().update_location,
                     style: TextStyle(fontSize: 17, color: MyTheme.white),
                   )),
             ],
@@ -335,7 +343,7 @@ class _ShopDeliveryBoyPickupPointState
 
   Widget buildMap() {
     return PlacePicker(
-      hintText: LangText(context: context).getLocal()!.your_delivery_location,
+      hintText: LangText(context: context).getLocal().your_delivery_location,
       apiKey: OtherConfig.GOOGLE_MAP_API_KEY,
       initialPosition: kInitialPosition,
       useCurrentLocation: false,
@@ -365,15 +373,15 @@ class _ShopDeliveryBoyPickupPointState
                 rightPosition: 0.0,
                 width: 500,
                 borderRadius: const BorderRadius.only(
-                  topLeft: const Radius.circular(8.0),
-                  bottomLeft: const Radius.circular(8.0),
-                  topRight: const Radius.circular(8.0),
-                  bottomRight: const Radius.circular(8.0),
+                  topLeft: Radius.circular(8.0),
+                  bottomLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                  bottomRight: Radius.circular(8.0),
                 ),
                 child: state == SearchingState.Searching
                     ? Center(
                         child: Text(
-                        LangText(context: context).getLocal()!.calculating_ucf,
+                        LangText(context: context).getLocal().calculating_ucf,
                         style: TextStyle(color: MyTheme.font_grey),
                       ))
                     : Padding(
@@ -403,14 +411,14 @@ class _ShopDeliveryBoyPickupPointState
                                 color: MyTheme.app_accent_color,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: const BorderRadius.only(
-                                  topLeft: const Radius.circular(4.0),
-                                  bottomLeft: const Radius.circular(4.0),
-                                  topRight: const Radius.circular(4.0),
-                                  bottomRight: const Radius.circular(4.0),
+                                  topLeft: Radius.circular(4.0),
+                                  bottomLeft: Radius.circular(4.0),
+                                  topRight: Radius.circular(4.0),
+                                  bottomRight: Radius.circular(4.0),
                                 )),
                                 child: Text(
                                   LangText(context: context)
-                                      .getLocal()!
+                                      .getLocal()
                                       .pick_here_ucf,
                                   style: TextStyle(color: Colors.white),
                                 ),

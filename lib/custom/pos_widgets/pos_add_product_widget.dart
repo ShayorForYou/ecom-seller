@@ -6,10 +6,10 @@ class PosAddProductWidget extends StatelessWidget {
   final double? height;
   final VoidCallback? onTap;
   const PosAddProductWidget({
-    Key? key,
+    super.key,
     this.onTap,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

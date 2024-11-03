@@ -11,8 +11,7 @@ import 'package:flutter/foundation.dart';
 class OrderRepository {
   Future<OrderListResponse> getOrderList(
       {page = 1, payment_status = "", delivery_status = ""}) async {
-    String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/orders" +
-        "?page=$page&payment_status=$payment_status&delivery_status=$delivery_status");
+    String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/orders" "?page=$page&payment_status=$payment_status&delivery_status=$delivery_status");
 
     // print("get order list url " + url.toString());
 
@@ -25,8 +24,7 @@ class OrderRepository {
 
   Future<OrderListResponse> getAuctionOrderList(
       {page = 1, payment_status = "", delivery_status = ""}) async {
-    String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/auction-products/orders" +
-        "?page=$page&payment_status=$payment_status&delivery_status=$delivery_status");
+    String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/auction-products/orders" "?page=$page&payment_status=$payment_status&delivery_status=$delivery_status");
 
     final response = await ApiRequest.get(url: url, headers: {
       "Authorization": "Bearer ${access_token.$}",
@@ -55,11 +53,11 @@ class OrderRepository {
     String url =
         ("${AppConfig.BASE_URL_WITH_PREFIX}/orders/update-delivery-status");
 
-    var post_body = jsonEncode(
-        {"order_id": "$id", "status": "$status", "payment_type": paymentType});
+    var postBody = jsonEncode(
+        {"order_id": "$id", "status": status, "payment_type": paymentType});
     // print(post_body);
 
-    final response = await ApiRequest.post(url: url, body: post_body, headers: {
+    final response = await ApiRequest.post(url: url, body: postBody, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${access_token.$}",
       "App-Language": app_language.$!,
@@ -74,9 +72,9 @@ class OrderRepository {
     String url =
         ("${AppConfig.BASE_URL_WITH_PREFIX}/orders/update-payment-status");
 
-    var post_body = jsonEncode({"order_id": "$id", "status": "$status"});
+    var postBody = jsonEncode({"order_id": "$id", "status": status});
 
-    final response = await ApiRequest.post(url: url, body: post_body, headers: {
+    final response = await ApiRequest.post(url: url, body: postBody, headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer ${access_token.$}",
       "App-Language": app_language.$!,

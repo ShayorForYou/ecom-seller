@@ -20,7 +20,7 @@ import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
 
 class VerifyPage extends StatefulWidget {
-  const VerifyPage({Key? key}) : super(key: key);
+  const VerifyPage({super.key});
 
   @override
   State<VerifyPage> createState() => _VerifyPageState();
@@ -85,7 +85,7 @@ class _VerifyPageState extends State<VerifyPage> {
   }
 
   onVerify() async {
-    Map<String, String> data = Map();
+    Map<String, String> data = {};
 
     Uri url =
     Uri.parse("${AppConfig.BASE_URL_WITH_PREFIX}/shop-verify-info-store");
@@ -150,7 +150,7 @@ class _VerifyPageState extends State<VerifyPage> {
       }
     }
 
-    httpReq.fields.addAll(data as Map<String, String>);
+    httpReq.fields.addAll(data);
 
     loading();
 
@@ -227,7 +227,7 @@ class _VerifyPageState extends State<VerifyPage> {
         color: MyTheme.app_accent_color,
         width: DeviceInfo(context).getWidth(),
         child: Text(
-          LangText(context: context).getLocal()!.submit_ucf,
+          LangText(context: context).getLocal().submit_ucf,
           style: TextStyle(fontSize: 14, color: MyTheme.white),
         ),
       ),
@@ -246,7 +246,7 @@ class _VerifyPageState extends State<VerifyPage> {
             ),
       ),
       title: Text(
-        LangText(context: context).getLocal()!.verification_form_ucf,
+        LangText(context: context).getLocal().verification_form_ucf,
         style: TextStyle(fontSize: 16, color: MyTheme.app_accent_color),
       ),
       elevation: 0.0,
@@ -395,7 +395,7 @@ class _VerifyPageState extends State<VerifyPage> {
             FilePickerResult? file = await pickSingleFile();
             if (file == null) {
               ToastComponent.showDialog(
-                  LangText(context: context).getLocal()!.no_file_is_chosen,
+                  LangText(context: context).getLocal().no_file_is_chosen,
                   gravity: Toast.center,
                   duration: Toast.lengthLong);
               return;
@@ -526,7 +526,7 @@ class _VerifyPageState extends State<VerifyPage> {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(LangText(context: context).getLocal()!.please_wait_ucf),
+                  Text(LangText(context: context).getLocal().please_wait_ucf),
                 ],
               ));
         });

@@ -1,6 +1,5 @@
 import 'package:ecom_seller_app/custom/device_info.dart';
 import 'package:ecom_seller_app/my_theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyTextStyle{

@@ -18,24 +18,23 @@ class BkashScreen extends StatefulWidget {
   String? package_id;
 
   BkashScreen(
-      {Key? key,
+      {super.key,
       this.amount = 0.00,
       this.payment_type = "",
       this.payment_method_key = "",
-      this.package_id})
-      : super(key: key);
+      this.package_id});
 
   @override
   _BkashScreenState createState() => _BkashScreenState();
 }
 
 class _BkashScreenState extends State<BkashScreen> {
-  int _combined_order_id = 0;
-  bool _order_init = false;
+  final int _combined_order_id = 0;
+  final bool _order_init = false;
   String? _initial_url = "";
   bool _initial_url_fetched = false;
 
-  WebViewController _webViewController = WebViewController()
+  final WebViewController _webViewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted);
   String? _token = "";
   bool showLoading = false;
@@ -112,7 +111,7 @@ class _BkashScreenState extends State<BkashScreen> {
       );
     } else {
       return SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: showLoading
@@ -136,7 +135,7 @@ class _BkashScreenState extends State<BkashScreen> {
     }
   }
 
-  onPaymentSuccess(payment_details) async {
+  onPaymentSuccess(paymentDetails) async {
     showLoading = true;
     setState(() {});
     var bkashPaymentProcessResponse =
@@ -146,7 +145,7 @@ class _BkashScreenState extends State<BkashScreen> {
       payment_type: widget.payment_type,
       combined_order_id: _combined_order_id,
       package_id: widget.package_id,
-      payment_id: payment_details['paymentID'],
+      payment_id: paymentDetails['paymentID'],
     );
     ToastComponent.showDialog(bkashPaymentProcessResponse.message!,
         duration: Toast.lengthLong, gravity: Toast.center);
@@ -154,7 +153,7 @@ class _BkashScreenState extends State<BkashScreen> {
   }
 
   void getData() {
-    String? payment_details = '';
+    String? paymentDetails = '';
     _webViewController
         .runJavaScriptReturningResult("document.body.innerText")
         .then((data) {
@@ -168,7 +167,7 @@ class _BkashScreenState extends State<BkashScreen> {
             duration: Toast.lengthLong, gravity: Toast.center);
         Navigator.pop(context);
       } else if (responseJSON["result"] == true) {
-        payment_details = responseJSON['payment_details'];
+        paymentDetails = responseJSON['payment_details'];
         onPaymentSuccess(responseJSON);
       }
     });

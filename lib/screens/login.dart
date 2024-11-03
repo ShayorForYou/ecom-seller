@@ -1,4 +1,3 @@
-import 'package:ecom_seller_app/app_config.dart';
 import 'package:ecom_seller_app/custom/buttons.dart';
 import 'package:ecom_seller_app/custom/input_decorations.dart';
 import 'package:ecom_seller_app/custom/intl_phone_input.dart';
@@ -22,6 +21,8 @@ import 'package:one_context/one_context.dart';
 import 'package:toast/toast.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -35,9 +36,9 @@ class _LoginState extends State<Login> {
   var countries_code = <String?>[];
 
   //controllers
-  TextEditingController _phoneNumberController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   MyWidget? myWidget;
 
   fetch_country() async {
@@ -139,7 +140,7 @@ class _LoginState extends State<Login> {
   }
 
   buildBody(context) {
-    final _screen_width = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 36),
       width: double.infinity,
@@ -197,8 +198,8 @@ class _LoginState extends State<Login> {
             ),
 
             // login form container
-            Container(
-              width: _screen_width,
+            SizedBox(
+              width: screenWidth,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -264,12 +265,12 @@ class _LoginState extends State<Login> {
                               onInputChanged: (PhoneNumber number) {
                                 if (countries_code.contains('BD')) {
                                   setState(() {
-                                    _phone = '${number.parseNumber()}';
+                                    _phone = number.parseNumber();
                                   });
                                 }
                               },
                               onInputValidated: (bool value) {
-                                print('on input validation ${value}');
+                                print('on input validation $value');
                               },
                               selectorConfig: const SelectorConfig(
                                 selectorType: PhoneInputSelectorType.DIALOG,

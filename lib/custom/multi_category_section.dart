@@ -262,7 +262,7 @@ class MultiCategory extends StatefulWidget {
 
 class _MultiCategoryState extends State<MultiCategory> {
   String? _selectedMainCategory;
-  List<String> _selectedCategoryIds = [];
+  final List<String> _selectedCategoryIds = [];
 
   @override
   void initState() {
@@ -426,8 +426,8 @@ class _MultiCategoryState extends State<MultiCategory> {
                             ],
                           ),
                         ),
-                        if (categories[index].children!.isNotEmpty)
-                          _buildCategoryListView(categories[index].children!,
+                        if (categories[index].children.isNotEmpty)
+                          _buildCategoryListView(categories[index].children,
                               padding: 14.0, height: categories[index].height),
                       ],
                     ),

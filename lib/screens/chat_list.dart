@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ChatList extends StatefulWidget {
-  const ChatList({Key? key}) : super(key: key);
+  const ChatList({super.key});
 
   @override
   State<ChatList> createState() => _ChatListState();
@@ -62,7 +62,7 @@ class _ChatListState extends State<ChatList> {
     return Scaffold(
       appBar: MyAppBar(
               context: context,
-              title: LangText(context: context).getLocal()!.chat_list)
+              title: LangText(context: context).getLocal().chat_list)
           .show(),
       body: RefreshIndicator(
         onRefresh: refresh,
@@ -117,7 +117,7 @@ class _ChatListState extends State<ChatList> {
         shrinkWrap: true,
         itemCount: _chatList.length,
         itemBuilder: (context, index) {
-          return Container(
+          return SizedBox(
               width: 100,
               child: buildChatItem(
                   index,
@@ -174,12 +174,12 @@ class _ChatListState extends State<ChatList> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               width: DeviceInfo(context).getWidth() - 80,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: DeviceInfo(context).getWidth(),
                     child: Text(
                       userName,

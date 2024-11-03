@@ -40,7 +40,7 @@ import '../../data_model/auction_product_edit_response.dart';
 class AuctionUpdateProduct extends StatefulWidget {
   final productId;
 
-  AuctionUpdateProduct({Key? key, this.productId}) : super(key: key);
+  const AuctionUpdateProduct({super.key, this.productId});
 
   @override
   State<AuctionUpdateProduct> createState() => _AuctionUpdateProductState();
@@ -138,7 +138,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
       tax,
       taxType;
 
-  Map choice_options = Map();
+  Map choice_options = {};
 
   //ImagePicker pickImage = ImagePicker();
 
@@ -197,7 +197,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
 
   getCategories() async {
     var categoryResponse = await ProductRepository().getCategoryRes();
-    categoryResponse.data!.forEach((element) {
+    for (var element in categoryResponse.data!) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
           title: element.name,
@@ -206,7 +206,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
           height: 0.0,
           children: setChildCategory(element.child!));
       categories.add(model);
-    });
+    }
     isCategoryInit = true;
 
     setState(() {});
@@ -214,7 +214,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
 
   List<CategoryModel> setChildCategory(List<Category> child) {
     List<CategoryModel> list = [];
-    child.forEach((element) {
+    for (var element in child) {
       var children = element.child ?? [];
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
@@ -231,25 +231,25 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
       // if (element.child!.isNotEmpty) {
       //
       // }
-    });
+    }
     return list;
   }
 
   getBrands() async {
     var brandsRes = await ProductRepository().getBrandRes();
     brands.clear();
-    brandsRes.data!.forEach((element) {
+    for (var element in brandsRes.data!) {
       brands.addAll([
         CommonDropDownItem("${element.id}", element.name),
       ]);
-    });
+    }
 
     if (tmpBrand != null && tmpBrand!.isNotEmpty && brands.isNotEmpty) {
-      brands.forEach((element) {
+      for (var element in brands) {
         if (element.key == tmpBrand) {
           selectedBrand = element;
         }
-      });
+      }
     }
 
     setState(() {});
@@ -297,7 +297,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
   getTaxType(AuctionProductData productInfo) async {
     var taxRes = await ProductRepository().getTaxRes();
     vatTaxList.clear();
-    taxRes.data!.forEach((element) {
+    for (var element in taxRes.data!) {
       var tmpTax = productInfo.tax!
           .where((productTax) => productTax.taxId == element.id);
 
@@ -333,7 +333,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
           ),
         );
       }
-    });
+    }
   }
 
   pickGalleryImages() async {
@@ -358,9 +358,9 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
     photos = "";
     for (int i = 0; i < productGalleryImages.length; i++) {
       if (i != (productGalleryImages.length - 1)) {
-        photos = "$photos " + "${productGalleryImages[i].id},";
+        photos = "$photos " "${productGalleryImages[i].id},";
       } else {
-        photos = "$photos " + "${productGalleryImages[i].id}";
+        photos = "$photos " "${productGalleryImages[i].id}";
       }
     }
   }
@@ -369,11 +369,11 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
     taxType = [];
     tax = [];
     taxId = [];
-    vatTaxList.forEach((element) {
+    for (var element in vatTaxList) {
       taxId!.add(element.vatTaxModel.id);
       tax!.add(element.amount.text.trim().toString());
       if (element.selectedItem != null) taxType!.add(element.selectedItem!.key);
-    });
+    }
   }
 
   setProductValues() async {
@@ -387,9 +387,9 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
     startingBidPrice = startingBindingPriceTextController.text.trim();
 
     tagMap.clear();
-    tags!.forEach((element) {
+    for (var element in tags!) {
       tagMap.add(jsonEncode({"value": '$element'}));
-    });
+    }
     // add product photo
     setProductPhotoValue();
     if (thumbnailImage != null) thumbnailImg = "${thumbnailImage!.id}";
@@ -450,7 +450,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
 
     await setProductValues();
 
-    Map postValue = Map();
+    Map postValue = {};
     postValue.addAll({
       "name": productName,
       "category_id": categoryId,
@@ -468,7 +468,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
 
     postValue.addAll({
       "auction_date_range":
-          "${formatDateTime(dateTimeRange!.start)} to ${formatDateTime(dateTimeRange!.end)}",
+          "${formatDateTime(dateTimeRange.start)} to ${formatDateTime(dateTimeRange.end)}",
     });
 
     if (shipping_type.$) {
@@ -521,7 +521,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
 
     tmpAttribute.clear();
 
-    shippingConfigurationList.forEach((element) {
+    for (var element in shippingConfigurationList) {
       element.isActive = false;
       if (element.key == productInfo.shippingType) {
         selectedShippingConfiguration = element;
@@ -529,7 +529,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
         flatShippingCostTextEditTextController.text =
             productInfo.shippingCost!.toString();
       }
-    });
+    }
 
     categoryId = productInfo.categoryId?.toString();
     categoryIds = productInfo.categoryIds ?? [];
@@ -538,11 +538,11 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
     tmpBrand = productInfo.brandId?.toString();
     getBrands();
 
-    videoType.forEach((element) {
+    for (var element in videoType) {
       if (element.key == productInfo.videoProvider) {
         selectedVideoType = element;
       }
-    });
+    }
 
     getTaxType(productInfo);
     //
@@ -572,7 +572,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
     dateTimeRange = DateTimeRange(start: start, end: end);
 
     _statAndEndTime =
-        "${intl.DateFormat('d/MM/y HH:mm:ss').format(dateTimeRange.start)} - ${intl.DateFormat('d/MM/y HH:mm:ss').format(dateTimeRange!.end)}";
+        "${intl.DateFormat('d/MM/y HH:mm:ss').format(dateTimeRange.start)} - ${intl.DateFormat('d/MM/y HH:mm:ss').format(dateTimeRange.end)}";
     tags!.clear();
     if (productInfo.tags!.isNotEmpty) {
       tags!.addAll(productInfo.tags!.split(","));
@@ -714,7 +714,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
           ),
           itemSpacer(),
           _buildMultiCategory(
-              LangText(context: context).getLocal()!.categories_ucf,
+              LangText(context: context).getLocal().categories_ucf,
               isMandatory: true),
           itemSpacer(),
           _buildDropDownField(LangText(context: context).getLocal().brands_ucf,
@@ -1081,8 +1081,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
                                       shippingConfigurationList[index].title,
                                       shippingConfigurationList[index].isActive,
                                       (changedValue) {
-                                    shippingConfigurationList
-                                        .forEach((element) {
+                                    for (var element in shippingConfigurationList) {
                                       if (element.key ==
                                           shippingConfigurationList[index]
                                               .key) {
@@ -1091,7 +1090,7 @@ class _AuctionUpdateProductState extends State<AuctionUpdateProduct> {
                                       } else {
                                         element.isActive = false;
                                       }
-                                    });
+                                    }
                                     selectedShippingConfiguration =
                                         shippingConfigurationList[index];
                                     setChange();

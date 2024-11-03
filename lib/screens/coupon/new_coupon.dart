@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:ecom_seller_app/custom/buttons.dart';
 import 'package:ecom_seller_app/custom/device_info.dart';
 import 'package:ecom_seller_app/custom/input_decorations.dart';
-import 'package:ecom_seller_app/custom/loading.dart';
 import 'package:ecom_seller_app/custom/localization.dart';
 import 'package:ecom_seller_app/custom/multi_select.dart';
 import 'package:ecom_seller_app/custom/my_app_bar.dart';
@@ -14,14 +12,13 @@ import 'package:ecom_seller_app/custom/toast_component.dart';
 import 'package:ecom_seller_app/helpers/main_helper.dart';
 import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/repositories/coupon_repository.dart';
-import 'package:ecom_seller_app/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 import 'package:validators/validators.dart';
 
 class NewCoupon extends StatefulWidget {
-  NewCoupon({Key? key}) : super(key: key);
+  const NewCoupon({super.key});
 
   @override
   State<NewCoupon> createState() => _NewCouponState();
@@ -30,29 +27,29 @@ class NewCoupon extends StatefulWidget {
 class _NewCouponState extends State<NewCoupon> {
   late BuildContext loadingContext;
 
-  List<CouponInformationOptions> _couponInformationList =
+  final List<CouponInformationOptions> _couponInformationList =
       CouponInformationOptions().getList();
 
-  List<CouponDiscountOptions> _couponDiscountTypeList =
+  final List<CouponDiscountOptions> _couponDiscountTypeList =
       CouponDiscountOptions().getList();
   GlobalKey key = GlobalKey();
 
-  List<SelectProduct> _searchProductList = [];
+  final List<SelectProduct> _searchProductList = [];
   List<SelectProduct> _selectedProducts = [];
   List<dynamic> _errors = [];
 
   CouponInformationOptions? _couponInformation;
 
-  TextEditingController _couponCodeEditController = TextEditingController();
-  TextEditingController _discountAmountEditController = TextEditingController();
-  TextEditingController _minimumShoppingEditController =
+  final TextEditingController _couponCodeEditController = TextEditingController();
+  final TextEditingController _discountAmountEditController = TextEditingController();
+  final TextEditingController _minimumShoppingEditController =
       TextEditingController();
-  TextEditingController _maximumDiscountAmountEditController =
+  final TextEditingController _maximumDiscountAmountEditController =
       TextEditingController();
 
   String? _couponProductText;
-  String _seachName = "t";
-  String _errorMessage = "";
+  final String _seachName = "t";
+  final String _errorMessage = "";
   String _couponCode = "";
   String _discountAmount = "";
   String _minimumShoppingAmount = "";
@@ -63,18 +60,16 @@ class _NewCouponState extends State<NewCoupon> {
   CouponDiscountOptions? _couponDiscountTypeText;
 
   String _statAndEndTime =
-      DateFormat('MM/d/y').format(DateTime.now()).toString() +
-          " - " +
-          DateFormat('MM/d/y').format(DateTime.now()).toString();
+      "${DateFormat('MM/d/y').format(DateTime.now())} - ${DateFormat('MM/d/y').format(DateTime.now())}";
 
   _sendCreateCouponReq() async {
     _errors = [];
-    var posBody;
+    String posBody;
     if (_couponInformation!.key == "product_base") {
       List productIds = [];
-      _selectedProducts.forEach((element) {
+      for (var element in _selectedProducts) {
         productIds.add(element.id);
-      });
+      }
 
       posBody = jsonEncode({
         "type": "product_base",
@@ -120,27 +115,27 @@ class _NewCouponState extends State<NewCoupon> {
     _maximumDiscountAmount = _maximumDiscountAmountEditController.text;
     if (_couponCode.isEmpty) {
       _errors
-          .add(LangText(context: context).getLocal()!.coupon_code_is_empty_ucf);
+          .add(LangText(context: context).getLocal().coupon_code_is_empty_ucf);
     }
     if (_discountAmount.isEmpty || !isNumeric(_discountAmount)) {
       _errors.add(LangText(context: context)
-          .getLocal()!
+          .getLocal()
           .discount_amount_is_invalid_ucf);
     }
     if (_couponInformation!.key == "product_base") {
       if (_selectedProducts.isEmpty) {
         _errors.add(LangText(context: context)
-            .getLocal()!
+            .getLocal()
             .please_select_minimum_1_product_ucf);
       }
     } else if (_couponInformation!.key == "cart_base") {
       if (!isNumeric(_minimumShoppingAmount)) {
         _errors.add(LangText(context: context)
-            .getLocal()!
+            .getLocal()
             .invalid_minimum_shopping_ucf);
       } else if (!isNumeric(_maximumDiscountAmount)) {
         _errors.add(LangText(context: context)
-            .getLocal()!
+            .getLocal()
             .invalid_maximum_discount_ucf);
       }
     }
@@ -165,7 +160,7 @@ class _NewCouponState extends State<NewCoupon> {
     return Scaffold(
       appBar: MyAppBar(
         context: context,
-        title: LangText(context: context).getLocal()!.add_new_coupon_ucf,
+        title: LangText(context: context).getLocal().add_new_coupon_ucf,
       ).show(),
       body: SingleChildScrollView(
         child: Container(
@@ -244,7 +239,7 @@ class _NewCouponState extends State<NewCoupon> {
               }
             },
             child: Text(
-              LangText(context: context).getLocal()!.save_ucf,
+              LangText(context: context).getLocal().save_ucf,
               style: TextStyle(fontSize: 17, color: MyTheme.white),
             )),
         SizedBox(
@@ -259,7 +254,7 @@ class _NewCouponState extends State<NewCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.discount_ucf,
+          LangText(context: context).getLocal().discount_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -268,7 +263,7 @@ class _NewCouponState extends State<NewCoupon> {
         SizedBox(
           height: 10,
         ),
-        Container(height: 50, child: _buildCouponDiscountList()),
+        SizedBox(height: 50, child: _buildCouponDiscountList()),
       ],
     );
   }
@@ -278,7 +273,7 @@ class _NewCouponState extends State<NewCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.add_your_coupon_code_ucf,
+          LangText(context: context).getLocal().add_your_coupon_code_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -310,7 +305,7 @@ class _NewCouponState extends State<NewCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.amount_ucf,
+          LangText(context: context).getLocal().amount_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -343,7 +338,7 @@ class _NewCouponState extends State<NewCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.minimum_shopping_ucf,
+          LangText(context: context).getLocal().minimum_shopping_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -363,7 +358,7 @@ class _NewCouponState extends State<NewCoupon> {
             controller: _minimumShoppingEditController,
             decoration: InputDecorations.buildInputDecoration_1(
                 hint_text:
-                    LangText(context: context).getLocal()!.minimum_shopping_ucf,
+                    LangText(context: context).getLocal().minimum_shopping_ucf,
                 borderColor: MyTheme.noColor,
                 hintTextColor: MyTheme.light_grey),
           ),
@@ -372,7 +367,7 @@ class _NewCouponState extends State<NewCoupon> {
           height: 10,
         ),
         Text(
-          LangText(context: context).getLocal()!.maximum_discount_amount_ucf,
+          LangText(context: context).getLocal().maximum_discount_amount_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -392,7 +387,7 @@ class _NewCouponState extends State<NewCoupon> {
             controller: _maximumDiscountAmountEditController,
             decoration: InputDecorations.buildInputDecoration_1(
                 hint_text: LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .maximum_discount_amount_ucf,
                 borderColor: MyTheme.noColor,
                 hintTextColor: MyTheme.light_grey),
@@ -410,7 +405,7 @@ class _NewCouponState extends State<NewCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.coupon_information_adding,
+          LangText(context: context).getLocal().coupon_information_adding,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -419,7 +414,7 @@ class _NewCouponState extends State<NewCoupon> {
         SizedBox(
           height: 10,
         ),
-        Container(height: 50, child: _buildCouponInformationList()),
+        SizedBox(height: 50, child: _buildCouponInformationList()),
       ],
     );
   }
@@ -429,7 +424,7 @@ class _NewCouponState extends State<NewCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.product_ucf,
+          LangText(context: context).getLocal().product_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -438,7 +433,7 @@ class _NewCouponState extends State<NewCoupon> {
         SizedBox(
           height: 10,
         ),
-        Container(
+        SizedBox(
           height: 50,
           child: Buttons(
               padding: EdgeInsets.zero,
@@ -448,7 +443,7 @@ class _NewCouponState extends State<NewCoupon> {
                     context: context,
                     builder: (context) {
                       return StatefulBuilder(builder: (context, setSate) {
-                        return Container(
+                        return SizedBox(
                           height: 150,
                           width: 150,
                           child: AlertDialog(
@@ -462,12 +457,12 @@ class _NewCouponState extends State<NewCoupon> {
                                   onPressed: () {
                                     _selectedProducts = [];
                                     if (_searchProductList.isNotEmpty) {
-                                      _searchProductList.forEach((element) {
+                                      for (var element in _searchProductList) {
                                         if (element.isSelect!) {
                                           _selectedProducts.add(element);
                                           print(element.id);
                                         }
-                                      });
+                                      }
                                       setState(() {});
                                     }
                                     Navigator.pop(context, _selectedProducts);
@@ -489,7 +484,7 @@ class _NewCouponState extends State<NewCoupon> {
                   borderColor: MyTheme.light_grey,
                   height: 45,
                   child: Text(
-                    LangText(context: context).getLocal()!.select_products_ucf,
+                    LangText(context: context).getLocal().select_products_ucf,
                     style: TextStyle(color: MyTheme.grey_153),
                   ))),
           //_buildCouponProductList()
@@ -565,7 +560,7 @@ class _NewCouponState extends State<NewCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.date_ucf,
+          LangText(context: context).getLocal().date_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -588,9 +583,7 @@ class _NewCouponState extends State<NewCoupon> {
                 DateTimeRange? time;
                 time = await _buildCouponDate();
                 setState(() {
-                  _statAndEndTime = DateFormat('MM/d/y').format(time!.start) +
-                      " - " +
-                      DateFormat('MM/d/y').format(time.end);
+                  _statAndEndTime = "${DateFormat('MM/d/y').format(time!.start)} - ${DateFormat('MM/d/y').format(time.end)}";
                 });
               },
               child: Row(
@@ -672,10 +665,10 @@ class _NewCouponState extends State<NewCoupon> {
         value: _couponInformation,
         items: _couponInformationList
             .map((value) => DropdownMenuItem<CouponInformationOptions>(
+                  value: value,
                   child: Text(
                     value.value!,
                   ),
-                  value: value,
                 ))
             .toList(),
       ),
@@ -728,10 +721,10 @@ class _NewCouponState extends State<NewCoupon> {
         value: _couponDiscountTypeText,
         items: _couponDiscountTypeList
             .map((value) => DropdownMenuItem(
+                  value: value,
                   child: Text(
                     value.value!,
                   ),
-                  value: value,
                 ))
             .toList(),
       ),
@@ -747,7 +740,7 @@ class _NewCouponState extends State<NewCoupon> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          SizedBox(
             width: DeviceInfo(context).getWidth(),
             height: 40,
             child: TextField(
@@ -762,7 +755,7 @@ class _NewCouponState extends State<NewCoupon> {
               },
             ),
           ),
-          Container(
+          SizedBox(
             height: 240,
             child: SingleChildScrollView(
               child: Column(
@@ -773,7 +766,7 @@ class _NewCouponState extends State<NewCoupon> {
                         (index) => Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: DeviceInfo(context).getWidth() / 2,
                                   child: Text(
                                     _searchProductList[index].name!,
@@ -788,12 +781,12 @@ class _NewCouponState extends State<NewCoupon> {
                                         _searchProductList[index].isSelect =
                                             value;
                                         _selectedProducts = [];
-                                        _searchProductList.forEach((element) {
+                                        for (var element in _searchProductList) {
                                           if (element.isSelect!) {
                                             _selectedProducts.add(element);
                                             print(element.id);
                                           }
-                                        });
+                                        }
                                       });
                                     })
                               ],
@@ -820,18 +813,18 @@ class _NewCouponState extends State<NewCoupon> {
 
     var resPonse = await CouponRepository().searchProducts(value);
 
-    resPonse.data!.forEach((element) {
+    for (var element in resPonse.data!) {
       bool idHas = false;
-      _searchProductList.forEach((element2) {
+      for (var element2 in _searchProductList) {
         if (element.id == element2.id) {
           idHas = true;
         }
-      });
+      }
       if (!idHas) {
         _searchProductList.add(
             SelectProduct(id: element.id, name: element.name, isSelect: false));
       }
-    });
+    }
     setState(() {});
   }
 
@@ -847,7 +840,7 @@ class _NewCouponState extends State<NewCoupon> {
               SizedBox(
                 width: 10,
               ),
-              Text("${LangText(context: context).getLocal()!.please_wait_ucf}"),
+              Text(LangText(context: context).getLocal().please_wait_ucf),
             ],
           ));
         });

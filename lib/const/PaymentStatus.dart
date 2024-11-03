@@ -9,15 +9,15 @@ class PaymentStatus {
 
   static List<PaymentStatus> getPaymentStatusList() {
     return <PaymentStatus>[
-      PaymentStatus('', LangText(context: OneContext().context).getLocal()!.all_ucf),
-      PaymentStatus('paid', LangText(context: OneContext().context).getLocal()!.paid_ucf),
-      PaymentStatus('unpaid', LangText(context: OneContext().context).getLocal()!.unpaid_ucf),
+      PaymentStatus('', LangText(context: OneContext().context).getLocal().all_ucf),
+      PaymentStatus('paid', LangText(context: OneContext().context).getLocal().paid_ucf),
+      PaymentStatus('unpaid', LangText(context: OneContext().context).getLocal().unpaid_ucf),
     ];
   }
   static List<PaymentStatus> getPaymentStatusListForUpdater() {
     return <PaymentStatus>[
-      PaymentStatus('paid', LangText(context: OneContext().context).getLocal()!.paid_ucf,),
-      PaymentStatus('unpaid', LangText(context: OneContext().context).getLocal()!.unpaid_ucf),
+      PaymentStatus('paid', LangText(context: OneContext().context).getLocal().paid_ucf,),
+      PaymentStatus('unpaid', LangText(context: OneContext().context).getLocal().unpaid_ucf),
     ];
   }
 }

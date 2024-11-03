@@ -15,20 +15,19 @@ class NagadScreen extends StatefulWidget {
   String? package_id;
 
   NagadScreen(
-      {Key? key,
+      {super.key,
       this.amount = 0.00,
       this.payment_type = "",
       this.payment_method_key = "",
-      this.package_id})
-      : super(key: key);
+      this.package_id});
 
   @override
   _NagadScreenState createState() => _NagadScreenState();
 }
 
 class _NagadScreenState extends State<NagadScreen> {
-  int _combined_order_id = 0;
-  bool _order_init = false;
+  final int _combined_order_id = 0;
+  final bool _order_init = false;
   String? _initial_url = "";
   bool _initial_url_fetched = false;
 
@@ -94,7 +93,7 @@ class _NagadScreenState extends State<NagadScreen> {
   }
 
   void getData() {
-    String? payment_details = '';
+    String? paymentDetails = '';
     _webViewController
         .runJavaScriptReturningResult("document.body.innerText")
         .then((data) {
@@ -107,16 +106,16 @@ class _NagadScreenState extends State<NagadScreen> {
             duration: Toast.lengthLong, gravity: Toast.center);
         Navigator.pop(context);
       } else if (responseJSON["result"] == true) {
-        payment_details = responseJSON['payment_details'];
-        onPaymentSuccess(payment_details);
+        paymentDetails = responseJSON['payment_details'];
+        onPaymentSuccess(paymentDetails);
       }
     });
   }
 
-  onPaymentSuccess(payment_details) async {
+  onPaymentSuccess(paymentDetails) async {
     var nagadPaymentProcessResponse = await PaymentRepository()
         .getNagadPaymentProcessResponse(widget.payment_type, widget.amount,
-            _combined_order_id, payment_details);
+            _combined_order_id, paymentDetails);
 
     if (nagadPaymentProcessResponse.result == false) {
       ToastComponent.showDialog(nagadPaymentProcessResponse.message!,
@@ -139,7 +138,7 @@ class _NagadScreenState extends State<NagadScreen> {
       );
     } else {
       return SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: WebViewWidget(

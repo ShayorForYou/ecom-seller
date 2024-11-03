@@ -5,7 +5,7 @@ import 'package:ecom_seller_app/repositories/addon_repository.dart';
 class AddonsHelper {
   setAddonsData() async {
     List<AddonResponse> addonsList = await AddonRepository().getAddonList();
-    addonsList.forEach((element) {
+    for (var element in addonsList) {
       print(element.uniqueIdentifier);
       switch (element.uniqueIdentifier) {
         case 'refund_request':
@@ -78,6 +78,6 @@ class AddonsHelper {
         default:
           {}
       }
-    });
+    }
   }
 }

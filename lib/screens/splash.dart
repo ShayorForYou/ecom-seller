@@ -4,7 +4,6 @@ import 'package:ecom_seller_app/helpers/auth_helper.dart';
 import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 import 'package:ecom_seller_app/middlewares/mail_verification_route_middleware.dart';
 import 'package:ecom_seller_app/my_theme.dart';
-import 'package:ecom_seller_app/repositories/auth_repository.dart';
 import 'package:ecom_seller_app/screens/home.dart';
 import 'package:ecom_seller_app/screens/login.dart';
 import 'package:ecom_seller_app/screens/main.dart';
@@ -14,6 +13,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class Splash extends StatefulWidget {
+  const Splash({super.key});
+
   @override
   _SplashState createState() => _SplashState();
 }
@@ -59,7 +60,7 @@ class _SplashState extends State<Splash> {
       navigateAfterSeconds: access_token.$!.isNotEmpty ? Home() : Login(),
       //navigateAfterFuture: loadFromFuture(), //uncomment this
       version: Text(
-        "version " + _packageInfo.version,
+        "version ${_packageInfo.version}",
         style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 11.0,
@@ -142,7 +143,7 @@ class CustomSplashScreen extends StatefulWidget {
 
   /// Use one of the provided factory constructors instead of.
   @protected
-  CustomSplashScreen({
+  const CustomSplashScreen({super.key, 
     this.loaderColor,
     this.navigateAfterFuture,
     this.seconds,
@@ -214,7 +215,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
+                SizedBox(
                     width: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

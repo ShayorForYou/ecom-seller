@@ -34,7 +34,7 @@ import 'package:toast/toast.dart';
 import '../../data_model/product/category_response_model.dart';
 
 class NewProduct extends StatefulWidget {
-  const NewProduct({Key? key}) : super(key: key);
+  const NewProduct({super.key});
 
   @override
   State<NewProduct> createState() => _NewProductState();
@@ -131,7 +131,7 @@ class _NewProductState extends State<NewProduct> {
       tax,
       taxType;
 
-  Map choice_options = Map();
+  Map choice_options = {};
 
   ImagePicker pickImage = ImagePicker();
 
@@ -183,7 +183,7 @@ class _NewProductState extends State<NewProduct> {
       TextEditingController();
   TextEditingController lowStockQuantityTextEditTextController =
       TextEditingController(text: "1");
-  TextEditingController _TextEditTextController = TextEditingController();
+  final TextEditingController _TextEditTextController = TextEditingController();
 
   GlobalKey<FlutterSummernoteState> productDescriptionKey = GlobalKey();
 
@@ -191,7 +191,7 @@ class _NewProductState extends State<NewProduct> {
 
   getCategories() async {
     categoryResponse = await ProductRepository().getCategoryRes();
-    categoryResponse!.data!.forEach((element) {
+    for (var element in categoryResponse!.data!) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
           title: element.name,
@@ -200,7 +200,7 @@ class _NewProductState extends State<NewProduct> {
           height: 0.0,
           children: setChildCategory(element.child!));
       categories.add(model);
-    });
+    }
     if (categories.isNotEmpty) {
       selectedCategory = categories.first;
     }
@@ -210,7 +210,7 @@ class _NewProductState extends State<NewProduct> {
 
   List<CategoryModel> setChildCategory(List<Category> child) {
     List<CategoryModel> list = [];
-    child.forEach((element) {
+    for (var element in child) {
       var children = element.child ?? [];
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
@@ -219,25 +219,25 @@ class _NewProductState extends State<NewProduct> {
           children: children.isNotEmpty ? setChildCategory(children) : []);
 
       list.add(model);
-    });
+    }
     return list;
   }
 
   getBrands() async {
     var brandsRes = await ProductRepository().getBrandRes();
-    brandsRes.data!.forEach((element) {
+    for (var element in brandsRes.data!) {
       brands.addAll([
         CommonDropDownItem("${element.id}", element.name),
       ]);
-    });
+    }
     setState(() {});
   }
 
   getColors() async {
     var colorRes = await ProductRepository().getColorsRes();
-    colorRes.data!.forEach((element) {
+    for (var element in colorRes.data!) {
       colorList.add(CommonDropDownItem("${element.code}", "${element.name}"));
-    });
+    }
 
     setState(() {});
   }
@@ -245,7 +245,7 @@ class _NewProductState extends State<NewProduct> {
   getAttributes() async {
     var attributeRes = await ProductRepository().getAttributeRes();
 
-    attributeRes.data!.forEach((element) {
+    for (var element in attributeRes.data!) {
       attribute.add(
         AttributesModel(
           CommonDropDownItem("${element.id}", "${element.name}"),
@@ -257,7 +257,7 @@ class _NewProductState extends State<NewProduct> {
           null,
         ),
       );
-    });
+    }
 
     // selectedCategory = categories.first;
 
@@ -267,11 +267,11 @@ class _NewProductState extends State<NewProduct> {
   setConstDropdownValues() {
     videoType.addAll([
       CommonDropDownItem("youtube",
-          LangText(context: OneContext().context).getLocal()!.youtube_ucf),
+          LangText(context: OneContext().context).getLocal().youtube_ucf),
       CommonDropDownItem("dailymotion",
-          LangText(context: OneContext().context).getLocal()!.dailymotion_ucf),
+          LangText(context: OneContext().context).getLocal().dailymotion_ucf),
       CommonDropDownItem("vimeo",
-          LangText(context: OneContext().context).getLocal()!.vimeo_ucf),
+          LangText(context: OneContext().context).getLocal().vimeo_ucf),
     ]);
     selectedVideoType = videoType.first;
 
@@ -307,13 +307,13 @@ class _NewProductState extends State<NewProduct> {
   getTaxType() async {
     var taxRes = await ProductRepository().getTaxRes();
 
-    taxRes.data!.forEach((element) {
+    for (var element in taxRes.data!) {
       vatTaxList.add(
           VatTaxViewModel(VatTaxModel("${element.id}", "${element.name}"), [
         CommonDropDownItem("amount", "Flat"),
         CommonDropDownItem("percent", "Percent"),
       ]));
-    });
+    }
   }
 
   fetchAll() {
@@ -351,22 +351,22 @@ class _NewProductState extends State<NewProduct> {
     productVariations.clear();
 
     if (selectedColors.isNotEmpty) {
-      selectedColors.forEach((colors) {
+      for (var colors in selectedColors) {
         // add attribute with color;
         var colorName = colors.value;
         List<String> attributeList = generateAttributeVariation();
         if (attributeList.isNotEmpty) {
-          attributeList.forEach((element) {
+          for (var element in attributeList) {
             print(element);
             productVariations.add(VariationModel(
-                colorName! + "-" + element,
+                "${colorName!}-$element",
                 FileInfo(),
                 TextEditingController(
                     text: unitPriceEditTextController.text.trim().toString()),
                 TextEditingController(text: "0"),
                 TextEditingController(),
                 false));
-          });
+          }
         } else {
           productVariations.add(VariationModel(
               colorName,
@@ -377,12 +377,12 @@ class _NewProductState extends State<NewProduct> {
               TextEditingController(),
               false));
         }
-      });
+      }
     } else {
       List<String> attributeList = generateAttributeVariation();
 
       if (attributeList.isNotEmpty) {
-        attributeList.forEach((element) {
+        for (var element in attributeList) {
           productVariations.add(VariationModel(
               element,
               null,
@@ -391,7 +391,7 @@ class _NewProductState extends State<NewProduct> {
               TextEditingController(text: "10"),
               TextEditingController(),
               false));
-        });
+        }
       }
     }
   }
@@ -399,12 +399,12 @@ class _NewProductState extends State<NewProduct> {
   List<String> generateAttributeVariation() {
     var variationColumn = 1;
 
-    selectedAttributes.forEach((element) {
+    for (var element in selectedAttributes) {
       if (element.selectedAttributeItems.isNotEmpty) {
         variationColumn =
             variationColumn * element.selectedAttributeItems.length;
       }
-    });
+    }
 
     List<String> mList = [];
 
@@ -428,12 +428,10 @@ class _NewProductState extends State<NewProduct> {
           for (int l = j;
               l < mList.length;
               l = l + selectedAttributes[i].selectedAttributeItems.length) {
-            String tmp = mList[l] +
-                "-" +
-                selectedAttributes[i]
+            String tmp = "${mList[l]}-${selectedAttributes[i]
                     .selectedAttributeItems[j]
                     .value!
-                    .replaceAll(" ", "");
+                    .replaceAll(" ", "")}";
             mList[l] = tmp;
           }
         }
@@ -447,37 +445,37 @@ class _NewProductState extends State<NewProduct> {
     photos = "";
     for (int i = 0; i < productGalleryImages.length; i++) {
       if (i != (productGalleryImages.length - 1)) {
-        photos = "$photos " + "${productGalleryImages[i].id},";
+        photos = "$photos " "${productGalleryImages[i].id},";
       } else {
-        photos = "$photos " + "${productGalleryImages[i].id}";
+        photos = "$photos " "${productGalleryImages[i].id}";
       }
     }
   }
 
   setColors() {
     colors = [];
-    selectedColors.forEach((element) {
+    for (var element in selectedColors) {
       colors!.add(element.key);
-    });
+    }
   }
 
   setChoiceAtt() {
     choiceAttributes = [];
     choiceNo = [];
     choice = [];
-    if (choice_options != null) choice_options.clear();
+    choice_options.clear();
 
-    selectedAttributes.forEach((element) {
+    for (var element in selectedAttributes) {
       choiceAttributes!.add(element.name.key);
       choiceNo!.add(element.name.key);
       choice!.add(element.name.value);
 
       List<String?> tmpValue = [];
-      element.selectedAttributeItems.forEach((attributes) {
+      for (var attributes in element.selectedAttributeItems) {
         tmpValue.add(attributes.value);
-      });
+      }
       choice_options.addAll({"choice_options_${element.name.key}": tmpValue});
-    });
+    }
 
     choiceAttributes!.sort();
   }
@@ -486,11 +484,11 @@ class _NewProductState extends State<NewProduct> {
     taxType = [];
     tax = [];
     taxId = [];
-    vatTaxList.forEach((element) {
+    for (var element in vatTaxList) {
       taxId!.add(element.vatTaxModel.id);
       tax!.add(element.amount.text.trim().toString());
       if (element.selectedItem != null) taxType!.add(element.selectedItem!.key);
-    });
+    }
   }
 
   setProductValues() async {
@@ -502,9 +500,9 @@ class _NewProductState extends State<NewProduct> {
     minQuantity = minimumEditTextController.text.trim();
 
     tagMap.clear();
-    tags!.forEach((element) {
+    for (var element in tags!) {
       tagMap.add(jsonEncode({"value": '$element'}));
-    });
+    }
     // add product photo
     setProductPhotoValue();
     if (thumbnailImage != null) thumbnailImg = "${thumbnailImage!.id}";
@@ -514,9 +512,7 @@ class _NewProductState extends State<NewProduct> {
     setColors();
     colorsActive = isColorActive ? "1" : "0";
     unitPrice = unitPriceEditTextController.text.trim().toString();
-    dateRange = dateTimeRange!.start.toString() +
-        " to " +
-        dateTimeRange!.end.toString();
+    dateRange = "${dateTimeRange!.start} to ${dateTimeRange!.end}";
     discount = productDiscountEditTextController.text.trim().toString();
     discountType = selectedProductDiscountType!.key;
     currentStock = productVariations.isEmpty
@@ -579,7 +575,7 @@ class _NewProductState extends State<NewProduct> {
 
     await setProductValues();
     setChoiceAtt();
-    Map postValue = Map();
+    Map postValue = {};
     postValue.addAll({
       "name": productName,
       "category_id": mainCategoryId,
@@ -660,19 +656,19 @@ class _NewProductState extends State<NewProduct> {
   }
 
   Map makeVariationMap() {
-    Map variation = Map();
-    productVariations.forEach((element) {
+    Map variation = {};
+    for (var element in productVariations) {
       variation.addAll({
-        "price_" + element.name!.replaceAll(" ", "-"):
-            element.priceEditTextController.text.trim().toString() ?? null,
-        "sku_" + element.name!.replaceAll(" ", "-"):
-            element.skuEditTextController.text.trim().toString() ?? null,
-        "qty_" + element.name!.replaceAll(" ", "-"):
-            element.quantityEditTextController.text.trim().toString() ?? null,
-        "img_" + element.name!.replaceAll(" ", "-"):
-            element.photo == null ? null : element.photo!.id,
+        "price_${element.name!.replaceAll(" ", "-")}":
+            element.priceEditTextController.text.trim().toString(),
+        "sku_${element.name!.replaceAll(" ", "-")}":
+            element.skuEditTextController.text.trim().toString(),
+        "qty_${element.name!.replaceAll(" ", "-")}":
+            element.quantityEditTextController.text.trim().toString(),
+        "img_${element.name!.replaceAll(" ", "-")}":
+            element.photo?.id,
       });
-    });
+    }
     return variation;
   }
 
@@ -709,27 +705,31 @@ class _NewProductState extends State<NewProduct> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-              color: MyTheme.app_accent_color.withOpacity(0.7),
-              width: mWidth / 2,
-              child: Buttons(
-                  onPressed: () async {
-                    submitProduct("unpublish");
-                  },
-                  child: Text(
-                    LangText(context: context).getLocal()!.save_n_unpublish_ucf,
-                    style: TextStyle(color: MyTheme.white),
-                  ))),
-          Container(
-              color: MyTheme.app_accent_color,
-              width: mWidth / 2,
-              child: Buttons(
-                  onPressed: () async {
-                    submitProduct("publish");
-                  },
-                  child: Text(
-                      LangText(context: context).getLocal()!.save_n_publish_ucf,
-                      style: TextStyle(color: MyTheme.white))))
+          Expanded(
+            child: Container(
+                color: MyTheme.app_accent_color.withOpacity(0.7),
+                width: mWidth / 2,
+                child: Buttons(
+                    onPressed: () async {
+                      submitProduct("unpublish");
+                    },
+                    child: Text(
+                      LangText(context: context).getLocal().save_n_unpublish_ucf,
+                      style: TextStyle(color: MyTheme.white),
+                    ))),
+          ),
+          Expanded(
+            child: Container(
+                color: MyTheme.app_accent_color,
+                width: mWidth / 2,
+                child: Buttons(
+                    onPressed: () async {
+                      submitProduct("publish");
+                    },
+                    child: Text(
+                        LangText(context: context).getLocal().save_n_publish_ucf,
+                        style: TextStyle(color: MyTheme.white)))),
+          )
         ],
       ),
     );
@@ -762,19 +762,19 @@ class _NewProductState extends State<NewProduct> {
 
   Widget buildGeneral() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.product_information_ucf,
+      LangText(context: context).getLocal().product_information_ucf,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildEditTextField(
-            LangText(context: context).getLocal()!.product_name_ucf,
-            LangText(context: context).getLocal()!.product_name_ucf,
+            LangText(context: context).getLocal().product_name_ucf,
+            LangText(context: context).getLocal().product_name_ucf,
             productNameEditTextController,
             isMandatory: true,
           ),
           itemSpacer(),
           _buildMultiCategory(
-              LangText(context: context).getLocal()!.categories_ucf,
+              LangText(context: context).getLocal().categories_ucf,
               isMandatory: true),
           itemSpacer(),
           // _buildDropDownField(LangText(context: context).getLocal()!.brands_ucf,
@@ -784,8 +784,8 @@ class _NewProductState extends State<NewProduct> {
           // }, selectedBrand, brands),
           // itemSpacer(),
           buildEditTextField(
-              LangText(context: context).getLocal()!.unit_ucf,
-              LangText(context: context).getLocal()!.unit_eg_ucf,
+              LangText(context: context).getLocal().unit_ucf,
+              LangText(context: context).getLocal().unit_eg_ucf,
               unitEditTextController,
               isMandatory: true),
           // itemSpacer(),
@@ -796,16 +796,16 @@ class _NewProductState extends State<NewProduct> {
           itemSpacer(),
           buildEditTextField(
               LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .minimum_purchase_quantity_ucf,
               "1",
               minimumEditTextController,
               isMandatory: true),
           itemSpacer(),
           buildTagsEditTextField(
-              LangText(context: context).getLocal()!.tags_ucf,
+              LangText(context: context).getLocal().tags_ucf,
               LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .type_and_hit_enter_to_add_a_tag_ucf,
               tagEditTextController,
               isMandatory: true),
@@ -821,7 +821,7 @@ class _NewProductState extends State<NewProduct> {
               children: [
                 itemSpacer(),
                 buildSwitchField(
-                    LangText(context: context).getLocal()!.refundable_ucf,
+                    LangText(context: context).getLocal().refundable_ucf,
                     isRefundable, (value) {
                   isRefundable = value;
                   setChange();
@@ -838,13 +838,13 @@ class _NewProductState extends State<NewProduct> {
           // }),
           itemSpacer(),
           buildGroupItems(
-              LangText(context: context).getLocal()!.product_description_ucf,
+              LangText(context: context).getLocal().product_description_ucf,
               summerNote(LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .product_description_ucf)),
           itemSpacer(),
           buildSwitchField(
-            LangText(context: context).getLocal()!.cash_on_delivery_ucf,
+            LangText(context: context).getLocal().cash_on_delivery_ucf,
             isCashOnDelivery,
             (onChanged) {
               isCashOnDelivery = onChanged;
@@ -892,15 +892,15 @@ class _NewProductState extends State<NewProduct> {
 
   Widget buildMedia() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.product_images_ucf,
+      LangText(context: context).getLocal().product_images_ucf,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           chooseGalleryImageField(),
           itemSpacer(),
           chooseSingleImageField(
-              LangText(context: context).getLocal()!.thumbnail_image_300_ucf,
-              LangText(context: context).getLocal()!.thumbnail_image_300_des,
+              LangText(context: context).getLocal().thumbnail_image_300_ucf,
+              LangText(context: context).getLocal().thumbnail_image_300_des,
               (onChosenImage) {
             thumbnailImage = onChosenImage;
             setChange();
@@ -945,10 +945,10 @@ class _NewProductState extends State<NewProduct> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildPriceEditTextField(
-              LangText(context: context).getLocal()!.unit_price_ucf, "0"),
+              LangText(context: context).getLocal().unit_price_ucf, "0"),
           itemSpacer(),
           buildGroupItems(
-              LangText(context: context).getLocal()!.discount_date_range_ucf,
+              LangText(context: context).getLocal().discount_date_range_ucf,
               Container(
                 height: 45,
                 width: mWidth,
@@ -978,7 +978,7 @@ class _NewProductState extends State<NewProduct> {
               SizedBox(
                 width: (mWidth / 2) - 20,
                 child: buildEditTextField(
-                    LangText(context: context).getLocal()!.discount_ucf,
+                    LangText(context: context).getLocal().discount_ucf,
                     "0",
                     productDiscountEditTextController,
                     isMandatory: true),
@@ -1000,7 +1000,7 @@ class _NewProductState extends State<NewProduct> {
               children: [
                 itemSpacer(),
                 buildEditTextField(
-                    LangText(context: context).getLocal()!.quantity_ucf,
+                    LangText(context: context).getLocal().quantity_ucf,
                     "0",
                     productQuantityEditTextController,
                     isMandatory: true),
@@ -1036,15 +1036,15 @@ class _NewProductState extends State<NewProduct> {
           itemSpacer(),
           buildGroupItems(
               LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .low_stock_quantity_warning_ucf,
               buildEditTextField(
-                  LangText(context: context).getLocal()!.quantity_ucf,
+                  LangText(context: context).getLocal().quantity_ucf,
                   "0",
                   lowStockQuantityTextEditTextController)),
           itemSpacer(),
           buildGroupItems(
-            LangText(context: context).getLocal()!.stock_visibility_state_ucf,
+            LangText(context: context).getLocal().stock_visibility_state_ucf,
             Column(
               children: List.generate(
                   stockVisibilityStateList.length,
@@ -1052,14 +1052,14 @@ class _NewProductState extends State<NewProduct> {
                           stockVisibilityStateList[index].title,
                           stockVisibilityStateList[index].isActive,
                           (changedValue) {
-                        stockVisibilityStateList.forEach((element) {
+                        for (var element in stockVisibilityStateList) {
                           if (element.key ==
                               stockVisibilityStateList[index].key) {
                             stockVisibilityStateList[index].isActive = true;
                           } else {
                             element.isActive = false;
                           }
-                        });
+                        }
                         selectedstockVisibilityState =
                             stockVisibilityStateList[index];
                         setChange();
@@ -1068,13 +1068,13 @@ class _NewProductState extends State<NewProduct> {
           ),
           itemSpacer(),
           buildGroupItems(
-              LangText(context: context).getLocal()!.product_variation_ucf,
+              LangText(context: context).getLocal().product_variation_ucf,
               SizedBox()),
           // if (false)
           Row(
             children: [
               buildFieldTitle(
-                  LangText(context: context).getLocal()!.colors_ucf),
+                  LangText(context: context).getLocal().colors_ucf),
               Spacer(),
               Switch(
                   activeColor: MyTheme.green,
@@ -1112,7 +1112,7 @@ class _NewProductState extends State<NewProduct> {
 
           itemSpacer(),
           buildCommonSingleField(
-              LangText(context: context).getLocal()!.attributes_ucf,
+              LangText(context: context).getLocal().attributes_ucf,
               Container(
                 width: mWidth,
                 padding:
@@ -1196,19 +1196,19 @@ class _NewProductState extends State<NewProduct> {
 
   Widget buildSEO() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.seo_all_capital,
+      LangText(context: context).getLocal().seo_all_capital,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildEditTextField(
-            LangText(context: context).getLocal()!.meta_title_ucf,
-            LangText(context: context).getLocal()!.meta_title_ucf,
+            LangText(context: context).getLocal().meta_title_ucf,
+            LangText(context: context).getLocal().meta_title_ucf,
             metaTitleEditTextController,
             isMandatory: false,
           ),
           itemSpacer(),
           buildGroupItems(
-            LangText(context: context).getLocal()!.description_ucf,
+            LangText(context: context).getLocal().description_ucf,
             Container(
                 padding: EdgeInsets.all(8),
                 height: 150,
@@ -1223,12 +1223,12 @@ class _NewProductState extends State<NewProduct> {
                     style: TextStyle(fontSize: 12),
                     decoration: InputDecoration.collapsed(
                         hintText: LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .description_ucf))),
           ),
           itemSpacer(),
           chooseSingleImageField(
-              LangText(context: context).getLocal()!.meta_image_ucf, "",
+              LangText(context: context).getLocal().meta_image_ucf, "",
               (onChosenImage) {
             metaImage = onChosenImage;
             setChange();
@@ -1254,7 +1254,7 @@ class _NewProductState extends State<NewProduct> {
             decoration: MDecoration.decoration1(),
             child: buildGroupItems(
                 LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .shipping_configuration_ucf,
                 shipping_type.$
                     ? Column(
@@ -1266,8 +1266,7 @@ class _NewProductState extends State<NewProduct> {
                                         shippingConfigurationList[index].title,
                                         shippingConfigurationList[index]
                                             .isActive, (changedValue) {
-                                      shippingConfigurationList
-                                          .forEach((element) {
+                                      for (var element in shippingConfigurationList) {
                                         if (element.key ==
                                             shippingConfigurationList[index]
                                                 .key) {
@@ -1276,7 +1275,7 @@ class _NewProductState extends State<NewProduct> {
                                         } else {
                                           element.isActive = false;
                                         }
-                                      });
+                                      }
                                       selectedShippingConfiguration =
                                           shippingConfigurationList[index];
                                       setChange();
@@ -1287,7 +1286,7 @@ class _NewProductState extends State<NewProduct> {
                             Row(
                               children: [
                                 Text(LangText(context: context)
-                                    .getLocal()!
+                                    .getLocal()
                                     .shipping_cost_ucf),
                                 Spacer(),
                                 Container(
@@ -1318,7 +1317,7 @@ class _NewProductState extends State<NewProduct> {
                     : Container(
                         child: Text(
                           LangText(context: context)
-                              .getLocal()!
+                              .getLocal()
                               .shipping_configuration_is_maintained_by_admin,
                           style: MyTextStyle.normalStyle(),
                         ),
@@ -1336,10 +1335,10 @@ class _NewProductState extends State<NewProduct> {
             decoration: MDecoration.decoration1(),
             child: buildGroupItems(
                 LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .estimate_shipping_time_ucf,
                 buildGroupItems(
-                  LangText(context: context).getLocal()!.shipping_days_ucf,
+                  LangText(context: context).getLocal().shipping_days_ucf,
                   MyWidget().myContainer(
                       width: DeviceInfo(context).getWidth(),
                       height: 46,
@@ -1558,7 +1557,7 @@ class _NewProductState extends State<NewProduct> {
                     .toList(),
               ),
             ),
-            Container(
+            SizedBox(
               width: mWidth * 0.10,
               child: IconButton(
                   onPressed: () {
@@ -1613,7 +1612,7 @@ class _NewProductState extends State<NewProduct> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              LangText(context: context).getLocal()!.gallery_images_600,
+              LangText(context: context).getLocal().gallery_images_600,
               style: TextStyle(
                   fontSize: 12,
                   color: MyTheme.font_grey,
@@ -1667,7 +1666,7 @@ class _NewProductState extends State<NewProduct> {
         ),
         Text(
           LangText(context: context)
-              .getLocal()!
+              .getLocal()
               .these_images_are_visible_in_product_details_page_gallery_600,
           style: TextStyle(fontSize: 8, color: MyTheme.grey_153),
         ),
@@ -2001,9 +2000,7 @@ class _NewProductState extends State<NewProduct> {
                   color: MyTheme.grey_153,
                 ),
                 child: Text(
-                  selectedFile.fileOriginalName! +
-                      "." +
-                      selectedFile.extension!,
+                  "${selectedFile.fileOriginalName!}.${selectedFile.extension!}",
                   style: TextStyle(fontSize: 9, color: MyTheme.white),
                 ),
               ),
@@ -2058,7 +2055,7 @@ class _NewProductState extends State<NewProduct> {
         const SizedBox(
           height: 10,
         ),
-        Container(
+        SizedBox(
           height: 250,
           width: mWidth,
           child: FlutterSummernote(
@@ -2503,7 +2500,7 @@ class _NewProductState extends State<NewProduct> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                         width: (mWidth / 3),
                         child: Text(
                           productVariations[index].name!,
@@ -2534,11 +2531,11 @@ class _NewProductState extends State<NewProduct> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          SizedBox(
                               width: 80,
                               child: Text(
                                 LangText(context: context)
-                                    .getLocal()!
+                                    .getLocal()
                                     .sku_all_capital,
                                 style: MyTextStyle.smallFontSize()
                                     .copyWith(color: MyTheme.font_grey),
@@ -2565,11 +2562,11 @@ class _NewProductState extends State<NewProduct> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 80,
                             child: Text(
                               LangText(context: context)
-                                  .getLocal()!
+                                  .getLocal()
                                   .quantity_ucf,
                               style: MyTextStyle.smallFontSize()
                                   .copyWith(color: MyTheme.font_grey),
@@ -2606,7 +2603,7 @@ class _NewProductState extends State<NewProduct> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 14.0),
                             child: Text(
-                              LangText(context: context).getLocal()!.photo_ucf,
+                              LangText(context: context).getLocal().photo_ucf,
                               style: MyTextStyle.smallFontSize()
                                   .copyWith(color: MyTheme.font_grey),
                             ),
@@ -2641,7 +2638,7 @@ class _NewProductState extends State<NewProduct> {
                 fontSize: 12, fontWeight: FontWeight.bold, color: MyTheme.red),
           ),
         const Spacer(),
-        Container(
+        SizedBox(
           height: 30,
           child: Switch(
             value: value,
@@ -2660,7 +2657,7 @@ class _NewProductState extends State<NewProduct> {
         firstDate: DateTime.now(),
         lastDate: DateTime.utc(2050),
         builder: (context, child) {
-          return Container(
+          return SizedBox(
             width: 500,
             height: 500,
             child: DateRangePickerDialog(
@@ -2683,13 +2680,13 @@ class _NewProductState extends State<NewProduct> {
       child: Row(
         children: [
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.general_ucf, 0),
+              LangText(context: context).getLocal().general_ucf, 0),
           tabBarDivider(),
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.media_ucf, 1),
+              LangText(context: context).getLocal().media_ucf, 1),
           tabBarDivider(),
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.price_n_stock_ucf, 2),
+              LangText(context: context).getLocal().price_n_stock_ucf, 2),
           tabBarDivider(),
           // buildTopTapBarItem(
           //     LangText(context: context).getLocal()!.seo_all_capital, 3),
@@ -2736,7 +2733,7 @@ class _NewProductState extends State<NewProduct> {
       elevation: 0.0,
       title: Row(
         children: [
-          Container(
+          SizedBox(
             width: 24,
             height: 24,
             child: IconButton(
@@ -2758,7 +2755,7 @@ class _NewProductState extends State<NewProduct> {
             width: 10,
           ),
           Text(
-            LangText(context: context).getLocal()!.add_new_product_ucf,
+            LangText(context: context).getLocal().add_new_product_ucf,
             style: MyTextStyle().appbarText(),
           ),
         ],
@@ -2806,9 +2803,9 @@ class Tags {
   static toJson() {
     Map<String, String> map = {};
 
-    tags.forEach((element) {
+    for (var element in tags) {
       map.addAll({"value": element});
-    });
+    }
 
     return map;
   }

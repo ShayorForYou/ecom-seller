@@ -17,8 +17,7 @@ class Conversation extends StatefulWidget {
   final userImgUrl;
   final name;
 
-  const Conversation({Key? key, this.id, this.userImgUrl, this.name})
-      : super(key: key);
+  const Conversation({super.key, this.id, this.userImgUrl, this.name});
 
   @override
   _ConversationState createState() => _ConversationState();
@@ -146,7 +145,7 @@ class _ConversationState extends State<Conversation> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         width: DeviceInfo(context).getWidth() / 3,
                         child: Text(
                           widget.name,
@@ -235,7 +234,7 @@ class _ConversationState extends State<Conversation> {
                           borderRadius: 5,
                           borderColor: MyTheme.light_grey,
                           child: Text(
-                            "" + _messages[index].date.toString(),
+                            "${_messages[index].date}",
                             style: const TextStyle(
                                 fontSize: 8, color: Colors.grey),
                           ),
@@ -289,9 +288,7 @@ class _ConversationState extends State<Conversation> {
               right: _messages[index].sendType == "seller" ? 2 : null,
               left: _messages[index].sendType == "seller" ? null : 2,
               child: Text(
-                _messages[index].dayOfMonth.toString() +
-                    " " +
-                    _messages[index].time.toString(),
+                "${_messages[index].dayOfMonth} ${_messages[index].time}",
                 style: TextStyle(
                   fontSize: 8,
                   color: (_messages[index].sendType == "seller"
@@ -302,7 +299,7 @@ class _ConversationState extends State<Conversation> {
           Padding(
             padding: const EdgeInsets.only(bottom: 15.0),
             child: Text(
-              " " + _messages[index].message.toString(),
+              " ${_messages[index].message}",
               style: TextStyle(
                 fontSize: 12,
                 color: (_messages[index].sendType == "seller"
@@ -361,13 +358,13 @@ class _ConversationState extends State<Conversation> {
                       sendMessage();
                     }
                   : null,
+              backgroundColor: MyTheme.app_accent_color,
+              elevation: 0,
               child: const Icon(
                 Icons.send,
                 color: Colors.white,
                 size: 18,
               ),
-              backgroundColor: MyTheme.app_accent_color,
-              elevation: 0,
             ),
           ],
         ),

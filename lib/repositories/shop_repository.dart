@@ -88,11 +88,11 @@ class ShopRepository {
       "Content-Type": "application/json",
     };
 
-    var post_data = jsonEncode(
+    var postData = jsonEncode(
         {"package_id": packageId, "payment_option": "No Method", "amount": 0});
 
     final response =
-        await ApiRequest.post(url: url, headers: header, body: post_data);
+        await ApiRequest.post(url: url, headers: header, body: postData);
 
     return commonResponseFromJson(response.body);
   }
@@ -137,7 +137,7 @@ class ShopRepository {
     return shopPackageResponseFromJson(response.body);
   }
 
-  Future<CommonResponse> updateShopSetting(var post_body) async {
+  Future<CommonResponse> updateShopSetting(var postBody) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/shop-update");
     Map<String, String> header = {
       "App-Language": app_language.$!,
@@ -148,7 +148,7 @@ class ShopRepository {
     // print("updateShopSetting body" + post_body.toString());
 
     final response =
-        await ApiRequest.post(url: url, headers: header, body: post_body);
+        await ApiRequest.post(url: url, headers: header, body: postBody);
 
     print("shop info ${response.body}$url");
     return commonResponseFromJson(response.body);

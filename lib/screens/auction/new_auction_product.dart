@@ -35,7 +35,7 @@ import 'package:toast/toast.dart';
 import '../../data_model/product/category_response_model.dart';
 
 class NewAuctionProduct extends StatefulWidget {
-  const NewAuctionProduct({Key? key}) : super(key: key);
+  const NewAuctionProduct({super.key});
 
   @override
   State<NewAuctionProduct> createState() => _NewAuctionProductState();
@@ -44,7 +44,7 @@ class NewAuctionProduct extends StatefulWidget {
 class _NewAuctionProductState extends State<NewAuctionProduct> {
   // double variables
 
-  String _statAndEndTime = "Select Date";
+  final String _statAndEndTime = "Select Date";
 
   double mHeight = 0.0, mWidht = 0.0;
   int _selectedTabIndex = 0;
@@ -122,7 +122,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
       tax,
       taxType;
 
-  Map choice_options = Map();
+  Map choice_options = {};
 
   ImagePicker pickImage = ImagePicker();
 
@@ -182,7 +182,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
 
   getCategories() async {
     var categoryResponse = await ProductRepository().getCategoryRes();
-    categoryResponse.data!.forEach((element) {
+    for (var element in categoryResponse.data!) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
           title: element.name,
@@ -191,14 +191,14 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
           height: 0.0,
           children: setChildCategory(element.child!));
       categories.add(model);
-    });
+    }
     isCategoryInit = true;
     setState(() {});
   }
 
   List<CategoryModel> setChildCategory(List<Category> child) {
     List<CategoryModel> list = [];
-    child.forEach((element) {
+    for (var element in child) {
       var children = element.child ?? [];
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
@@ -207,7 +207,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
           children: children.isNotEmpty ? setChildCategory(children) : []);
 
       list.add(model);
-    });
+    }
     return list;
   }
 
@@ -282,7 +282,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
   getTaxType() async {
     var taxRes = await ProductRepository().getTaxRes();
 
-    taxRes.data!.forEach((element) {
+    for (var element in taxRes.data!) {
       vatTaxList.add(
           VatTaxViewModel(VatTaxModel("${element.id}", "${element.name}"), [
         CommonDropDownItem("amount",
@@ -290,7 +290,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
         CommonDropDownItem("percent",
             LangText(context: OneContext().context).getLocal().percent_ucf),
       ]));
-    });
+    }
   }
 
   fetchAll() {
@@ -326,9 +326,9 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
     photos = "";
     for (int i = 0; i < productGalleryImages.length; i++) {
       if (i != (productGalleryImages.length - 1)) {
-        photos = "$photos " + "${productGalleryImages[i].id},";
+        photos = "$photos " "${productGalleryImages[i].id},";
       } else {
-        photos = "$photos " + "${productGalleryImages[i].id}";
+        photos = "$photos " "${productGalleryImages[i].id}";
       }
     }
   }
@@ -430,18 +430,18 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
 
   List getMaxQtys() {
     List qtys = [];
-    maxQTYTextEditTextController.forEach((element) {
+    for (var element in maxQTYTextEditTextController) {
       qtys.add(element.text.trim());
-    });
+    }
 
     return qtys;
   }
 
   List getPrices() {
     List prices = [];
-    priceTextEditTextController.forEach((element) {
+    for (var element in priceTextEditTextController) {
       prices.add(element.text.trim());
-    });
+    }
 
     return prices;
   }
@@ -638,7 +638,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
           ),
           itemSpacer(),
           _buildMultiCategory(
-              LangText(context: context).getLocal()!.categories_ucf,
+              LangText(context: context).getLocal().categories_ucf,
               isMandatory: true),
           itemSpacer(),
           _buildDropDownField(LangText(context: context).getLocal().brands_ucf,
@@ -892,7 +892,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
                                 shippingConfigurationList[index].title,
                                 shippingConfigurationList[index].isActive,
                                 (changedValue) {
-                                  shippingConfigurationList.forEach((element) {
+                                  for (var element in shippingConfigurationList) {
                                     if (element.key ==
                                         shippingConfigurationList[index].key) {
                                       shippingConfigurationList[index]
@@ -900,7 +900,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
                                     } else {
                                       element.isActive = false;
                                     }
-                                  });
+                                  }
                                   selectedShippingConfiguration =
                                       shippingConfigurationList[index];
                                   setChange();
@@ -1569,7 +1569,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
         const SizedBox(
           height: 10,
         ),
-        Container(
+        SizedBox(
           height: 250,
           width: mWidht,
           child: FlutterSummernote(
@@ -2165,7 +2165,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
                 fontSize: 12, fontWeight: FontWeight.bold, color: MyTheme.red),
           ),
         const Spacer(),
-        Container(
+        SizedBox(
           height: 30,
           child: Switch(
             value: value,
@@ -2652,7 +2652,7 @@ class _NewAuctionProductState extends State<NewAuctionProduct> {
       elevation: 0.0,
       title: Row(
         children: [
-          Container(
+          SizedBox(
             width: 24,
             height: 24,
             child: IconButton(
@@ -2713,9 +2713,9 @@ class Tags {
   static toJson() {
     Map<String, String> map = {};
 
-    tags.forEach((element) {
+    for (var element in tags) {
       map.addAll({"value": element});
-    });
+    }
 
     return map;
   }

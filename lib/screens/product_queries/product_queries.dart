@@ -15,7 +15,7 @@ import '../../my_theme.dart';
 import 'product_queries_reply.dart';
 
 class ProductQueries extends StatefulWidget {
-  const ProductQueries({Key? key}) : super(key: key);
+  const ProductQueries({super.key});
 
   @override
   State<ProductQueries> createState() => _ProductQueriesState();
@@ -50,7 +50,7 @@ class _ProductQueriesState extends State<ProductQueries> {
 
     if (response.data!.isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.no_more_queries_ucf,
+          LangText(context: context).getLocal().no_more_queries_ucf,
           gravity: Toast.center,
           bgColor: MyTheme.white,
           textStyle: TextStyle(color: Colors.black));

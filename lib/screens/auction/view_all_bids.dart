@@ -19,9 +19,9 @@ class ViewAllBids extends StatefulWidget {
   final productId;
 
   const ViewAllBids({
-    Key? key,
+    super.key,
     this.productId,
-  }) : super(key: key);
+  });
 
   @override
   State<ViewAllBids> createState() => _ViewAllBidsState();
@@ -34,7 +34,7 @@ class _ViewAllBidsState extends State<ViewAllBids> {
   bool _faceData = false;
   late BuildContext loadingContext;
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   getCustomerList() async {
     var response = await ProductRepository()
@@ -46,7 +46,7 @@ class _ViewAllBidsState extends State<ViewAllBids> {
     _showLoadingContainer = false;
 
     _faceData = true;
-    print("data face " + _faceData.toString());
+    print("data face $_faceData");
     setState(() {});
   }
 
@@ -93,7 +93,7 @@ class _ViewAllBidsState extends State<ViewAllBids> {
     return Scaffold(
       appBar: MyAppBar(
         context: context,
-        title: LangText(context: context).getLocal()!.auction_all_bids_ucf,
+        title: LangText(context: context).getLocal().auction_all_bids_ucf,
       ).show(),
       body: RefreshIndicator(
         onRefresh: refresh,
@@ -128,7 +128,7 @@ class _ViewAllBidsState extends State<ViewAllBids> {
                                   height: DeviceInfo(context).getHeight() / 1.5,
                                   child: Center(
                                       child: Text(LangText(context: context)
-                                          .getLocal()!
+                                          .getLocal()
                                           .no_data_is_available)),
                                 ),
                     )
@@ -244,7 +244,7 @@ class _ViewAllBidsState extends State<ViewAllBids> {
               width: DeviceInfo(context).getWidth() * 1.5,
               child: AlertDialog(
                 title: Text(
-                  LangText(context: context).getLocal()!.warning_ucf,
+                  LangText(context: context).getLocal().warning_ucf,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -252,7 +252,7 @@ class _ViewAllBidsState extends State<ViewAllBids> {
                 ),
                 content: Text(
                   LangText(context: context)
-                      .getLocal()!
+                      .getLocal()
                       .do_you_want_to_delete_it,
                   style: const TextStyle(
                       fontWeight: FontWeight.w400, fontSize: 14),
@@ -264,7 +264,7 @@ class _ViewAllBidsState extends State<ViewAllBids> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        LangText(context: context).getLocal()!.no_ucf,
+                        LangText(context: context).getLocal().no_ucf,
                         style: TextStyle(color: MyTheme.white, fontSize: 12),
                       )),
                   Buttons(
@@ -274,7 +274,7 @@ class _ViewAllBidsState extends State<ViewAllBids> {
                         deleteAuctionProduct(id);
                       },
                       child: Text(
-                          LangText(context: context).getLocal()!.yes_ucf,
+                          LangText(context: context).getLocal().yes_ucf,
                           style:
                               TextStyle(color: MyTheme.white, fontSize: 12))),
                 ],

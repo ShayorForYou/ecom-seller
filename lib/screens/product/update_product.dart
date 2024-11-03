@@ -37,7 +37,7 @@ import 'package:toast/toast.dart';
 class UpdateProduct extends StatefulWidget {
   final productId;
 
-  UpdateProduct({Key? key, this.productId}) : super(key: key);
+  const UpdateProduct({super.key, this.productId});
 
   @override
   State<UpdateProduct> createState() => _UpdateProductState();
@@ -144,7 +144,7 @@ class _UpdateProductState extends State<UpdateProduct> {
       tax,
       taxType;
 
-  Map choice_options = Map();
+  Map choice_options = {};
 
   //ImagePicker pickImage = ImagePicker();
 
@@ -586,9 +586,9 @@ class _UpdateProductState extends State<UpdateProduct> {
     photos = "";
     for (int i = 0; i < productGalleryImages.length; i++) {
       if (i != (productGalleryImages.length - 1)) {
-        photos = "$photos " + "${productGalleryImages[i].id},";
+        photos = "$photos " "${productGalleryImages[i].id},";
       } else {
-        photos = "$photos " + "${productGalleryImages[i].id}";
+        photos = "$photos " "${productGalleryImages[i].id}";
       }
     }
   }
@@ -720,7 +720,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     await setProductValues();
 
     setChoiceAtt();
-    Map postValue = Map();
+    Map postValue = {};
     postValue.addAll({
       "name": productName,
       "category_id": categoryId,
@@ -803,7 +803,7 @@ class _UpdateProductState extends State<UpdateProduct> {
   }
 
   Map makeVariationMap() {
-    Map variation = Map();
+    Map variation = {};
     for (var element in productVariations) {
       variation.addAll({
         "price_${element.name!.replaceAll(" ", "-")}":
@@ -813,7 +813,7 @@ class _UpdateProductState extends State<UpdateProduct> {
         "qty_${element.name!.replaceAll(" ", "-")}":
             element.quantityEditTextController.text.trim().toString(),
         "img_${element.name!.replaceAll(" ", "-")}":
-            element.photo == null ? null : element.photo!.id,
+            element.photo?.id,
       });
     }
     return variation;
@@ -1852,7 +1852,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                     .toList(),
               ),
             ),
-            Container(
+            SizedBox(
               width: mWidht * 0.10,
               child: IconButton(
                   onPressed: () {
@@ -2339,7 +2339,7 @@ class _UpdateProductState extends State<UpdateProduct> {
         const SizedBox(
           height: 10,
         ),
-        Container(
+        SizedBox(
           height: 250,
           width: mWidht,
           //child: summernote??Container(),
@@ -2845,7 +2845,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                         width: (mWidht / 3),
                         child: Text(
                           productVariations[index].name!,
@@ -2876,7 +2876,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          SizedBox(
                               width: 80,
                               child: Text(
                                 LangText(context: context)
@@ -2906,7 +2906,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 80,
                             child: Text(
                               LangText(context: context)
@@ -2981,7 +2981,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                 fontSize: 12, fontWeight: FontWeight.bold, color: MyTheme.red),
           ),
         const Spacer(),
-        Container(
+        SizedBox(
           height: 30,
           child: Switch(
             value: value,
@@ -3000,7 +3000,7 @@ class _UpdateProductState extends State<UpdateProduct> {
         firstDate: DateTime.now(),
         lastDate: DateTime.utc(2050),
         builder: (context, child) {
-          return Container(
+          return SizedBox(
             width: 500,
             height: 500,
             child: DateRangePickerDialog(
@@ -3078,11 +3078,12 @@ class _UpdateProductState extends State<UpdateProduct> {
   Widget buildAppBar(BuildContext context) {
     return AppBar(
       leadingWidth: 0.0,
+      automaticallyImplyLeading: false,
       centerTitle: false,
       elevation: 0.0,
       title: Row(
         children: [
-          Container(
+          SizedBox(
             width: 24,
             height: 24,
             child: IconButton(

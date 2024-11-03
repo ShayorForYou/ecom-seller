@@ -44,7 +44,7 @@ class MaintenanceMiddleware extends Middleware<bool, http.Response> {
           return false;
         }
       }
-    } on Exception catch (e) {
+    } on Exception {
       // TODO
     }
     return true;

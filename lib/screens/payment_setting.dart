@@ -14,7 +14,7 @@ import 'package:toast/toast.dart';
 import 'package:validators/validators.dart';
 
 class PaymentSetting extends StatefulWidget {
-  const PaymentSetting({Key? key}) : super(key: key);
+  const PaymentSetting({super.key});
 
   @override
   State<PaymentSetting> createState() => _PaymentSettingState();
@@ -126,20 +126,20 @@ class _PaymentSettingState extends State<PaymentSetting> {
       appBar: MyAppBar(
               context: context,
               title:
-                  LangText(context: context).getLocal()!.payment_settings_ucf)
+                  LangText(context: context).getLocal().payment_settings_ucf)
           .show(),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 width: DeviceInfo(context).getWidth(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      LangText(context: context).getLocal()!.bank_payment,
+                      LangText(context: context).getLocal().bank_payment,
                       style: TextStyle(
                           fontSize: 12,
                           color: MyTheme.font_grey,
@@ -164,13 +164,13 @@ class _PaymentSettingState extends State<PaymentSetting> {
               SizedBox(
                 height: 14,
               ),
-              Container(
+              SizedBox(
                 width: DeviceInfo(context).getWidth(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      LangText(context: context).getLocal()!.cash_payment,
+                      LangText(context: context).getLocal().cash_payment,
                       style: TextStyle(
                           fontSize: 12,
                           color: MyTheme.font_grey,
@@ -222,7 +222,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
                   radius: 6.0,
                   width: DeviceInfo(context).getWidth(),
                   child: Text(
-                    LangText(context: context).getLocal()!.save_ucf,
+                    LangText(context: context).getLocal().save_ucf,
                     style: TextStyle(fontSize: 17, color: MyTheme.white),
                   )),
             ],
@@ -237,7 +237,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.bank_routing_number_ucf,
+          LangText(context: context).getLocal().bank_routing_number_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -276,7 +276,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.bank_account_number,
+          LangText(context: context).getLocal().bank_account_number,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -308,7 +308,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.bank_account_name,
+          LangText(context: context).getLocal().bank_account_name,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -326,7 +326,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
           child: TextField(
             controller: accountNameEditingController,
             decoration: InputDecorations.buildInputDecoration_1(
-                hint_text: LangText(context: context).getLocal()!.elmira_wisozk,
+                hint_text: LangText(context: context).getLocal().elmira_wisozk,
                 borderColor: MyTheme.noColor,
                 hintTextColor: MyTheme.grey_153),
           ),
@@ -340,7 +340,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.bank_name_ucf,
+          LangText(context: context).getLocal().bank_name_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -359,7 +359,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
             controller: bankNameEditingController,
             decoration: InputDecorations.buildInputDecoration_1(
                 hint_text:
-                    LangText(context: context).getLocal()!.plains_commerce_bank,
+                    LangText(context: context).getLocal().plains_commerce_bank,
                 borderColor: MyTheme.noColor,
                 hintTextColor: MyTheme.grey_153),
           ),
@@ -381,7 +381,7 @@ class _PaymentSettingState extends State<PaymentSetting> {
               SizedBox(
                 width: 10,
               ),
-              Text("${LangText(context: context).getLocal()!.please_wait_ucf}"),
+              Text(LangText(context: context).getLocal().please_wait_ucf),
             ],
           ));
         });

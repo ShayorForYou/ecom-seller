@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangeLanguage extends StatefulWidget {
-  ChangeLanguage({Key? key}) : super(key: key);
+  const ChangeLanguage({super.key});
 
   @override
   _ChangeLanguageState createState() => _ChangeLanguageState();
@@ -18,8 +18,8 @@ class ChangeLanguage extends StatefulWidget {
 
 class _ChangeLanguageState extends State<ChangeLanguage> {
   var _selected_index = 0;
-  ScrollController _mainScrollController = ScrollController();
-  var _list = [];
+  final ScrollController _mainScrollController = ScrollController();
+  final _list = [];
   bool _isInitial = true;
 
   @override
@@ -41,15 +41,15 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     _list.addAll(languageListResponse.languages!);
 
     var idx = 0;
-    if (_list.length > 0) {
-      _list.forEach((lang) {
+    if (_list.isNotEmpty) {
+      for (var lang in _list) {
         if (lang.code == app_language.$) {
           setState(() {
             _selected_index = idx;
           });
         }
         idx++;
-      });
+      }
     }
     _isInitial = false;
     setState(() {});
@@ -165,11 +165,11 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
   }
 
   buildLanguageMethodList() {
-    if (_isInitial && _list.length == 0) {
+    if (_isInitial && _list.isEmpty) {
       return SingleChildScrollView(
           child: ShimmerHelper()
               .buildListShimmer(item_count: 5, item_height: 100.0));
-    } else if (_list.length > 0) {
+    } else if (_list.isNotEmpty) {
       return SingleChildScrollView(
         child: ListView.separated(
           separatorBuilder: (context, index) {
@@ -186,8 +186,8 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
           },
         ),
       );
-    } else if (!_isInitial && _list.length == 0) {
-      return Container(
+    } else if (!_isInitial && _list.isEmpty) {
+      return SizedBox(
           height: 100,
           child: Center(
               child: Text(
@@ -215,7 +215,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                       width: 50,
                       height: 50,
                       child: Padding(
@@ -230,7 +230,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                             image: _list[index].image,
                             fit: BoxFit.fitWidth,
                           ))),
-                  Container(
+                  SizedBox(
                     width: 150,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

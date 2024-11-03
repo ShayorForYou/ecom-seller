@@ -1,8 +1,6 @@
 import 'package:ecom_seller_app/api_request.dart';
-import 'package:ecom_seller_app/app_config.dart';
 import 'package:ecom_seller_app/data_model/google_location_details_response.dart';
 import 'package:ecom_seller_app/data_model/location_autocomplete_response.dart';
-import 'package:http/http.dart' as http;
 
 class GoogleMapLocationRepository {
   var GoogleMapAPIKey = "";
@@ -10,7 +8,7 @@ class GoogleMapLocationRepository {
   Future<GoogleLocationAutoCompleteResponse> getAutoCompleteAddress(
       String text) async {
     String url =
-        ("https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=$text&key=${GoogleMapAPIKey}");
+        ("https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=$text&key=$GoogleMapAPIKey");
     var response = await ApiRequest.get(
       url: url,
     );
@@ -20,7 +18,7 @@ class GoogleMapLocationRepository {
   Future<GoogleLocationDetailsResponse> getAddressDetails(
       String placeId) async {
     String url =
-        ("https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=${GoogleMapAPIKey}");
+        ("https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$GoogleMapAPIKey");
     var response = await ApiRequest.get(
       url: url,
     );

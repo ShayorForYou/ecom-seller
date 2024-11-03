@@ -26,7 +26,7 @@ class Loading {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(LangText(context: context).getLocal()!.please_wait_ucf),
+                Text(LangText(context: context).getLocal().please_wait_ucf),
               ],
             ));
       },

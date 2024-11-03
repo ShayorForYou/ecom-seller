@@ -9,14 +9,14 @@ import '../../custom/my_app_bar.dart';
 import '../../helpers/shared_value_helper.dart';
 
 class PosConfig extends StatefulWidget {
-  const PosConfig({Key? key}) : super(key: key);
+  const PosConfig({super.key});
 
   @override
   State<PosConfig> createState() => _PosConfigState();
 }
 
 class _PosConfigState extends State<PosConfig> {
-  TextEditingController _thermalPrinterSize = TextEditingController();
+  final TextEditingController _thermalPrinterSize = TextEditingController();
 
 
   update()async{

@@ -1,32 +1,25 @@
-import 'dart:io';
 
-import 'package:ecom_seller_app/app_config.dart';
 import 'package:ecom_seller_app/custom/buttons.dart';
 import 'package:ecom_seller_app/custom/dialog_box.dart';
-import 'package:ecom_seller_app/custom/google_recaptcha.dart';
 import 'package:ecom_seller_app/custom/input_decorations.dart';
 import 'package:ecom_seller_app/custom/intl_phone_input.dart';
 import 'package:ecom_seller_app/custom/localization.dart';
 import 'package:ecom_seller_app/custom/my_widget.dart';
-import 'package:ecom_seller_app/custom/toast_component.dart';
 import 'package:ecom_seller_app/helpers/aiz_route.dart';
 import 'package:ecom_seller_app/helpers/auth_helper.dart';
-import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 import 'package:ecom_seller_app/middlewares/mail_verification_route_middleware.dart';
 import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/repositories/address_repository.dart';
 import 'package:ecom_seller_app/repositories/auth_repository.dart';
-import 'package:ecom_seller_app/screens/home.dart';
 import 'package:ecom_seller_app/screens/login.dart';
 import 'package:ecom_seller_app/screens/main.dart';
-import 'package:ecom_seller_app/screens/password_forget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:toast/toast.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Registration extends StatefulWidget {
+  const Registration({super.key});
+
   @override
   _RegistrationState createState() => _RegistrationState();
 }
@@ -46,10 +39,10 @@ class _RegistrationState extends State<Registration> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   MyWidget? myWidget;
-  bool _isCaptchaShowing = false;
+  final bool _isCaptchaShowing = false;
   String googleRecaptchaKey = "";
 
   onPressReg() async {
@@ -194,7 +187,7 @@ class _RegistrationState extends State<Registration> {
                                 });
                               },
                               onInputValidated: (bool value) {
-                                print('on input validation ${value}');
+                                print('on input validation $value');
                               },
                               selectorConfig: const SelectorConfig(
                                 selectorType: PhoneInputSelectorType.DIALOG,

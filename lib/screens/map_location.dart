@@ -4,6 +4,7 @@
 /// the screen is moved to the selected location, a path that demonstrates the route is created, and a "start route"
 /// box slides in to the screen.
 ///
+library;
 
 import 'dart:async';
 import 'dart:convert';
@@ -22,7 +23,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class MapLocation extends StatefulWidget {
-  MapLocation({Key? key, this.lng,this.lat}) : super(key: key);
+  MapLocation({super.key, this.lng,this.lat});
   var lat ,lng;
 
   @override
@@ -155,10 +156,10 @@ class MapLocationState extends State<MapLocation>
                 rightPosition: 0.0,
                 width: 500,
                 borderRadius: const BorderRadius.only(
-                  topLeft: const Radius.circular(8.0),
-                  bottomLeft: const Radius.circular(8.0),
-                  topRight: const Radius.circular(8.0),
-                  bottomRight: const Radius.circular(8.0),
+                  topLeft: Radius.circular(8.0),
+                  bottomLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                  bottomRight: Radius.circular(8.0),
                 ),
                 child: state == SearchingState.Searching
                     ? Center(
@@ -193,10 +194,10 @@ class MapLocationState extends State<MapLocation>
                                 color: MyTheme.app_accent_color,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: const BorderRadius.only(
-                                  topLeft: const Radius.circular(4.0),
-                                  bottomLeft: const Radius.circular(4.0),
-                                  topRight: const Radius.circular(4.0),
-                                  bottomRight: const Radius.circular(4.0),
+                                  topLeft: Radius.circular(4.0),
+                                  bottomLeft: Radius.circular(4.0),
+                                  topRight: Radius.circular(4.0),
+                                  bottomRight: Radius.circular(4.0),
                                 )),
                                 child: Text(
                                   AppLocalizations.of(context)!.update_location,

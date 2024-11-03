@@ -12,11 +12,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:toast/toast.dart';
 
 class PasswordOtp extends StatefulWidget {
-  PasswordOtp({
-    Key? key,
+  const PasswordOtp({
+    super.key,
     this.verify_by = "email",
     this.email,
-  }) : super(key: key);
+  });
   final String verify_by;
   final String? email;
 
@@ -26,9 +26,9 @@ class PasswordOtp extends StatefulWidget {
 
 class _PasswordOtpState extends State<PasswordOtp> {
   //controllers
-  TextEditingController _codeController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _passwordConfirmController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmController = TextEditingController();
 
   @override
   void initState() {
@@ -49,7 +49,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
   onPressConfirm() async {
     var code = _codeController.text.toString();
     var password = _passwordController.text.toString();
-    var password_confirm = _passwordConfirmController.text.toString();
+    var passwordConfirm = _passwordConfirmController.text.toString();
 
     if (code == "") {
       ToastComponent.showDialog(AppLocalizations.of(context)!.enter_the_code,
@@ -59,7 +59,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
       ToastComponent.showDialog(AppLocalizations.of(context)!.enter_password,
           gravity: Toast.center, duration: Toast.lengthLong);
       return;
-    } else if (password_confirm == "") {
+    } else if (passwordConfirm == "") {
       ToastComponent.showDialog(
           AppLocalizations.of(context)!.confirm_your_password,
           gravity: Toast.center,
@@ -72,7 +72,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
           gravity: Toast.center,
           duration: Toast.lengthLong);
       return;
-    } else if (password != password_confirm) {
+    } else if (password != passwordConfirm) {
       ToastComponent.showDialog(
           AppLocalizations.of(context)!.passwords_do_not_match,
           gravity: Toast.center,
@@ -111,9 +111,9 @@ class _PasswordOtpState extends State<PasswordOtp> {
 
   @override
   Widget build(BuildContext context) {
-    String _verify_by = widget.verify_by; //phone or email
-    final _screen_height = MediaQuery.of(context).size.height;
-    final _screen_width = MediaQuery.of(context).size.width;
+    String verifyBy = widget.verify_by; //phone or email
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Directionality(
       textDirection:
           app_language_rtl.$! ? TextDirection.rtl : TextDirection.ltr,
@@ -121,7 +121,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
         backgroundColor: MyTheme.white,
         body: Stack(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               child: SingleChildScrollView(
                   child: Column(
@@ -129,7 +129,7 @@ class _PasswordOtpState extends State<PasswordOtp> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 40.0, bottom: 15),
-                    child: Container(
+                    child: SizedBox(
                       width: 75,
                       height: 75,
                       child: Image.asset('assets/logo/seller.png'),
@@ -147,8 +147,8 @@ class _PasswordOtpState extends State<PasswordOtp> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
-                    child: Container(
-                        width: _screen_width * (3 / 4),
+                    child: SizedBox(
+                        width: screenWidth * (3 / 4),
                         child: Text(
                             AppLocalizations.of(context)!
                                 .enter_the_verification_code_that_sent_to_your_email_recently,
@@ -157,8 +157,8 @@ class _PasswordOtpState extends State<PasswordOtp> {
                                 color: MyTheme.app_accent_color,
                                 fontSize: 14))),
                   ),
-                  Container(
-                    width: _screen_width * (3 / 4),
+                  SizedBox(
+                    width: screenWidth * (3 / 4),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -21,7 +21,7 @@ class AuthRepository {
     required String address,
     // required String capchaKey,
   }) async {
-    var post_body = jsonEncode({
+    var postBody = jsonEncode({
       "name": name,
       "email": email,
       "password": password,
@@ -43,7 +43,7 @@ class AuthRepository {
           "X-Requested-With": "XMLApiRequestRequest",
           "App-Language": app_language.$!,
         },
-        body: post_body);
+        body: postBody);
 
     // print("login re ${response.body}");
     return loginResponseFromJson(response.body);
@@ -51,9 +51,9 @@ class AuthRepository {
 
   Future<LoginResponse> getLoginResponse(
       String? email, String password, String loginBy) async {
-    var post_body = jsonEncode({
-      "email": "${email}",
-      "password": "$password",
+    var postBody = jsonEncode({
+      "email": "$email",
+      "password": password,
       "identity_matrix": AppConfig.purchase_code,
       "user_type": "seller",
       "login_by": loginBy
@@ -62,7 +62,7 @@ class AuthRepository {
     String url = ("${AppConfig.BASE_URL}/auth/login");
 
     //print("login url " + url.toString());
-    print("login body " + post_body.toString());
+    print("login body $postBody");
 
     final response = await ApiRequest.post(
         url: url,
@@ -71,7 +71,7 @@ class AuthRepository {
           "X-Requested-With": "XMLApiRequestRequest",
           "App-Language": app_language.$!,
         },
-        body: post_body);
+        body: postBody);
 
     print("login re ${response.statusCode}, ${response.body}");
     return loginResponseFromJson(response.body);
@@ -93,7 +93,7 @@ class AuthRepository {
   }
 
   Future<LoginResponse> getUserByTokenResponse() async {
-    var post_body = jsonEncode({"access_token": "${access_token.$}"});
+    var postBody = jsonEncode({"access_token": "${access_token.$}"});
 
     String url = ("${AppConfig.BASE_URL}/auth/info");
     // print(post_body);
@@ -105,7 +105,7 @@ class AuthRepository {
             "Content-Type": "application/json",
             "App-Language": app_language.$!,
           },
-          body: post_body);
+          body: postBody);
       // print(response.body);
 
       return loginResponseFromJson(response.body);
@@ -114,9 +114,9 @@ class AuthRepository {
   }
 
   Future<PasswordForgetResponse> getPasswordForgetResponse(
-      @required String? email_or_phone, @required String send_code_by) async {
-    var post_body = jsonEncode(
-        {"email_or_phone": "$email_or_phone", "send_code_by": "$send_code_by"});
+      @required String? emailOrPhone, @required String sendCodeBy) async {
+    var postBody = jsonEncode(
+        {"email_or_phone": "$emailOrPhone", "send_code_by": sendCodeBy});
 
     String url = ("${AppConfig.BASE_URL}/auth/password/forget_request");
 
@@ -126,7 +126,7 @@ class AuthRepository {
           "Content-Type": "application/json",
           "App-Language": app_language.$!,
         },
-        body: post_body);
+        body: postBody);
 
     // print("response.body.toString()${response.body.toString()}");
 
@@ -134,9 +134,9 @@ class AuthRepository {
   }
 
   Future<PasswordConfirmResponse> getPasswordConfirmResponse(
-      @required String verification_code, @required String password) async {
-    var post_body = jsonEncode(
-        {"verification_code": "$verification_code", "password": "$password"});
+      @required String verificationCode, @required String password) async {
+    var postBody = jsonEncode(
+        {"verification_code": verificationCode, "password": password});
 
     String url = ("${AppConfig.BASE_URL}/auth/password/confirm_reset");
     final response = await ApiRequest.post(
@@ -145,15 +145,15 @@ class AuthRepository {
           "Content-Type": "application/json",
           "App-Language": app_language.$!,
         },
-        body: post_body);
+        body: postBody);
 
     return passwordConfirmResponseFromJson(response.body);
   }
 
   Future<ResendCodeResponse> getPasswordResendCodeResponse(
-      @required String? email_or_code, @required String verify_by) async {
-    var post_body = jsonEncode(
-        {"email_or_code": "$email_or_code", "verify_by": "$verify_by"});
+      @required String? emailOrCode, @required String verifyBy) async {
+    var postBody = jsonEncode(
+        {"email_or_code": "$emailOrCode", "verify_by": verifyBy});
 
     String url = ("${AppConfig.BASE_URL}/auth/password/resend_code");
     final response = await ApiRequest.post(
@@ -162,14 +162,14 @@ class AuthRepository {
           "Content-Type": "application/json",
           "App-Language": app_language.$!,
         },
-        body: post_body);
+        body: postBody);
 
     return resendCodeResponseFromJson(response.body);
   }
 
   Future<CommonResponse> getConfirmCodeResponse(
-      String verification_code) async {
-    var post_body = jsonEncode({"verification_code": "$verification_code"});
+      String verificationCode) async {
+    var postBody = jsonEncode({"verification_code": verificationCode});
 
     String url = ("${AppConfig.BASE_URL}/auth/confirm_code");
     final response = await ApiRequest.post(
@@ -179,7 +179,7 @@ class AuthRepository {
           "App-Language": app_language.$!,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
 
     return commonResponseFromJson(response.body);
   }

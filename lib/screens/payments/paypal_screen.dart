@@ -17,20 +17,19 @@ class PaypalScreen extends StatefulWidget {
   String? package_id;
 
   PaypalScreen(
-      {Key? key,
+      {super.key,
       this.amount = 0.00,
       this.payment_type = "",
       this.payment_method_key = "",
-      this.package_id})
-      : super(key: key);
+      this.package_id});
 
   @override
   _PaypalScreenState createState() => _PaypalScreenState();
 }
 
 class _PaypalScreenState extends State<PaypalScreen> {
-  int _combined_order_id = 0;
-  bool _order_init = false;
+  final int _combined_order_id = 0;
+  final bool _order_init = false;
   String? _initial_url = "";
   bool _initial_url_fetched = false;
 
@@ -122,7 +121,7 @@ class _PaypalScreenState extends State<PaypalScreen> {
       );
     } else {
       return SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: WebViewWidget(

@@ -12,7 +12,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../custom/localization.dart';
 
 class ProductReviews extends StatefulWidget {
-  const ProductReviews({Key? key}) : super(key: key);
+  const ProductReviews({super.key});
 
   @override
   _ProductReviewsState createState() => _ProductReviewsState();
@@ -101,7 +101,7 @@ class _ProductReviewsState extends State<ProductReviews> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                   width: DeviceInfo(context).getWidth() / 2,
                   child: Text(
                     _reviews[index].productName!,
@@ -112,12 +112,12 @@ class _ProductReviewsState extends State<ProductReviews> {
                       color: MyTheme.app_accent_color,
                     ),
                   )),
-              Container(
+              SizedBox(
                 width: DeviceInfo(context).getWidth(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                         width: DeviceInfo(context).getWidth() / 2,
                         child: Text(
                           _reviews[index].name!,
@@ -129,9 +129,9 @@ class _ProductReviewsState extends State<ProductReviews> {
                     Container(
                         child: Text(
                       _reviews[index].status == 1
-                          ? LangText(context: context).getLocal()!.publish_ucf
+                          ? LangText(context: context).getLocal().publish_ucf
                           : LangText(context: context)
-                              .getLocal()!
+                              .getLocal()
                               .unpublish_ucf,
                       style: TextStyle(
                         fontSize: 16,

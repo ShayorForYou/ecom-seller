@@ -23,7 +23,7 @@ import 'package:validators/validators.dart';
 class EditCoupon extends StatefulWidget {
   final String? id;
 
-  EditCoupon({Key? key, this.id}) : super(key: key);
+  const EditCoupon({super.key, this.id});
 
   @override
   State<EditCoupon> createState() => _EditCouponState();
@@ -36,22 +36,22 @@ class _EditCouponState extends State<EditCoupon> {
   bool fetchData = false;
   late BuildContext loadingContext;
 
-  List<CouponDiscountOptions> _couponDiscountTypeList =
+  final List<CouponDiscountOptions> _couponDiscountTypeList =
       CouponDiscountOptions().getList();
 
-  List<SelectProduct> _searchProductList = [];
+  final List<SelectProduct> _searchProductList = [];
   List<SelectProduct> _selectedProducts = [];
 
-  TextEditingController _couponCodeEditController = TextEditingController();
-  TextEditingController _discountAmountEditController = TextEditingController();
-  TextEditingController _minimumShoppingEditController =
+  final TextEditingController _couponCodeEditController = TextEditingController();
+  final TextEditingController _discountAmountEditController = TextEditingController();
+  final TextEditingController _minimumShoppingEditController =
       TextEditingController();
-  TextEditingController _maximumDiscountAmountEditController =
+  final TextEditingController _maximumDiscountAmountEditController =
       TextEditingController();
 
   String? _couponProductText;
-  String _seachName = "t";
-  String _errorMessage = "";
+  final String _seachName = "t";
+  final String _errorMessage = "";
   String? _couponCode = "";
   String _discountAmount = "";
   String? _minimumShoppingAmount = "";
@@ -63,9 +63,7 @@ class _EditCouponState extends State<EditCoupon> {
   CouponDiscountOptions? _couponDiscountTypeText;
 
   String _statAndEndTime =
-      DateFormat('MM/d/y').format(DateTime.now()).toString() +
-          " - " +
-          DateFormat('MM/d/y').format(DateTime.now()).toString();
+      "${DateFormat('MM/d/y').format(DateTime.now())} - ${DateFormat('MM/d/y').format(DateTime.now())}";
 
   _sendEditCouponReq() async {
     var res = await CouponRepository().editCoupon(widget.id);
@@ -107,19 +105,19 @@ class _EditCouponState extends State<EditCoupon> {
       _couponDiscountTypeText = res.data!.discountType == "amount"
           ? _couponDiscountTypeList.first
           : _couponDiscountTypeList.last;
-      _statAndEndTime = res.data!.startDate! + " - " + res.data!.endDate!;
+      _statAndEndTime = "${res.data!.startDate!} - ${res.data!.endDate!}";
       setState(() {});
     }
   }
 
   _sendUpdateCouponReq() async {
     _errors = [];
-    var posBody;
+    String posBody;
     if (_couponInformation == "For Product") {
       List productIds = [];
-      _selectedProducts.forEach((element) {
+      for (var element in _selectedProducts) {
         productIds.add(element.id);
-      });
+      }
 
       posBody = jsonEncode({
         "type": "product_base",
@@ -200,27 +198,27 @@ class _EditCouponState extends State<EditCoupon> {
     _maximumDiscountAmount = _maximumDiscountAmountEditController.text;
     if (_couponCode!.isEmpty) {
       _errors
-          .add(LangText(context: context).getLocal()!.coupon_code_is_empty_ucf);
+          .add(LangText(context: context).getLocal().coupon_code_is_empty_ucf);
     }
     if (_discountAmount.isEmpty || !isNumeric(_discountAmount)) {
       _errors.add(LangText(context: context)
-          .getLocal()!
+          .getLocal()
           .discount_amount_is_invalid_ucf);
     }
     if (_couponInformation == "product_base") {
       if (_selectedProducts.isEmpty) {
         _errors.add(LangText(context: context)
-            .getLocal()!
+            .getLocal()
             .please_select_minimum_1_product_ucf);
       }
     } else if (_couponInformation == "cart_base") {
       if (!isNumeric(_minimumShoppingAmount!)) {
         _errors.add(LangText(context: context)
-            .getLocal()!
+            .getLocal()
             .invalid_minimum_shopping_ucf);
       } else if (!isNumeric(_maximumDiscountAmount!)) {
         _errors.add(LangText(context: context)
-            .getLocal()!
+            .getLocal()
             .invalid_maximum_discount_ucf);
       }
     }
@@ -245,7 +243,7 @@ class _EditCouponState extends State<EditCoupon> {
     return Scaffold(
       appBar: MyAppBar(
         context: context,
-        title: LangText(context: context).getLocal()!.edit_coupon_ucf,
+        title: LangText(context: context).getLocal().edit_coupon_ucf,
       ).show(),
       body: SingleChildScrollView(
         child: Container(
@@ -275,7 +273,7 @@ class _EditCouponState extends State<EditCoupon> {
   }
 
   Widget buildLoadingContainer() {
-    return Container(
+    return SizedBox(
       height: DeviceInfo(context).getHeight(),
       child: Center(
         child: Column(
@@ -349,7 +347,7 @@ class _EditCouponState extends State<EditCoupon> {
               }
             },
             child: Text(
-              LangText(context: context).getLocal()!.save_ucf,
+              LangText(context: context).getLocal().save_ucf,
               style: TextStyle(fontSize: 17, color: MyTheme.white),
             )),
       ],
@@ -361,7 +359,7 @@ class _EditCouponState extends State<EditCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.discount_ucf,
+          LangText(context: context).getLocal().discount_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -370,7 +368,7 @@ class _EditCouponState extends State<EditCoupon> {
         SizedBox(
           height: 10,
         ),
-        Container(height: 50, child: _buildCouponDiscountList()),
+        SizedBox(height: 50, child: _buildCouponDiscountList()),
       ],
     );
   }
@@ -380,7 +378,7 @@ class _EditCouponState extends State<EditCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.add_your_coupon_code_ucf,
+          LangText(context: context).getLocal().add_your_coupon_code_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -416,7 +414,7 @@ class _EditCouponState extends State<EditCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.amount_ucf,
+          LangText(context: context).getLocal().amount_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -449,7 +447,7 @@ class _EditCouponState extends State<EditCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.minimum_shopping_ucf,
+          LangText(context: context).getLocal().minimum_shopping_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -469,7 +467,7 @@ class _EditCouponState extends State<EditCoupon> {
             controller: _minimumShoppingEditController,
             decoration: InputDecorations.buildInputDecoration_1(
                 hint_text:
-                    LangText(context: context).getLocal()!.minimum_shopping_ucf,
+                    LangText(context: context).getLocal().minimum_shopping_ucf,
                 borderColor: MyTheme.noColor,
                 hintTextColor: MyTheme.light_grey),
           ),
@@ -478,7 +476,7 @@ class _EditCouponState extends State<EditCoupon> {
           height: 10,
         ),
         Text(
-          LangText(context: context).getLocal()!.maximum_discount_amount_ucf,
+          LangText(context: context).getLocal().maximum_discount_amount_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -498,7 +496,7 @@ class _EditCouponState extends State<EditCoupon> {
             controller: _maximumDiscountAmountEditController,
             decoration: InputDecorations.buildInputDecoration_1(
                 hint_text: LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .maximum_discount_amount_ucf,
                 borderColor: MyTheme.light_grey,
                 hintTextColor: MyTheme.light_grey),
@@ -516,7 +514,7 @@ class _EditCouponState extends State<EditCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.coupon_information_adding,
+          LangText(context: context).getLocal().coupon_information_adding,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -545,7 +543,7 @@ class _EditCouponState extends State<EditCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.product_ucf,
+          LangText(context: context).getLocal().product_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -554,7 +552,7 @@ class _EditCouponState extends State<EditCoupon> {
         SizedBox(
           height: 10,
         ),
-        Container(
+        SizedBox(
           height: 50,
           child: Buttons(
               padding: EdgeInsets.zero,
@@ -564,7 +562,7 @@ class _EditCouponState extends State<EditCoupon> {
                     context: context,
                     builder: (context) {
                       return StatefulBuilder(builder: (context, setSate) {
-                        return Container(
+                        return SizedBox(
                           height: 200,
                           child: AlertDialog(
                             content: dialogBox(context, setSate),
@@ -573,12 +571,12 @@ class _EditCouponState extends State<EditCoupon> {
                                   onPressed: () {
                                     _selectedProducts = [];
                                     if (_searchProductList.isNotEmpty) {
-                                      _searchProductList.forEach((element) {
+                                      for (var element in _searchProductList) {
                                         if (element.isSelect!) {
                                           _selectedProducts.add(element);
                                           print(element.id);
                                         }
-                                      });
+                                      }
                                       setState(() {});
                                     }
                                     Navigator.pop(context, _selectedProducts);
@@ -599,7 +597,7 @@ class _EditCouponState extends State<EditCoupon> {
                   borderRadius: 10,
                   elevation: 5,
                   child: Text(
-                    LangText(context: context).getLocal()!.select_products_ucf,
+                    LangText(context: context).getLocal().select_products_ucf,
                     style: TextStyle(color: MyTheme.light_grey),
                   ))),
           //_buildCouponProductList()
@@ -612,8 +610,8 @@ class _EditCouponState extends State<EditCoupon> {
     );
   }
 
-  Container build_selectedProductsroductList() {
-    return Container(
+  SizedBox build_selectedProductsroductList() {
+    return SizedBox(
       width: DeviceInfo(context).getWidth() - 34,
       child: Wrap(
         children: List.generate(
@@ -676,7 +674,7 @@ class _EditCouponState extends State<EditCoupon> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.date_ucf,
+          LangText(context: context).getLocal().date_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -698,9 +696,7 @@ class _EditCouponState extends State<EditCoupon> {
                 DateTimeRange? time;
                 time = await _buildCouponDate();
                 setState(() {
-                  _statAndEndTime = DateFormat('MM/d/y').format(time!.start) +
-                      " - " +
-                      DateFormat('MM/d/y').format(time.end);
+                  _statAndEndTime = "${DateFormat('MM/d/y').format(time!.start)} - ${DateFormat('MM/d/y').format(time.end)}";
                 });
               },
               child: Row(
@@ -838,10 +834,10 @@ class _EditCouponState extends State<EditCoupon> {
         value: _couponDiscountTypeText,
         items: _couponDiscountTypeList
             .map((value) => DropdownMenuItem(
+                  value: value,
                   child: Text(
                     value.value!,
                   ),
-                  value: value,
                 ))
             .toList(),
       ),
@@ -856,7 +852,7 @@ class _EditCouponState extends State<EditCoupon> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          SizedBox(
             width: DeviceInfo(context).getWidth(),
             height: 60,
             child: TextField(
@@ -871,7 +867,7 @@ class _EditCouponState extends State<EditCoupon> {
               },
             ),
           ),
-          Container(
+          SizedBox(
             height: 240,
             child: SingleChildScrollView(
               child: Column(
@@ -882,7 +878,7 @@ class _EditCouponState extends State<EditCoupon> {
                         (index) => Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: DeviceInfo(context).getWidth() / 2,
                                   child: Text(
                                     _searchProductList[index].name!,
@@ -896,12 +892,12 @@ class _EditCouponState extends State<EditCoupon> {
                                         _searchProductList[index].isSelect =
                                             value;
                                         _selectedProducts = [];
-                                        _searchProductList.forEach((element) {
+                                        for (var element in _searchProductList) {
                                           if (element.isSelect!) {
                                             _selectedProducts.add(element);
                                             print(element.id);
                                           }
-                                        });
+                                        }
                                       });
                                     })
                               ],
@@ -926,18 +922,18 @@ class _EditCouponState extends State<EditCoupon> {
 
     var response = await CouponRepository().searchProducts(value);
 
-    response.data!.forEach((element) {
+    for (var element in response.data!) {
       bool idHas = false;
-      _searchProductList.forEach((element2) {
+      for (var element2 in _searchProductList) {
         if (element.id == element2.id) {
           idHas = true;
         }
-      });
+      }
       if (!idHas) {
         _searchProductList.add(
             SelectProduct(id: element.id, name: element.name, isSelect: false));
       }
-    });
+    }
     setState(() {});
   }
 
@@ -954,7 +950,7 @@ class _EditCouponState extends State<EditCoupon> {
               SizedBox(
                 width: 10,
               ),
-              Text("${LangText(context: context).getLocal()!.please_wait_ucf}"),
+              Text(LangText(context: context).getLocal().please_wait_ucf),
             ],
           ));
         });

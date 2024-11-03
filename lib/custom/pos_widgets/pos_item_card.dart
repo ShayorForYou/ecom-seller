@@ -11,13 +11,13 @@ class PosItemCard extends StatelessWidget {
   final int? qty;
 
   const PosItemCard({
-    Key? key,
+    super.key,
     this.name,
     this.thumbnailImage,
     this.stock,
     this.price,
     this.qty,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

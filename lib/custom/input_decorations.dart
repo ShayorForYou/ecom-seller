@@ -15,14 +15,14 @@ class InputDecorations {
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: borderColor, width: 1),
           borderRadius: const BorderRadius.all(
-            const Radius.circular(10.0),
+            Radius.circular(10.0),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
               color: MyTheme.app_accent_color.withOpacity(0.5), width: 1.5),
           borderRadius: const BorderRadius.all(
-            const Radius.circular(10.0),
+            Radius.circular(10.0),
           ),
         ),
         contentPadding: EdgeInsets.only(left: 16.0));

@@ -37,7 +37,7 @@ import 'package:toast/toast.dart';
 class UpdateProduct extends StatefulWidget {
   final productId;
 
-  UpdateProduct({Key? key, this.productId}) : super(key: key);
+  const UpdateProduct({super.key, this.productId});
 
   @override
   State<UpdateProduct> createState() => _UpdateProductState();
@@ -46,7 +46,7 @@ class UpdateProduct extends StatefulWidget {
 class _UpdateProductState extends State<UpdateProduct> {
   // double variables
 
-  String _statAndEndTime = "Select Date";
+  final String _statAndEndTime = "Select Date";
 
   double mHeight = 0.0, mWidht = 0.0;
   int _selectedTabIndex = 0;
@@ -144,7 +144,7 @@ class _UpdateProductState extends State<UpdateProduct> {
       tax,
       taxType;
 
-  Map choice_options = Map();
+  Map choice_options = {};
 
   //ImagePicker pickImage = ImagePicker();
 
@@ -204,7 +204,7 @@ class _UpdateProductState extends State<UpdateProduct> {
 
   getCategories() async {
     var categoryResponse = await ProductRepository().getCategoryRes();
-    categoryResponse.data!.forEach((element) {
+    for (var element in categoryResponse.data!) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
           title: element.name,
@@ -213,7 +213,7 @@ class _UpdateProductState extends State<UpdateProduct> {
           height: 0.0,
           children: setChildCategory(element.child!));
       categories.add(model);
-    });
+    }
 
     isCategoryInit = true;
     setState(() {});
@@ -221,7 +221,7 @@ class _UpdateProductState extends State<UpdateProduct> {
 
   List<CategoryModel> setChildCategory(List<Category> child) {
     List<CategoryModel> list = [];
-    child.forEach((element) {
+    for (var element in child) {
       var children = element.child ?? [];
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
@@ -238,25 +238,25 @@ class _UpdateProductState extends State<UpdateProduct> {
       // if (element.child!.isNotEmpty) {
       //
       // }
-    });
+    }
     return list;
   }
 
   getBrands() async {
     var brandsRes = await ProductRepository().getBrandRes();
     brands.clear();
-    brandsRes.data!.forEach((element) {
+    for (var element in brandsRes.data!) {
       brands.addAll([
         CommonDropDownItem("${element.id}", element.name),
       ]);
-    });
+    }
 
     if (tmpBrand != null && tmpBrand!.isNotEmpty && brands.isNotEmpty) {
-      brands.forEach((element) {
+      for (var element in brands) {
         if (element.key == tmpBrand) {
           selectedBrand = element;
         }
-      });
+      }
     }
 
     setState(() {});
@@ -322,7 +322,7 @@ class _UpdateProductState extends State<UpdateProduct> {
   getTaxType(WholesaleProductDetails productInfo) async {
     var taxRes = await ProductRepository().getTaxRes();
     vatTaxList.clear();
-    taxRes.data!.forEach((element) {
+    for (var element in taxRes.data!) {
       var tmpTax = productInfo.tax!
           .where((productTax) => productTax.taxId == element.id);
 
@@ -356,32 +356,32 @@ class _UpdateProductState extends State<UpdateProduct> {
           ),
         );
       }
-    });
+    }
   }
 
   List getMinQtys() {
     List qtys = [];
-    minQTYTextEditTextController.forEach((element) {
+    for (var element in minQTYTextEditTextController) {
       qtys.add(element.text.trim());
-    });
+    }
 
     return qtys;
   }
 
   List getMaxQtys() {
     List qtys = [];
-    maxQTYTextEditTextController.forEach((element) {
+    for (var element in maxQTYTextEditTextController) {
       qtys.add(element.text.trim());
-    });
+    }
 
     return qtys;
   }
 
   List getPrices() {
     List prices = [];
-    priceTextEditTextController.forEach((element) {
+    for (var element in priceTextEditTextController) {
       prices.add(element.text.trim());
-    });
+    }
 
     return prices;
   }
@@ -391,14 +391,14 @@ class _UpdateProductState extends State<UpdateProduct> {
     maxQTYTextEditTextController.clear();
     priceTextEditTextController.clear();
 
-    productDetails.wholesalePrices!.forEach((element) {
+    for (var element in productDetails.wholesalePrices!) {
       minQTYTextEditTextController
           .add(TextEditingController(text: element.minQty.toString()));
       maxQTYTextEditTextController
           .add(TextEditingController(text: element.maxQty.toString()));
       priceTextEditTextController
           .add(TextEditingController(text: element.price.toString()));
-    });
+    }
   }
 
   pickGalleryImages() async {
@@ -428,9 +428,9 @@ class _UpdateProductState extends State<UpdateProduct> {
     photos = "";
     for (int i = 0; i < productGalleryImages.length; i++) {
       if (i != (productGalleryImages.length - 1)) {
-        photos = "$photos " + "${productGalleryImages[i].id},";
+        photos = "$photos " "${productGalleryImages[i].id},";
       } else {
-        photos = "$photos " + "${productGalleryImages[i].id}";
+        photos = "$photos " "${productGalleryImages[i].id}";
       }
     }
   }
@@ -439,11 +439,11 @@ class _UpdateProductState extends State<UpdateProduct> {
     taxType = [];
     tax = [];
     taxId = [];
-    vatTaxList.forEach((element) {
+    for (var element in vatTaxList) {
       taxId!.add(element.vatTaxModel.id);
       tax!.add(element.amount.text.trim().toString());
       if (element.selectedItem != null) taxType!.add(element.selectedItem!.key);
-    });
+    }
   }
 
   setProductValues() async {
@@ -456,9 +456,9 @@ class _UpdateProductState extends State<UpdateProduct> {
     minQuantity = minimumEditTextController.text.trim();
 
     tagMap.clear();
-    tags!.forEach((element) {
+    for (var element in tags!) {
       tagMap.add(jsonEncode({"value": '$element'}));
-    });
+    }
     // add product photo
     setProductPhotoValue();
     if (thumbnailImage != null) thumbnailImg = "${thumbnailImage!.id}";
@@ -468,7 +468,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     colorsActive = isColorActive ? "1" : "0";
     unitPrice = unitPriceEditTextController.text.trim().toString();
     dateRange =
-        dateTimeRange.start.toString() + " to " + dateTimeRange.end.toString();
+        "${dateTimeRange.start} to ${dateTimeRange.end}";
     discount = productDiscountEditTextController.text.trim().toString();
     discountType = selectedProductDiscountType.key;
     currentStock = productVariations.isEmpty
@@ -536,7 +536,7 @@ class _UpdateProductState extends State<UpdateProduct> {
 
     await setProductValues();
 
-    Map postValue = Map();
+    Map postValue = {};
     postValue.addAll({
       "name": productName,
       "category_id": categoryId,
@@ -607,19 +607,19 @@ class _UpdateProductState extends State<UpdateProduct> {
   }
 
   Map makeVariationMap() {
-    Map variation = Map();
-    productVariations.forEach((element) {
+    Map variation = {};
+    for (var element in productVariations) {
       variation.addAll({
-        "price_" + element.name.replaceAll(" ", "-"):
-            element.priceEditTextController.text.trim().toString() ?? null,
-        "sku_" + element.name.replaceAll(" ", "-"):
-            element.skuEditTextController.text.trim().toString() ?? null,
-        "qty_" + element.name.replaceAll(" ", "-"):
-            element.quantityEditTextController.text.trim().toString() ?? null,
-        "img_" + element.name.replaceAll(" ", "-"):
-            element.photo == null ? null : element.photo.id,
+        "price_${element.name.replaceAll(" ", "-")}":
+            element.priceEditTextController.text.trim().toString(),
+        "sku_${element.name.replaceAll(" ", "-")}":
+            element.skuEditTextController.text.trim().toString(),
+        "qty_${element.name.replaceAll(" ", "-")}":
+            element.quantityEditTextController.text.trim().toString(),
+        "img_${element.name.replaceAll(" ", "-")}":
+            element.photo.id,
       });
-    });
+    }
     return variation;
   }
 
@@ -639,7 +639,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     // isFeatured = productInfo.featured == 1 ? true : false;
     isTodaysDeal = productInfo.todaysDeal == 1 ? true : false;
 
-    shippingConfigurationList.forEach((element) {
+    for (var element in shippingConfigurationList) {
       element.isActive = false;
       if (element.key == productInfo.shippingType) {
         selectedShippingConfiguration = element;
@@ -647,15 +647,15 @@ class _UpdateProductState extends State<UpdateProduct> {
         flatShippingCostTextEditTextController.text =
             productInfo.shippingCost!.toString();
       }
-    });
+    }
 
-    stockVisibilityStateList.forEach((element) {
+    for (var element in stockVisibilityStateList) {
       element.isActive = false;
       if (element.key == productInfo.stockVisibilityState) {
         selectedstockVisibilityState = element;
         element.isActive = true;
       }
-    });
+    }
 
     categoryId = productInfo.categoryId?.toString();
     categoryIds = productInfo.categoryIds ?? [];
@@ -664,19 +664,19 @@ class _UpdateProductState extends State<UpdateProduct> {
     tmpBrand = productInfo.brandId?.toString();
     getBrands();
 
-    videoType.forEach((element) {
+    for (var element in videoType) {
       if (element.key == productInfo.videoProvider) {
         selectedVideoType = element;
       }
-    });
+    }
 
     getTaxType(productInfo);
 
-    discountTypeList.forEach((element) {
+    for (var element in discountTypeList) {
       if (productInfo.discountType == element.key) {
         selectedProductDiscountType = element;
       }
-    });
+    }
     if (productInfo.photos!.data!.isNotEmpty) {
       productGalleryImages.addAll(productInfo.photos!.data!);
     }
@@ -1090,15 +1090,15 @@ class _UpdateProductState extends State<UpdateProduct> {
                                   priceTextEditTextController.removeAt(index);
                                   setChange();
                                 },
-                                child: Icon(
-                                  Icons.cancel,
-                                  color: MyTheme.red,
-                                ),
                                 color: MyTheme.textfield_grey,
                                 width: 20.0,
                                 height: 10.0,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Icon(
+                                  Icons.cancel,
+                                  color: MyTheme.red,
+                                )),
                           ],
                         ),
                       ))),
@@ -1159,14 +1159,14 @@ class _UpdateProductState extends State<UpdateProduct> {
                           stockVisibilityStateList[index].title,
                           stockVisibilityStateList[index].isActive,
                           (changedValue) {
-                        stockVisibilityStateList.forEach((element) {
+                        for (var element in stockVisibilityStateList) {
                           if (element.key ==
                               stockVisibilityStateList[index].key) {
                             stockVisibilityStateList[index].isActive = true;
                           } else {
                             element.isActive = false;
                           }
-                        });
+                        }
                         selectedstockVisibilityState =
                             stockVisibilityStateList[index];
                         setChange();
@@ -1267,8 +1267,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                                       shippingConfigurationList[index].title,
                                       shippingConfigurationList[index].isActive,
                                       (changedValue) {
-                                    shippingConfigurationList
-                                        .forEach((element) {
+                                    for (var element in shippingConfigurationList) {
                                       if (element.key ==
                                           shippingConfigurationList[index]
                                               .key) {
@@ -1277,7 +1276,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                                       } else {
                                         element.isActive = false;
                                       }
-                                    });
+                                    }
                                     selectedShippingConfiguration =
                                         shippingConfigurationList[index];
                                     setChange();
@@ -1849,9 +1848,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                   color: MyTheme.grey_153,
                 ),
                 child: Text(
-                  selectedFile.fileOriginalName! +
-                      "." +
-                      selectedFile.extension!,
+                  "${selectedFile.fileOriginalName!}.${selectedFile.extension!}",
                   style: TextStyle(fontSize: 9, color: MyTheme.white),
                 ),
               ),
@@ -1897,7 +1894,7 @@ class _UpdateProductState extends State<UpdateProduct> {
         const SizedBox(
           height: 10,
         ),
-        Container(
+        SizedBox(
           height: 250,
           width: mWidht,
           //child: summernote??Container(),
@@ -2391,7 +2388,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                         width: (mWidht / 3),
                         child: Text(
                           productVariations[index].name,
@@ -2422,7 +2419,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          SizedBox(
                               width: 80,
                               child: Text(
                                 LangText(context: context)
@@ -2453,7 +2450,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 80,
                             child: Text(
                               LangText(context: context)
@@ -2529,7 +2526,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                 fontSize: 12, fontWeight: FontWeight.bold, color: MyTheme.red),
           ),
         const Spacer(),
-        Container(
+        SizedBox(
           height: 30,
           child: Switch(
             value: value,
@@ -2548,7 +2545,7 @@ class _UpdateProductState extends State<UpdateProduct> {
         firstDate: DateTime.now(),
         lastDate: DateTime.utc(2050),
         builder: (context, child) {
-          return Container(
+          return SizedBox(
             width: 500,
             height: 500,
             child: DateRangePickerDialog(
@@ -2630,7 +2627,7 @@ class _UpdateProductState extends State<UpdateProduct> {
       elevation: 0.0,
       title: Row(
         children: [
-          Container(
+          SizedBox(
             width: 24,
             height: 24,
             child: IconButton(
@@ -2710,9 +2707,9 @@ class Tags {
   static toJson() {
     Map<String, String> map = {};
 
-    tags.forEach((element) {
+    for (var element in tags) {
       map.addAll({"value": element});
-    });
+    }
 
     return map;
   }

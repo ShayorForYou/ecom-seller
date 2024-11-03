@@ -35,8 +35,7 @@ import 'new_digital_product.dart';
 class DigitalProducts extends StatefulWidget {
   final bool fromBottomBar;
 
-  const DigitalProducts({Key? key, this.fromBottomBar = false})
-      : super(key: key);
+  const DigitalProducts({super.key, this.fromBottomBar = false});
 
   @override
   _DigitalProductsState createState() => _DigitalProductsState();
@@ -68,7 +67,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
         await DigitalProductRepository().getDigitalProducts(page: _page);
     if (digitalProductResponse.data!.isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.no_more_products_ucf,
+          LangText(context: context).getLocal().no_more_products_ucf,
           gravity: Toast.center,
           bgColor: MyTheme.white,
           textStyle: const TextStyle(color: Colors.black));
@@ -116,7 +115,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
   Future<void> requestDownload(id) async {
     var folder = await createFolder();
     try {
-      String? _taskid = await FlutterDownloader.enqueue(
+      String? taskid = await FlutterDownloader.enqueue(
           url:
               "${AppConfig.BASE_URL_WITH_PREFIX}/digital-products/download/$id",
           saveInPublicStorage: true,
@@ -324,7 +323,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
             ? MyAppBar(
                 context: context,
                 title: LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .all_digital_products_ucf,
               ).show()
             : null,
@@ -392,7 +391,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
                     ),
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .current_package_ucf,
                       style: TextStyle(fontSize: 10, color: MyTheme.grey_153),
                     ),
@@ -415,7 +414,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
                   children: [
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .upgrade_package_ucf,
                       style: const TextStyle(
                           fontSize: 12,
@@ -457,7 +456,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    LangText(context: context).getLocal()!.remaining_uploads,
+                    LangText(context: context).getLocal().remaining_uploads,
                     style: MyTextStyle().productBoxText(context),
                   ),
                   Text(
@@ -493,7 +492,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
                   children: [
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .add_new_product_ucf,
                       style: MyTextStyle()
                           .dashboardBoxText(context)
@@ -528,7 +527,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            LangText(context: context).getLocal()!.all_products_ucf,
+            LangText(context: context).getLocal().all_products_ucf,
             style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -678,12 +677,12 @@ class _DigitalProductsState extends State<DigitalProducts> {
         width: DeviceInfo(context).getWidth() * 1.5,
         child: AlertDialog(
           title: Text(
-            LangText(context: context).getLocal()!.warning_ucf,
+            LangText(context: context).getLocal().warning_ucf,
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 15, color: MyTheme.red),
           ),
           content: Text(
-            LangText(context: context).getLocal()!.do_you_want_to_delete_it,
+            LangText(context: context).getLocal().do_you_want_to_delete_it,
             style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
           ),
           actions: [
@@ -693,7 +692,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
                   Navigator.pop(context);
                 },
                 child: Text(
-                  LangText(context: context).getLocal()!.no_ucf,
+                  LangText(context: context).getLocal().no_ucf,
                   style: TextStyle(color: MyTheme.white, fontSize: 12),
                 )),
             Buttons(
@@ -702,7 +701,7 @@ class _DigitalProductsState extends State<DigitalProducts> {
                   Navigator.pop(context);
                   deleteProduct(id);
                 },
-                child: Text(LangText(context: context).getLocal()!.yes_ucf,
+                child: Text(LangText(context: context).getLocal().yes_ucf,
                     style: TextStyle(color: MyTheme.white, fontSize: 12))),
           ],
         ),

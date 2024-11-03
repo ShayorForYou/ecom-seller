@@ -2,20 +2,15 @@ import 'package:ecom_seller_app/custom/CommonFunctoins.dart';
 import 'package:ecom_seller_app/custom/common_style.dart';
 import 'package:ecom_seller_app/custom/customDateTimes.dart';
 import 'package:ecom_seller_app/custom/localization.dart';
-import 'package:ecom_seller_app/custom/route_transaction.dart';
 import 'package:ecom_seller_app/helpers/shop_info_helper.dart';
 import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/screens/account.dart';
-import 'package:ecom_seller_app/screens/conversation.dart';
 import 'package:ecom_seller_app/screens/home.dart';
 import 'package:ecom_seller_app/screens/orders.dart';
 import 'package:ecom_seller_app/screens/product/products.dart';
-import 'package:ecom_seller_app/screens/profile.dart';
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:route_transitions/route_transitions.dart';
@@ -24,6 +19,8 @@ import '../data_model/top_12_product_response.dart';
 import '../repositories/shop_repository.dart';
 
 class Main extends StatefulWidget {
+  const Main({super.key});
+
   @override
   _MainState createState() => _MainState();
 }
@@ -81,6 +78,7 @@ class _MainState extends State<Main> {
     });
   }
 
+  @override
   void initState() {
     // TODO: implement initState
     ShopInfoHelper().setShopInfo();
@@ -139,7 +137,7 @@ class _MainState extends State<Main> {
                     height: 20,
                   ),
                 ),
-                label: LangText(context: context).getLocal()!.dashboard_ucf,
+                label: LangText(context: context).getLocal().dashboard_ucf,
               ),
               BottomNavigationBarItem(
                 icon: Padding(
@@ -152,7 +150,7 @@ class _MainState extends State<Main> {
                     height: 20,
                   ),
                 ),
-                label: LangText(context: context).getLocal()!.products_ucf,
+                label: LangText(context: context).getLocal().products_ucf,
               ),
               BottomNavigationBarItem(
                 icon: Padding(
@@ -204,7 +202,7 @@ class _MainState extends State<Main> {
                   //   height: 20,
                   // ),
                 ),
-                label: LangText(context: context).getLocal()!.orders_ucf,
+                label: LangText(context: context).getLocal().orders_ucf,
               ),
               BottomNavigationBarItem(
                 icon: Padding(
@@ -217,7 +215,7 @@ class _MainState extends State<Main> {
                     height: 20,
                   ),
                 ),
-                label: LangText(context: context).getLocal()!.account_ucf,
+                label: LangText(context: context).getLocal().account_ucf,
               ),
             ],
           ),
@@ -276,7 +274,7 @@ class _MainState extends State<Main> {
                   width: 26,
                   //color: MyTheme.dark_grey,
                 )
-              : Container(
+              : SizedBox(
                   width: 24,
                   height: 24,
                   child: IconButton(
@@ -316,14 +314,14 @@ class _MainState extends State<Main> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${CustomDateTime.getDate}',
+                    CustomDateTime.getDate,
                     style: const TextStyle(
                         color: MyTheme.app_accent_color,
                         fontSize: 10,
                         fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    '${CustomDateTime.getDayName}',
+                    CustomDateTime.getDayName,
                     style: const TextStyle(
                         color: MyTheme.app_accent_color,
                         fontSize: 10,

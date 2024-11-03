@@ -40,7 +40,7 @@ import '../../repositories/product_repository.dart';
 import '../uploads/upload_file.dart';
 
 class PosManager extends StatefulWidget {
-  const PosManager({Key? key}) : super(key: key);
+  const PosManager({super.key});
 
   @override
   State<PosManager> createState() => _PosManagerState();
@@ -116,9 +116,9 @@ class _PosManagerState extends State<PosManager> {
   City? _selected_city;
   Country? _selected_country;
   MyState? _selected_state;
-  TextEditingController _countryController = TextEditingController();
-  TextEditingController _stateController = TextEditingController();
-  TextEditingController _cityController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
 
   Map walkCustomerPostValue = {};
 
@@ -164,6 +164,7 @@ class _PosManagerState extends State<PosManager> {
       });
       return;
     }
+    setState(() {});
     _selected_city = city;
     setModalState(() {
       _cityController.text = city.name;
@@ -184,7 +185,7 @@ class _PosManagerState extends State<PosManager> {
     Map postValue = {};
     postValue.addAll({
       "stock_id": _posProductList[selectedProduct!].stockId,
-      "userID": selectedCustomer != null ? selectedCustomer!.key : null,
+      "userID": selectedCustomer?.key,
       "temUserId":
           (selectedCustomer?.key?.isEmpty ?? true) ? tempUserdata : null,
     });
@@ -336,7 +337,7 @@ class _PosManagerState extends State<PosManager> {
           cityName: _selected_city?.name ?? "",
           postalCode: _postalCodeController.text,
           phone: _phoneController.text);
-      Navigator.pop(OneContext().context!);
+      Navigator.pop(context);
       return;
     }
 
@@ -447,7 +448,7 @@ class _PosManagerState extends State<PosManager> {
                     ),
                     itemSpacer(height: 10.0),
                     SizedBox(
-                      height: 533,
+                      height: 400,
                       width: 400,
                       child: GridView.builder(
                         shrinkWrap: true,
@@ -500,7 +501,7 @@ class _PosManagerState extends State<PosManager> {
   getCategories() async {
     var categoryResponse = await ProductRepository().getCategoryRes();
     categories.add(CategoryModel(levelText: 'All Categories', id: ""));
-    categoryResponse.data!.forEach((element) {
+    for (var element in categoryResponse.data!) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
           level: element.level,
@@ -510,7 +511,7 @@ class _PosManagerState extends State<PosManager> {
       if (element.child!.isNotEmpty) {
         setChildCategory(element.child!);
       }
-    });
+    }
     if (categories.isNotEmpty) {
       selectedCategory = categories.first;
     }
@@ -518,21 +519,16 @@ class _PosManagerState extends State<PosManager> {
   }
 
   getSellers() {
-    var sellerResponse = child_users.$; // Assuming this gets a list of sellers.
+    var sellerResponse = child_users.$;
 
-    // Add the default "Select" option
     sellers.add(Seller(0, "My Products"));
 
-    // Add the sellers from the response
     for (var element in sellerResponse) {
       sellers.add(Seller(element['id'], element['name']));
     }
 
-    // Set the default selected seller to be the first item (default "Select" option)
     selectedSeller = sellers.first;
-    print("selectedSeller: ${selectedSeller?.name}");
 
-    // Notify the framework to rebuild the UI
     setState(() {});
   }
 
@@ -555,23 +551,27 @@ class _PosManagerState extends State<PosManager> {
 
   getBrands() async {
     var brandsRes = await ProductRepository().getBrandRes();
-    brands.add(CommonDropDownItem(
-        "", LangText(context: context).getLocal().select_ucf));
-    brandsRes.data!.forEach((element) {
+    if (mounted) {
+      brands.add(CommonDropDownItem(
+          "", LangText(context: context).getLocal().select_ucf));
+    }
+    for (var element in brandsRes.data!) {
       brands.addAll([
         CommonDropDownItem("${element.id}", element.name),
       ]);
-    });
+    }
     selectedBrand = brands.first;
     setState(() {});
   }
 
   getCustomers() async {
     var customerResponse = await PosRepository().getCustomers();
-    customers.add(CommonDropDownItem("", getLocal(context).walk_in_customer));
-    customerResponse.data!.forEach((element) {
+    if (mounted) {
+      customers.add(CommonDropDownItem("", getLocal(context).walk_in_customer));
+    }
+    for (var element in customerResponse.data!) {
       customers.add(CommonDropDownItem("${element.id}", element.name));
-    });
+    }
     if (customers.isNotEmpty) {
       selectedCustomer = customers.first;
     }
@@ -579,7 +579,6 @@ class _PosManagerState extends State<PosManager> {
   }
 
   getPosProduct(setState) async {
-    print('child_users ${child_users.$}');
     // todo: for now category no need because of "category-1"
     // https://sobdak.xyz/api/v2/seller/pos/products?keyword=&category=-10&brand=
     var posProductResponse = await PosRepository().getPosProducts(
@@ -589,11 +588,13 @@ class _PosManagerState extends State<PosManager> {
         keyword: _searchController.text);
 
     if (posProductResponse.products!.data!.isEmpty) {
-      ToastComponent.showDialog(
-          LangText(context: context).getLocal().no_more_products_ucf,
-          gravity: Toast.center,
-          bgColor: MyTheme.white,
-          textStyle: const TextStyle(color: Colors.black));
+      if (mounted) {
+        ToastComponent.showDialog(
+            LangText(context: context).getLocal().no_more_products_ucf,
+            gravity: Toast.center,
+            bgColor: MyTheme.white,
+            textStyle: const TextStyle(color: Colors.black));
+      }
     }
     _posProductList.addAll(posProductResponse.products!.data!);
     print(posProductResponse.products!.data);
@@ -609,17 +610,17 @@ class _PosManagerState extends State<PosManager> {
     getPosProduct(setState);
   }
 
-  onSubmitPOS(paymentType) async {
-    String? offline_trx_id,
-        offline_payment_method,
-        offline_payment_amount,
-        offline_payment_proof;
+  onSubmitPOS(paymentType, BuildContext context) async {
+    String? offlineTrxId,
+        offlinePaymentMethod,
+        offlinePaymentAmount,
+        offlinePaymentProof;
 
     if (paymentType == "offline_payment") {
-      offline_payment_amount = _amountController.text.trim().toString();
-      offline_payment_method = _paymentMethodController.text.trim();
-      offline_trx_id = _transactionController.text.trim();
-      offline_payment_proof = (paymentProof?.id ?? 0).toString();
+      offlinePaymentAmount = _amountController.text.trim().toString();
+      offlinePaymentMethod = _paymentMethodController.text.trim();
+      offlineTrxId = _transactionController.text.trim();
+      offlinePaymentProof = (paymentProof?.id ?? 0).toString();
     }
 
     var shippingInfo = {
@@ -640,13 +641,15 @@ class _PosManagerState extends State<PosManager> {
         tmpUserId: tempUserdata,
         paymentType: paymentType,
         shippingCost: posUserCartData?.shippingCost,
-        offlinePaymentAmount: offline_payment_amount,
-        offlinePaymentMethod: offline_payment_method,
-        offlinePaymentProof: offline_payment_proof,
-        offlineTrxId: offline_trx_id,
+        offlinePaymentAmount: offlinePaymentAmount,
+        offlinePaymentMethod: offlinePaymentMethod,
+        offlinePaymentProof: offlinePaymentProof,
+        offlineTrxId: offlineTrxId,
         shippingInfo: shippingInfo);
 
-    Navigator.pop(OneContext().context!);
+    if (mounted) {
+      Navigator.pop(context);
+    }
     OneContextLoading.hide();
 
     ToastComponent.showDialog(response.message);
@@ -1130,7 +1133,7 @@ class _PosManagerState extends State<PosManager> {
           // await PosRepository().getPosProducts(keyword: _searchController.text);
         },
         onChanged: (text) {
-          if (text != null && text.trim().isNotEmpty) {
+          if (text.trim().isNotEmpty) {
             filterProduct(setState);
           }
         },
@@ -1138,7 +1141,7 @@ class _PosManagerState extends State<PosManager> {
     );
   }
 
-  buildOrderSummery() {
+  buildOrderSummery(BuildContext context) {
     var cartData = posUserCartData?.cartData?.data;
     _amountController.text = posUserCartData!.total!;
     return SingleChildScrollView(
@@ -1362,13 +1365,13 @@ class _PosManagerState extends State<PosManager> {
                 textColor: MyTheme.white,
                 fontWeight: FontWeight.bold,
                 onTap: () {
-                  onSubmitPOS("cash_on_delivery");
+                  onSubmitPOS("cash_on_delivery", context);
                 },
               ),
               itemSpacer(height: 5.0),
               PosBtn(
                 onTap: () {
-                  onSubmitPOS("cash");
+                  onSubmitPOS("cash", context);
                 },
                 text: getLocal(context).confirm_with_cash,
                 color: MyTheme.app_accent_color,
@@ -1436,7 +1439,7 @@ class _PosManagerState extends State<PosManager> {
           ),
           content: SizedBox(
             width: DeviceInfo(context).getWidth(),
-            child: buildOrderSummery(),
+            child: buildOrderSummery(context),
           ),
         );
       },
@@ -1639,7 +1642,7 @@ class _PosManagerState extends State<PosManager> {
                                         _amountController.text.isNotEmpty &&
                                         _transactionController
                                             .text.isNotEmpty) {
-                                      onSubmitPOS("offline_payment");
+                                      onSubmitPOS("offline_payment", context);
                                     }
                                   },
                                   text: getLocal(context).confirm_ucf,
@@ -1833,8 +1836,8 @@ class _PosManagerState extends State<PosManager> {
                           )
                         : SizedBox(
                             width: DeviceInfo(context).getWidth(),
-                            child:
-                                shippingAddressForm(setState, selectedCustomer),
+                            child: shippingAddressForm(
+                                context, setState, selectedCustomer),
                           ),
                     itemSpacer(height: 20.0),
                   ],
@@ -1847,7 +1850,7 @@ class _PosManagerState extends State<PosManager> {
     );
   }
 
-  shippingAddressForm(setState, selectedCustomer) {
+  shippingAddressForm(context, setState, selectedCustomer) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -1896,6 +1899,7 @@ class _PosManagerState extends State<PosManager> {
           getLocal(context).country_ucf,
           buildCommonTypeAheadDecoration(
               child: TypeAheadField(
+            controller: _countryController,
             suggestionsCallback: (name) async {
               var countryResponse =
                   await AddressRepository().getCountryList(name: name);
@@ -1918,26 +1922,37 @@ class _PosManagerState extends State<PosManager> {
                 ),
               );
             },
-            noItemsFoundBuilder: (context) {
-              return SizedBox(
-                height: 50,
-                child: Center(
-                    child: Text(getLocal(context).no_country_available,
-                        style: TextStyle(color: MyTheme.medium_grey))),
+            onSelected: (value) {
+              onSelectCountryDuringAdd(value, setState);
+            },
+            builder: (context, controller, focusnode) {
+              return TextField(
+                controller: _countryController,
+                focusNode: focusnode,
+                decoration: buildAddressInputDecoration(
+                    context, getLocal(context).enter_country_ucf),
               );
             },
-            onSuggestionSelected: (dynamic country) {
-              onSelectCountryDuringAdd(country, setState);
-            },
-            textFieldConfiguration: TextFieldConfiguration(
-              onTap: () {},
-              controller: _countryController,
-              onSubmitted: (txt) {},
-              decoration: buildAddressInputDecoration(
-                context,
-                getLocal(context).enter_country_ucf,
-              ),
-            ),
+            // noItemsFoundBuilder: (context) {
+            //   return SizedBox(
+            //     height: 50,
+            //     child: Center(
+            //         child: Text(getLocal(context).no_country_available,
+            //             style: TextStyle(color: MyTheme.medium_grey))),
+            //   );
+            // },
+            // onSuggestionSelected: (dynamic country) {
+            //   onSelectCountryDuringAdd(country, setState);
+            // },
+            // textFieldConfiguration: TextFieldConfiguration(
+            //   onTap: () {},
+            //   controller: _countryController,
+            //   onSubmitted: (txt) {},
+            //   decoration: buildAddressInputDecoration(
+            //     context,
+            //     getLocal(context).enter_country_ucf,
+            //   ),
+            // ),
           )),
           isMandatory: true,
         ),
@@ -1946,6 +1961,7 @@ class _PosManagerState extends State<PosManager> {
           getLocal(context).state_ucf,
           buildCommonTypeAheadDecoration(
             child: TypeAheadField(
+              controller: _stateController,
               suggestionsCallback: (name) async {
                 if (_selected_country == null) {
                   var stateResponse = await AddressRepository()
@@ -1974,24 +1990,17 @@ class _PosManagerState extends State<PosManager> {
                   ),
                 );
               },
-              noItemsFoundBuilder: (context) {
-                return SizedBox(
-                  height: 50,
-                  child: Center(
-                      child: Text(getLocal(context).no_state_available,
-                          style: TextStyle(color: MyTheme.medium_grey))),
+              builder: (context, controller, focusnode) {
+                return TextField(
+                  controller: controller,
+                  focusNode: focusnode,
+                  decoration: buildAddressInputDecoration(
+                      context, getLocal(context).enter_state_ucf),
                 );
               },
-              onSuggestionSelected: (dynamic state) {
+              onSelected: (dynamic state) {
                 onSelectStateDuringAdd(state, setState);
               },
-              textFieldConfiguration: TextFieldConfiguration(
-                onTap: () {},
-                controller: _stateController,
-                onSubmitted: (txt) {},
-                decoration: buildAddressInputDecoration(
-                    context, getLocal(context).enter_state_ucf),
-              ),
             ),
           ),
           isMandatory: true,
@@ -2001,6 +2010,7 @@ class _PosManagerState extends State<PosManager> {
           getLocal(context).city_ucf,
           buildCommonTypeAheadDecoration(
             child: TypeAheadField(
+              controller: _cityController,
               suggestionsCallback: (name) async {
                 if (_selected_state == null) {
                   var cityResponse = await AddressRepository()
@@ -2029,27 +2039,17 @@ class _PosManagerState extends State<PosManager> {
                   ),
                 );
               },
-              noItemsFoundBuilder: (context) {
-                return SizedBox(
-                  height: 50,
-                  child: Center(
-                      child: Text(getLocal(context).no_city_available,
-                          style: TextStyle(color: MyTheme.medium_grey))),
+              builder: (context, controller, focusnode) {
+                return TextField(
+                  controller: controller,
+                  focusNode: focusnode,
+                  decoration: buildAddressInputDecoration(
+                      context, getLocal(context).enter_city_ucf),
                 );
               },
-              onSuggestionSelected: (dynamic city) {
-                onSelectCityDuringAdd(city, setState);
+              onSelected: (value) {
+                onSelectCityDuringAdd(value, setState);
               },
-              textFieldConfiguration: TextFieldConfiguration(
-                onTap: () {},
-                //autofocus: true,
-                controller: _cityController,
-                onSubmitted: (txt) {
-                  // keep blank
-                },
-                decoration: buildAddressInputDecoration(
-                    context, getLocal(context).enter_city_ucf),
-              ),
             ),
           ),
           isMandatory: true,

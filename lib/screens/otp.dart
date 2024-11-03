@@ -2,10 +2,8 @@ import 'package:ecom_seller_app/custom/buttons.dart';
 import 'package:ecom_seller_app/custom/input_decorations.dart';
 import 'package:ecom_seller_app/custom/toast_component.dart';
 import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
-import 'package:ecom_seller_app/middlewares/mail_verification_route_middleware.dart';
 import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/repositories/auth_repository.dart';
-import 'package:ecom_seller_app/screens/login.dart';
 import 'package:ecom_seller_app/screens/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../helpers/aiz_route.dart';
 
 class Otp extends StatefulWidget {
-  Otp({Key? key, this.title = "", this.verifyBy = "email"}) : super(key: key);
+  Otp({super.key, this.title = "", this.verifyBy = "email"});
   final String title;
   String verifyBy;
 
@@ -25,7 +23,7 @@ class Otp extends StatefulWidget {
 
 class _OtpState extends State<Otp> {
   //controllers
-  TextEditingController _verificationCodeController = TextEditingController();
+  final TextEditingController _verificationCodeController = TextEditingController();
 
   @override
   void initState() {
@@ -81,7 +79,7 @@ class _OtpState extends State<Otp> {
 
   @override
   Widget build(BuildContext context) {
-    final _screen_width = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Directionality(
       textDirection:
           app_language_rtl.$! ? TextDirection.rtl : TextDirection.ltr,
@@ -98,7 +96,7 @@ class _OtpState extends State<Otp> {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
-                child: Container(
+                child: SizedBox(
                   width: 75,
                   height: 75,
                   child: Image.asset('assets/logo/seller.png'),
@@ -107,10 +105,9 @@ class _OtpState extends State<Otp> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: Text(
-                  "${AppLocalizations.of(context)!.verify_your} " +
-                      (widget.verifyBy == "email"
+                  "${AppLocalizations.of(context)!.verify_your} ${widget.verifyBy == "email"
                           ? AppLocalizations.of(context)!.email_account_ucf
-                          : AppLocalizations.of(context)!.phone_number_ucf),
+                          : AppLocalizations.of(context)!.phone_number_ucf}",
                   style: TextStyle(
                       color: MyTheme.app_accent_color,
                       fontSize: 18,
@@ -119,8 +116,8 @@ class _OtpState extends State<Otp> {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: Container(
-                    width: _screen_width * (3 / 4),
+                child: SizedBox(
+                    width: screenWidth * (3 / 4),
                     child: widget.verifyBy == "email"
                         ? Text(
                             AppLocalizations.of(context)!
@@ -135,8 +132,8 @@ class _OtpState extends State<Otp> {
                             style: TextStyle(
                                 color: MyTheme.dark_grey, fontSize: 14))),
               ),
-              Container(
-                width: _screen_width * (3 / 4),
+              SizedBox(
+                width: screenWidth * (3 / 4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -145,7 +142,7 @@ class _OtpState extends State<Otp> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
+                          SizedBox(
                             height: 36,
                             child: TextField(
                               controller: _verificationCodeController,

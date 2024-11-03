@@ -47,7 +47,7 @@ class ChatRepository {
     String url =
         ("${AppConfig.BASE_URL_WITH_PREFIX}/conversations/message/store");
 
-    var post_body = jsonEncode({"conversation_id": id, "message": message});
+    var postBody = jsonEncode({"conversation_id": id, "message": message});
     // print(post_body);
 
     final response = await ApiRequest.post(
@@ -57,7 +57,7 @@ class ChatRepository {
           "App-Language": app_language.$!,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
 
     // print("chat list " + response.body.toString());
 

@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 class ShopSocialMedialSetting extends StatefulWidget {
-  const ShopSocialMedialSetting({Key? key}) : super(key: key);
+  const ShopSocialMedialSetting({super.key});
 
   @override
   State<ShopSocialMedialSetting> createState() =>
@@ -83,7 +83,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
     return Scaffold(
       appBar: MyAppBar(
               context: context,
-              title: LangText(context: context).getLocal()!.social_media_link)
+              title: LangText(context: context).getLocal().social_media_link)
           .show(),
       body: RefreshIndicator(
         onRefresh: onRefresh,
@@ -127,7 +127,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
                       updateInfo();
                     },
                     child: Text(
-                      LangText(context: context).getLocal()!.save_ucf,
+                      LangText(context: context).getLocal().save_ucf,
                       style: TextStyle(fontSize: 17, color: MyTheme.white),
                     )),
               ],
@@ -143,7 +143,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.youtube_ucf,
+          LangText(context: context).getLocal().youtube_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -161,7 +161,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
           child: TextField(
             controller: youtubeEditController,
             decoration: InputDecorations.buildInputDecoration_1(
-                hint_text: LangText(context: context).getLocal()!.youtube_ucf,
+                hint_text: LangText(context: context).getLocal().youtube_ucf,
                 borderColor: MyTheme.light_grey,
                 hintTextColor: MyTheme.grey_153),
           ),
@@ -182,7 +182,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.google_ucf,
+          LangText(context: context).getLocal().google_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -200,7 +200,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
           child: TextField(
             controller: googleEditController,
             decoration: InputDecorations.buildInputDecoration_1(
-                hint_text: LangText(context: context).getLocal()!.google_ucf,
+                hint_text: LangText(context: context).getLocal().google_ucf,
                 borderColor: MyTheme.light_grey,
                 hintTextColor: MyTheme.grey_153),
           ),
@@ -221,7 +221,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.twitter_ucf,
+          LangText(context: context).getLocal().twitter_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -239,7 +239,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
           child: TextField(
             controller: twitterEditController,
             decoration: InputDecorations.buildInputDecoration_1(
-                hint_text: LangText(context: context).getLocal()!.twitter_ucf,
+                hint_text: LangText(context: context).getLocal().twitter_ucf,
                 borderColor: MyTheme.light_grey,
                 hintTextColor: MyTheme.grey_153),
           ),
@@ -260,7 +260,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.instagram_ucf,
+          LangText(context: context).getLocal().instagram_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -278,7 +278,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
           child: TextField(
             controller: instagramEditController,
             decoration: InputDecorations.buildInputDecoration_1(
-                hint_text: LangText(context: context).getLocal()!.instagram_ucf,
+                hint_text: LangText(context: context).getLocal().instagram_ucf,
                 borderColor: MyTheme.light_grey,
                 hintTextColor: MyTheme.grey_153),
           ),
@@ -299,7 +299,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.facebook_ucf,
+          LangText(context: context).getLocal().facebook_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -317,7 +317,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
           child: TextField(
             controller: facebookEditController,
             decoration: InputDecorations.buildInputDecoration_1(
-                hint_text: LangText(context: context).getLocal()!.facebook_ucf,
+                hint_text: LangText(context: context).getLocal().facebook_ucf,
                 borderColor: MyTheme.light_grey,
                 hintTextColor: MyTheme.grey_153),
           ),
@@ -346,7 +346,7 @@ class _ShopSocialMedialSettingState extends State<ShopSocialMedialSetting> {
               SizedBox(
                 width: 10,
               ),
-              Text("${LangText(context: context).getLocal()!.please_wait_ucf}"),
+              Text(LangText(context: context).getLocal().please_wait_ucf),
             ],
           ));
         });

@@ -11,11 +11,11 @@ class PosShipDiscountDialog extends StatelessWidget {
   final futureVoid? callback;
 
   const PosShipDiscountDialog({
-    Key? key,
+    super.key,
     this.controller,
     this.title,
     this.callback,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +32,21 @@ class PosShipDiscountDialog extends StatelessWidget {
           children: [
             Flexible(
               child: TextField(
+                cursorHeight: 16,
                 keyboardType: TextInputType.number,
                 controller: controller,
                 // onChanged: (value) {},
                 onEditingComplete: () {
                   callback!();
-                  Navigator.pop(OneContext().context!);
+                  Navigator.pop(context);
+
+                  // Navigator.pop(OneContext().context!);
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: MyTheme.app_accent_color_extra_light,
@@ -66,20 +70,26 @@ class PosShipDiscountDialog extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              height: 36,
-              width: 60,
-              decoration: BoxDecoration(
-                color: MyTheme.app_accent_color_extra_light,
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(6),
-                  topRight: Radius.circular(6),
+            InkWell(
+              onTap: () {
+                callback!();
+                Navigator.pop(context);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: 36,
+                width: 60,
+                decoration: BoxDecoration(
+                  color: MyTheme.app_accent_color_extra_light,
+                  borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(6),
+                    topRight: Radius.circular(6),
+                  ),
                 ),
-              ),
-              child: Text(
-                getLocal(context).flat_ucf,
-                style: const TextStyle(fontSize: 12, color: MyTheme.grey_153),
+                child: Text(
+                  getLocal(context).flat_ucf,
+                  style: const TextStyle(fontSize: 12, color: MyTheme.grey_153),
+                ),
               ),
             ),
           ],

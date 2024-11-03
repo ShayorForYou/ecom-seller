@@ -6,7 +6,6 @@ import 'package:ecom_seller_app/custom/localization.dart';
 import 'package:ecom_seller_app/custom/my_app_bar.dart';
 import 'package:ecom_seller_app/custom/my_widget.dart';
 import 'package:ecom_seller_app/custom/toast_component.dart';
-import 'package:ecom_seller_app/data_model/order_detail_response.dart';
 import 'package:ecom_seller_app/helpers/main_helper.dart';
 import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 import 'package:ecom_seller_app/helpers/shimmer_helper.dart';
@@ -14,25 +13,22 @@ import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/repositories/order_repository.dart';
 import 'package:ecom_seller_app/screens/main.dart';
 import 'package:flutter/material.dart';
-import 'package:one_context/one_context.dart';
-import 'package:timeline_tile/timeline_tile.dart';
 import 'package:toast/toast.dart';
 import 'dart:async';
-import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 
 class OrderDetails extends StatefulWidget {
   int? id;
   bool go_back;
 
-  OrderDetails({Key? key, this.id, this.go_back = true}) : super(key: key);
+  OrderDetails({super.key, this.id, this.go_back = true});
 
   @override
   _OrderDetailsState createState() => _OrderDetailsState();
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
-  ScrollController _mainScrollController = ScrollController();
-  var _steps = [
+  final ScrollController _mainScrollController = ScrollController();
+  final _steps = [
     'pending',
     'confirmed',
     'on_delivery',
@@ -41,14 +37,14 @@ class _OrderDetailsState extends State<OrderDetails> {
     'delivered'
   ];
 
-  TextEditingController _refundReasonController = TextEditingController();
+  final TextEditingController _refundReasonController = TextEditingController();
 
   //init
   int _stepIndex = 0;
-  dynamic _orderDetails = null;
+  dynamic _orderDetails;
 
   bool _orderItemsInit = false;
-  bool _showReasonWarning = false;
+  final bool _showReasonWarning = false;
   bool Order = true;
 
   List<DropdownMenuItem<PaymentStatus>>? _dropdownPaymentStatusItems;
@@ -60,9 +56,9 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   //= DeliveryStatus('pending', LangText(context: OneContext().context).getLocal().order_list_screen_pending);
 
-  List<PaymentStatus> _paymentStatusList =
+  final List<PaymentStatus> _paymentStatusList =
       PaymentStatus.getPaymentStatusListForUpdater();
-  List<DeliveryStatus> _deliveryStatusList =
+  final List<DeliveryStatus> _deliveryStatusList =
       DeliveryStatus.getDeliveryStatusListForUpdate();
 
   @override
@@ -93,19 +89,19 @@ class _OrderDetailsState extends State<OrderDetails> {
     var orderDetailsResponse =
         await OrderRepository().getOrderDetails(id: widget.id);
 
-    if (orderDetailsResponse.data!.length > 0) {
+    if (orderDetailsResponse.data!.isNotEmpty) {
       _orderDetails = orderDetailsResponse.data![0];
       //_selectedDeliveryStatus=
-      _deliveryStatusList.forEach((element) {
+      for (var element in _deliveryStatusList) {
         if (element.option_key == _orderDetails.deliveryStatus) {
           _selectedDeliveryStatus = element;
         }
-      });
-      _paymentStatusList.forEach((element) {
+      }
+      for (var element in _paymentStatusList) {
         if (element.option_key == _orderDetails.paymentStatus) {
           _selectedPaymentStatus = element;
         }
-      });
+      }
       //Order = !_orderDetails.manualPayment;
     }
     setState(() {});
@@ -166,7 +162,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         backgroundColor: Colors.white,
         appBar: MyAppBar(
           context: context,
-          title: LangText(context: context).getLocal()!.order_details_ucf,
+          title: LangText(context: context).getLocal().order_details_ucf,
         ).show(),
         body: RefreshIndicator(
           color: MyTheme.app_accent_color,
@@ -184,29 +180,29 @@ class _OrderDetailsState extends State<OrderDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(
+                            SizedBox(
+                              width: DeviceInfo(context).getWidth() / 2 - 20,
                               child: Text(
                                 LangText(context: context)
-                                    .getLocal()!
+                                    .getLocal()
                                     .payment_status_ucf,
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     color: MyTheme.font_grey),
                               ),
-                              width: DeviceInfo(context).getWidth() / 2 - 20,
                             ),
-                            Container(
+                            SizedBox(
+                              width: DeviceInfo(context).getWidth() / 2 - 20,
                               child: Text(
                                 LangText(context: context)
-                                    .getLocal()!
+                                    .getLocal()
                                     .delivery_status_ucf,
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     color: MyTheme.font_grey),
                               ),
-                              width: DeviceInfo(context).getWidth() / 2 - 20,
                             ),
                           ],
                         ),
@@ -235,7 +231,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   delegate: SliverChildListDelegate([
                 Center(
                   child: Text(
-                    LangText(context: context).getLocal()!.ordered_product_ucf,
+                    LangText(context: context).getLocal().ordered_product_ucf,
                     style: TextStyle(
                         color: MyTheme.font_grey,
                         fontSize: 14,
@@ -297,11 +293,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 120,
                           child: Text(
                             LangText(context: context)
-                                .getLocal()!
+                                .getLocal()
                                 .sub_total_all_capital,
                             textAlign: TextAlign.end,
                             style: TextStyle(
@@ -324,11 +320,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 120,
                           child: Text(
                             LangText(context: context)
-                                .getLocal()!
+                                .getLocal()
                                 .tax_all_capital,
                             textAlign: TextAlign.end,
                             style: TextStyle(
@@ -351,11 +347,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 120,
                           child: Text(
                             LangText(context: context)
-                                .getLocal()!
+                                .getLocal()
                                 .shipping_cost_all_capital,
                             textAlign: TextAlign.end,
                             style: TextStyle(
@@ -378,11 +374,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 120,
                           child: Text(
                             LangText(context: context)
-                                .getLocal()!
+                                .getLocal()
                                 .discount_all_capital,
                             textAlign: TextAlign.end,
                             style: TextStyle(
@@ -406,11 +402,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 120,
                           child: Text(
                             LangText(context: context)
-                                .getLocal()!
+                                .getLocal()
                                 .grand_total_all_capital,
                             textAlign: TextAlign.end,
                             style: TextStyle(
@@ -758,9 +754,9 @@ class _OrderDetailsState extends State<OrderDetails> {
   }*/
 
   List<DropdownMenuItem<PaymentStatus>> buildDropdownPaymentStatusItems(
-      List _paymentStatusList) {
+      List paymentStatusList) {
     List<DropdownMenuItem<PaymentStatus>> items = [];
-    for (PaymentStatus item in _paymentStatusList as Iterable<PaymentStatus>) {
+    for (PaymentStatus item in paymentStatusList as Iterable<PaymentStatus>) {
       items.add(
         DropdownMenuItem(
           value: item,
@@ -772,10 +768,10 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 
   List<DropdownMenuItem<DeliveryStatus>> buildDropdownDeliveryStatusItems(
-      List _deliveryStatusList) {
+      List deliveryStatusList) {
     List<DropdownMenuItem<DeliveryStatus>> items = [];
     for (DeliveryStatus item
-        in _deliveryStatusList as Iterable<DeliveryStatus>) {
+        in deliveryStatusList as Iterable<DeliveryStatus>) {
       items.add(
         DropdownMenuItem(
           value: item,
@@ -891,7 +887,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   Card buildOrderDetailsTopCard() {
     return Card(
       shape: RoundedRectangleBorder(
-        side: new BorderSide(color: MyTheme.light_grey, width: 1.0),
+        side: BorderSide(color: MyTheme.light_grey, width: 1.0),
         borderRadius: BorderRadius.circular(8.0),
       ),
       elevation: 0.0,
@@ -1062,7 +1058,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: (MediaQuery.of(context).size.width - (32.0)) / 2,
                     // (total_screen_width - padding)/2
                     child: _orderDetails.shippingAddress != null
@@ -1071,7 +1067,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             children: [
                               _orderDetails.shippingAddress.name != null
                                   ? Text(
-                                      "${LangText(context: context).getLocal()!.name_ucf}: ${_orderDetails.shippingAddress.name}",
+                                      "${LangText(context: context).getLocal().name_ucf}: ${_orderDetails.shippingAddress.name}",
                                       maxLines: 3,
                                       style: TextStyle(
                                           color: MyTheme.grey_153,
@@ -1081,7 +1077,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   : Container(),
                               _orderDetails.shippingAddress.email != null
                                   ? Text(
-                                      "${LangText(context: context).getLocal()!.email_ucf}: ${_orderDetails.shippingAddress.email}",
+                                      "${LangText(context: context).getLocal().email_ucf}: ${_orderDetails.shippingAddress.email}",
                                       maxLines: 3,
                                       style: TextStyle(
                                           color: MyTheme.grey_153,
@@ -1090,7 +1086,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     )
                                   : Container(),
                               Text(
-                                "${LangText(context: context).getLocal()!.address_ucf}: ${_orderDetails.shippingAddress.address}",
+                                "${LangText(context: context).getLocal().address_ucf}: ${_orderDetails.shippingAddress.address}",
                                 maxLines: 3,
                                 style: TextStyle(
                                     color: MyTheme.grey_153,
@@ -1098,7 +1094,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${LangText(context: context).getLocal()!.city_ucf}: ${_orderDetails.shippingAddress.city}",
+                                "${LangText(context: context).getLocal().city_ucf}: ${_orderDetails.shippingAddress.city}",
                                 maxLines: 3,
                                 style: TextStyle(
                                     color: MyTheme.grey_153,
@@ -1106,7 +1102,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${LangText(context: context).getLocal()!.country_ucf}: ${_orderDetails.shippingAddress.country}",
+                                "${LangText(context: context).getLocal().country_ucf}: ${_orderDetails.shippingAddress.country}",
                                 maxLines: 3,
                                 style: TextStyle(
                                     color: MyTheme.grey_153,
@@ -1114,7 +1110,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${LangText(context: context).getLocal()!.state_ucf}: ${_orderDetails.shippingAddress.state}",
+                                "${LangText(context: context).getLocal().state_ucf}: ${_orderDetails.shippingAddress.state}",
                                 maxLines: 3,
                                 style: TextStyle(
                                     color: MyTheme.grey_153,
@@ -1122,7 +1118,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${LangText(context: context).getLocal()!.phone_ucf}: ${_orderDetails.shippingAddress.phone}",
+                                "${LangText(context: context).getLocal().phone_ucf}: ${_orderDetails.shippingAddress.phone}",
                                 maxLines: 3,
                                 style: TextStyle(
                                     color: MyTheme.grey_153,
@@ -1130,7 +1126,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${LangText(context: context).getLocal()!.postal_code_ucf}: ${_orderDetails.shippingAddress.postalCode}",
+                                "${LangText(context: context).getLocal().postal_code_ucf}: ${_orderDetails.shippingAddress.postalCode}",
                                 maxLines: 3,
                                 style: TextStyle(
                                     color: MyTheme.grey_153,
@@ -1144,7 +1140,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             children: [
                               _orderDetails.pickupPoint.name != null
                                   ? Text(
-                                      "${LangText(context: context).getLocal()!.name_ucf}: ${_orderDetails.pickupPoint.name}",
+                                      "${LangText(context: context).getLocal().name_ucf}: ${_orderDetails.pickupPoint.name}",
                                       maxLines: 3,
                                       style: TextStyle(
                                           color: MyTheme.grey_153,
@@ -1153,7 +1149,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     )
                                   : Container(),
                               Text(
-                                "${LangText(context: context).getLocal()!.address_ucf}: ${_orderDetails.pickupPoint.address}",
+                                "${LangText(context: context).getLocal().address_ucf}: ${_orderDetails.pickupPoint.address}",
                                 maxLines: 3,
                                 style: TextStyle(
                                     color: MyTheme.grey_153,
@@ -1161,7 +1157,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "${LangText(context: context).getLocal()!.phone_ucf}: ${_orderDetails.pickupPoint.phone}",
+                                "${LangText(context: context).getLocal().phone_ucf}: ${_orderDetails.pickupPoint.phone}",
                                 maxLines: 3,
                                 style: TextStyle(
                                     color: MyTheme.grey_153,
@@ -1283,7 +1279,7 @@ class _OrderDetailsState extends State<OrderDetails> {
             }),
       ),
       title: Text(
-        LangText(context: context).getLocal()!.order_details_ucf,
+        LangText(context: context).getLocal().order_details_ucf,
         style: TextStyle(fontSize: 16, color: MyTheme.app_accent_color),
       ),
       elevation: 0.0,
@@ -1291,16 +1287,16 @@ class _OrderDetailsState extends State<OrderDetails> {
     );
   }
 
-  Container buildPaymentStatusCheckContainer(String payment_status) {
+  Container buildPaymentStatusCheckContainer(String paymentStatus) {
     return Container(
       height: 16,
       width: 16,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
-          color: payment_status == "paid" ? Colors.green : Colors.red),
+          color: paymentStatus == "paid" ? Colors.green : Colors.red),
       child: Padding(
         padding: const EdgeInsets.all(3),
-        child: Icon(payment_status == "paid" ? Icons.check : Icons.close,
+        child: Icon(paymentStatus == "paid" ? Icons.check : Icons.close,
             color: Colors.white, size: 10),
       ),
     );

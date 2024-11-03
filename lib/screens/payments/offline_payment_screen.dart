@@ -11,7 +11,6 @@ import 'package:ecom_seller_app/repositories/payment_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -23,22 +22,21 @@ class OfflineScreen extends StatefulWidget {
   final double? rechargeAmount;
 
   OfflineScreen(
-      {Key? key,
+      {super.key,
       this.details,
       this.offline_payment_id,
-      this.rechargeAmount, this.package_id})
-      : super(key: key);
+      this.rechargeAmount, this.package_id});
 
   @override
   _OfflineState createState() => _OfflineState();
 }
 
 class _OfflineState extends State<OfflineScreen> {
-  ScrollController _mainScrollController = ScrollController();
+  final ScrollController _mainScrollController = ScrollController();
 
-  TextEditingController _amountController = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _trxIdController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _trxIdController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
   XFile? _photo_file;
@@ -62,9 +60,9 @@ class _OfflineState extends State<OfflineScreen> {
   onPressSubmit() async {
     var amount = _amountController.text.toString();
     var name = _nameController.text.toString();
-    var trx_id = _trxIdController.text.toString();
+    var trxId = _trxIdController.text.toString();
 
-    if (amount == "" || name == "" || trx_id == "") {
+    if (amount == "" || name == "" || trxId == "") {
       ToastComponent.showDialog(
           AppLocalizations.of(context)!.amount_name_and_transaction_id_are_necessary,
 
@@ -84,7 +82,7 @@ class _OfflineState extends State<OfflineScreen> {
           .getOfflinePaymentResponse(
               amount: amount,
               name: name,
-              trx_id: trx_id,
+              trx_id: trxId,
               photo: _photo_upload_id,
       package_id: widget.package_id);
       Navigator.pop(loadingcontext);
@@ -245,7 +243,7 @@ class _OfflineState extends State<OfflineScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Container(
+              child: SizedBox(
                 height: 36,
                 child: TextField(
                   controller: _amountController,
@@ -265,7 +263,7 @@ class _OfflineState extends State<OfflineScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Container(
+              child: SizedBox(
                 height: 36,
                 child: TextField(
                   controller: _nameController,
@@ -285,7 +283,7 @@ class _OfflineState extends State<OfflineScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Container(
+              child: SizedBox(
                 height: 36,
                 child: TextField(
                   controller: _trxIdController,
@@ -397,7 +395,7 @@ class _OfflineState extends State<OfflineScreen> {
               SizedBox(
                 width: 10,
               ),
-              Text("${AppLocalizations.of(context)!.please_wait_ucf}"),
+              Text(AppLocalizations.of(context)!.please_wait_ucf),
             ],
           ));
         });

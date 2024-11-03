@@ -13,7 +13,7 @@ import 'package:toast/toast.dart';
 import 'package:validators/validators.dart';
 
 class SendAWithdrwRequest extends StatefulWidget {
-  const SendAWithdrwRequest({Key? key}) : super(key: key);
+  const SendAWithdrwRequest({super.key});
 
   @override
   State<SendAWithdrwRequest> createState() => _SendAWithdrwRequestState();
@@ -34,8 +34,8 @@ class _SendAWithdrwRequestState extends State<SendAWithdrwRequest> {
   }
 
   String? _message, _amount;
-  TextEditingController _messageTextController = TextEditingController();
-  TextEditingController _amountTextController = TextEditingController();
+  final TextEditingController _messageTextController = TextEditingController();
+  final TextEditingController _amountTextController = TextEditingController();
   List<String> _errors = [];
 
   cleanAll() {
@@ -53,10 +53,10 @@ class _SendAWithdrwRequestState extends State<SendAWithdrwRequest> {
     _amount = _amountTextController.text.trim();
 
     if (!isNumeric(_amount!) || _amount!.isEmpty) {
-      _errors.add(LangText(context: context).getLocal()!.amount_is_invalid);
+      _errors.add(LangText(context: context).getLocal().amount_is_invalid);
     }
     if (_message!.isEmpty) {
-      _errors.add(LangText(context: context).getLocal()!.message_is_invalid);
+      _errors.add(LangText(context: context).getLocal().message_is_invalid);
     }
     setState(() {});
   }
@@ -67,7 +67,7 @@ class _SendAWithdrwRequestState extends State<SendAWithdrwRequest> {
       appBar: MyAppBar(
               context: context,
               title: LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .send_withdraw_request_ucf)
           .show(),
       body: SingleChildScrollView(
@@ -83,7 +83,7 @@ class _SendAWithdrwRequestState extends State<SendAWithdrwRequest> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    LangText(context: context).getLocal()!.amount_ucf,
+                    LangText(context: context).getLocal().amount_ucf,
                     style: TextStyle(
                         fontSize: 12,
                         color: MyTheme.font_grey,
@@ -103,7 +103,7 @@ class _SendAWithdrwRequestState extends State<SendAWithdrwRequest> {
                       controller: _amountTextController,
                       decoration: InputDecorations.buildInputDecoration_1(
                           hint_text:
-                              LangText(context: context).getLocal()!.amount_ucf,
+                              LangText(context: context).getLocal().amount_ucf,
                           borderColor: MyTheme.noColor,
                           hintTextColor: MyTheme.grey_153),
                     ),
@@ -117,7 +117,7 @@ class _SendAWithdrwRequestState extends State<SendAWithdrwRequest> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    LangText(context: context).getLocal()!.message_ucf,
+                    LangText(context: context).getLocal().message_ucf,
                     style: TextStyle(
                         fontSize: 12,
                         color: MyTheme.font_grey,
@@ -165,7 +165,7 @@ class _SendAWithdrwRequestState extends State<SendAWithdrwRequest> {
                     alignment: Alignment.center,
                     width: 120.0,
                     child: Text(
-                      LangText(context: context).getLocal()!.submit_ucf,
+                      LangText(context: context).getLocal().submit_ucf,
                       style: TextStyle(color: MyTheme.white, fontSize: 13),
                     ),
                     backgroundColor: MyTheme.app_accent_color,

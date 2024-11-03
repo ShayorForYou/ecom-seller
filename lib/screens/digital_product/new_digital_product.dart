@@ -33,7 +33,7 @@ import 'package:toast/toast.dart';
 import '../../repositories/digital_product_repository.dart';
 
 class NewDigitalProduct extends StatefulWidget {
-  const NewDigitalProduct({Key? key}) : super(key: key);
+  const NewDigitalProduct({super.key});
 
   @override
   State<NewDigitalProduct> createState() => _NewDigitalProductState();
@@ -99,7 +99,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
       tax,
       taxType;
 
-  Map choice_options = Map();
+  Map choice_options = {};
 
   ImagePicker pickImage = ImagePicker();
 
@@ -137,7 +137,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
   getCategories() async {
     var categoryResponse = await DigitalProductRepository().getCategoryRes();
 
-    categoryResponse!.data!.forEach((element) {
+    for (var element in categoryResponse.data!) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
           title: element.name,
@@ -146,7 +146,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
           height: 0.0,
           children: setChildCategory(element.child!));
       categories.add(model);
-    });
+    }
 
     isCategoryInit = true;
 
@@ -155,7 +155,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
 
   List<CategoryModel> setChildCategory(List<Category> child) {
     List<CategoryModel> list = [];
-    child.forEach((element) {
+    for (var element in child) {
       var children = element.child ?? [];
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
@@ -164,7 +164,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
           children: children.isNotEmpty ? setChildCategory(children) : []);
 
       list.add(model);
-    });
+    }
     return list;
   }
 
@@ -198,7 +198,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
   getTaxType() async {
     var taxRes = await ProductRepository().getTaxRes();
 
-    taxRes.data!.forEach((element) {
+    for (var element in taxRes.data!) {
       vatTaxList.add(
           VatTaxViewModel(VatTaxModel("${element.id}", "${element.name}"), [
         CommonDropDownItem("amount",
@@ -206,7 +206,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
         CommonDropDownItem("percent",
             LangText(context: OneContext().context).getLocal().percent_ucf),
       ]));
-    });
+    }
   }
 
   fetchAll() {
@@ -241,9 +241,9 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
     photos = "";
     for (int i = 0; i < productGalleryImages.length; i++) {
       if (i != (productGalleryImages.length - 1)) {
-        photos = "$photos " + "${productGalleryImages[i].id},";
+        photos = "$photos " "${productGalleryImages[i].id},";
       } else {
-        photos = "$photos " + "${productGalleryImages[i].id}";
+        photos = "$photos " "${productGalleryImages[i].id}";
       }
     }
   }
@@ -252,20 +252,20 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
     taxType = [];
     tax = [];
     taxId = [];
-    vatTaxList.forEach((element) {
+    for (var element in vatTaxList) {
       taxId!.add(element.vatTaxModel.id);
       tax!.add(element.amount.text.trim().toString());
       if (element.selectedItem != null) taxType!.add(element.selectedItem!.key);
-    });
+    }
   }
 
   setProductValues() async {
     productName = productNameEditTextController.text.trim();
 
     tagMap.clear();
-    tags!.forEach((element) {
+    for (var element in tags!) {
       tagMap.add(jsonEncode({"value": '$element'}));
-    });
+    }
     // add product photo
     setProductPhotoValue();
     if (thumbnailImage != null) thumbnailImg = "${thumbnailImage!.id}";
@@ -329,7 +329,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
     Loading().show();
 
     await setProductValues();
-    Map postValue = Map();
+    Map postValue = {};
 
     postValue.addAll({
       "added_by": "seller",
@@ -433,7 +433,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
               onPressed: () async {
                 submitProduct("publish");
               },
-              child: Text(LangText(context: context).getLocal()!.save_ucf,
+              child: Text(LangText(context: context).getLocal().save_ucf,
                   style: TextStyle(color: MyTheme.white)))),
     );
   }
@@ -474,23 +474,23 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
 
   Widget buildGeneral() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.product_information_ucf,
+      LangText(context: context).getLocal().product_information_ucf,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildEditTextField(
-            LangText(context: context).getLocal()!.product_name_ucf,
-            LangText(context: context).getLocal()!.product_name_ucf,
+            LangText(context: context).getLocal().product_name_ucf,
+            LangText(context: context).getLocal().product_name_ucf,
             productNameEditTextController,
             isMandatory: true,
           ),
           itemSpacer(),
           _buildMultiCategory(
-              LangText(context: context).getLocal()!.categories_ucf,
+              LangText(context: context).getLocal().categories_ucf,
               isMandatory: true),
           itemSpacer(),
           chooseSingleFileField(
-              LangText(context: context).getLocal()!.product_file_ucf, "",
+              LangText(context: context).getLocal().product_file_ucf, "",
               (onChosenFile) {
             productFile = onChosenFile;
             setChange();
@@ -505,21 +505,21 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
 
           itemSpacer(),
           buildTagsEditTextField(
-              LangText(context: context).getLocal()!.tags_ucf,
+              LangText(context: context).getLocal().tags_ucf,
               LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .type_and_hit_enter_to_add_a_tag_ucf,
               tagEditTextController,
               isMandatory: true),
           itemSpacer(),
           buildGroupItems(
-              LangText(context: context).getLocal()!.product_description_ucf,
+              LangText(context: context).getLocal().product_description_ucf,
               buildSummerNote(LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .product_description_ucf)),
           itemSpacer(),
           buildGroupItems(
-            LangText(context: context).getLocal()!.vat_n_tax_ucf,
+            LangText(context: context).getLocal().vat_n_tax_ucf,
             Column(
               children: List.generate(vatTaxList.length, (index) {
                 return buildVatTax(vatTaxList[index].vatTaxModel.name,
@@ -557,15 +557,15 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
 
   Widget buildMedia() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.product_images_ucf,
+      LangText(context: context).getLocal().product_images_ucf,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           chooseGalleryImageField(),
           itemSpacer(),
           chooseSingleImageField(
-              LangText(context: context).getLocal()!.thumbnail_image_300_ucf,
-              LangText(context: context).getLocal()!.thumbnail_image_300_des,
+              LangText(context: context).getLocal().thumbnail_image_300_ucf,
+              LangText(context: context).getLocal().thumbnail_image_300_des,
               (onChosenImage) {
             thumbnailImage = onChosenImage;
             setChange();
@@ -584,19 +584,19 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildPriceEditTextField(
-            LangText(context: context).getLocal()!.unit_price_ucf,
+            LangText(context: context).getLocal().unit_price_ucf,
             "0",
             isMandatory: true,
           ),
           itemSpacer(),
           buildPurchasePriceEditTextField(
-            LangText(context: context).getLocal()!.purchase_price_ucf,
+            LangText(context: context).getLocal().purchase_price_ucf,
             "0",
             isMandatory: true,
           ),
           itemSpacer(),
           buildGroupItems(
-              LangText(context: context).getLocal()!.discount_date_range_ucf,
+              LangText(context: context).getLocal().discount_date_range_ucf,
               Container(
                 height: 45,
                 width: mWidht,
@@ -605,13 +605,9 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
                   onPressed: () async {
                     dateTimeRange = await _buildPickDate();
 
-                    _statAndEndTime = intl.DateFormat('MM/d/y')
-                            .format(dateTimeRange!.start)
-                            .toString() +
-                        " - " +
-                        intl.DateFormat('MM/d/y')
-                            .format(dateTimeRange!.end)
-                            .toString();
+                    _statAndEndTime = "${intl.DateFormat('MM/d/y')
+                            .format(dateTimeRange!.start)} - ${intl.DateFormat('MM/d/y')
+                            .format(dateTimeRange!.end)}";
                     setChange();
                   },
                   alignment: Alignment.centerLeft,
@@ -629,7 +625,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
               SizedBox(
                 width: (mWidht / 2) - 20,
                 child: buildEditTextField(
-                    LangText(context: context).getLocal()!.discount_ucf,
+                    LangText(context: context).getLocal().discount_ucf,
                     "0",
                     productDiscountEditTextController,
                     isMandatory: true),
@@ -653,19 +649,19 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
 
   Widget buildSEO() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.seo_all_capital,
+      LangText(context: context).getLocal().seo_all_capital,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildEditTextField(
-            LangText(context: context).getLocal()!.meta_title_ucf,
-            LangText(context: context).getLocal()!.meta_title_ucf,
+            LangText(context: context).getLocal().meta_title_ucf,
+            LangText(context: context).getLocal().meta_title_ucf,
             metaTitleEditTextController,
             isMandatory: false,
           ),
           itemSpacer(),
           buildGroupItems(
-            LangText(context: context).getLocal()!.description_ucf,
+            LangText(context: context).getLocal().description_ucf,
             Container(
                 padding: const EdgeInsets.all(8),
                 height: 150,
@@ -680,12 +676,12 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
                     style: const TextStyle(fontSize: 12),
                     decoration: InputDecoration.collapsed(
                         hintText: LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .description_ucf))),
           ),
           itemSpacer(),
           chooseSingleImageField(
-              LangText(context: context).getLocal()!.meta_image_ucf, "",
+              LangText(context: context).getLocal().meta_image_ucf, "",
               (onChosenImage) {
             metaImage = onChosenImage;
             setChange();
@@ -809,7 +805,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              LangText(context: context).getLocal()!.gallery_images_600,
+              LangText(context: context).getLocal().gallery_images_600,
               style: const TextStyle(
                   fontSize: 12,
                   color: MyTheme.font_grey,
@@ -865,7 +861,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
         ),
         Text(
           LangText(context: context)
-              .getLocal()!
+              .getLocal()
               .these_images_are_visible_in_product_details_page_gallery_600,
           style: TextStyle(fontSize: 8, color: MyTheme.grey_153),
         ),
@@ -1619,7 +1615,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
         firstDate: DateTime.now(),
         lastDate: DateTime.utc(2050),
         builder: (context, child) {
-          return Container(
+          return SizedBox(
             width: 500,
             height: 500,
             child: DateRangePickerDialog(
@@ -1642,16 +1638,16 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
       child: Row(
         children: [
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.general_ucf, 0),
+              LangText(context: context).getLocal().general_ucf, 0),
           tabBarDivider(),
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.media_ucf, 1),
+              LangText(context: context).getLocal().media_ucf, 1),
           tabBarDivider(),
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.price_n_stock_ucf, 2),
+              LangText(context: context).getLocal().price_n_stock_ucf, 2),
           tabBarDivider(),
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.seo_all_capital, 3),
+              LangText(context: context).getLocal().seo_all_capital, 3),
         ],
       ),
     );
@@ -1714,7 +1710,7 @@ class _NewDigitalProductState extends State<NewDigitalProduct> {
             width: 10,
           ),
           Text(
-            LangText(context: context).getLocal()!.add_new_product_ucf,
+            LangText(context: context).getLocal().add_new_product_ucf,
             style: MyTextStyle().appbarText(),
           ),
         ],

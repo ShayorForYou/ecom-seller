@@ -17,27 +17,26 @@ class RazorpayScreen extends StatefulWidget {
   String? package_id;
 
   RazorpayScreen(
-      {Key? key,
+      {super.key,
       this.amount = 0.00,
       this.payment_type = "",
       this.payment_method_key = "",
-      this.package_id})
-      : super(key: key);
+      this.package_id});
 
   @override
   _RazorpayScreenState createState() => _RazorpayScreenState();
 }
 
 class _RazorpayScreenState extends State<RazorpayScreen> {
-  int _combined_order_id = 0;
-  bool _order_init = false;
+  final int _combined_order_id = 0;
+  final bool _order_init = false;
   String initial_url = "";
   late WebViewController _webViewController;
 
   @override
   void initState() {
     initial_url =
-        "${AppConfig.BASE_URL}/razorpay/pay-with-razorpay?payment_type=${widget.payment_type}&combined_order_id=${_combined_order_id}&amount=${widget.amount}&user_id=${seller_id.$}&package_id=${widget.package_id}";
+        "${AppConfig.BASE_URL}/razorpay/pay-with-razorpay?payment_type=${widget.payment_type}&combined_order_id=$_combined_order_id&amount=${widget.amount}&user_id=${seller_id.$}&package_id=${widget.package_id}";
 
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -67,7 +66,7 @@ class _RazorpayScreenState extends State<RazorpayScreen> {
 
   void getData() {
     print('called.........');
-    String? payment_details = '';
+    String? paymentDetails = '';
 
     _webViewController
         .runJavaScriptReturningResult("document.body.innerText")
@@ -84,16 +83,16 @@ class _RazorpayScreenState extends State<RazorpayScreen> {
         Navigator.pop(context);
       } else if (responseJSON["result"] == true) {
         print("a");
-        payment_details = responseJSON['payment_details'];
-        onPaymentSuccess(payment_details);
+        paymentDetails = responseJSON['payment_details'];
+        onPaymentSuccess(paymentDetails);
       }
     });
   }
 
-  onPaymentSuccess(payment_details) async {
+  onPaymentSuccess(paymentDetails) async {
     var razorpayPaymentSuccessResponse = await PaymentRepository()
         .getRazorpayPaymentSuccessResponse(widget.payment_type, widget.amount,
-            _combined_order_id, payment_details);
+            _combined_order_id, paymentDetails);
 
     ToastComponent.showDialog(razorpayPaymentSuccessResponse.message!,
         duration: Toast.lengthLong, gravity: Toast.center);

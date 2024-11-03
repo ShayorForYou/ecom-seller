@@ -26,8 +26,7 @@ import 'package:toast/toast.dart';
 class WholeSaleProducts extends StatefulWidget {
   final bool fromBottomBar;
 
-  const WholeSaleProducts({Key? key, this.fromBottomBar = false})
-      : super(key: key);
+  const WholeSaleProducts({super.key, this.fromBottomBar = false});
 
   @override
   WholeSaleProductsState createState() => WholeSaleProductsState();
@@ -50,8 +49,8 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
 
   //MenuOptions _menuOptionSelected = MenuOptions.Published;
 
-  ScrollController _scrollController =
-      new ScrollController(initialScrollOffset: 0);
+  final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: 0);
 
   // double variables
   double mHeight = 0.0, mWidht = 0.0;
@@ -62,7 +61,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
         await ProductRepository().getWholesaleProducts(page: _page);
     if (productResponse.data!.isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.no_more_products_ucf,
+          LangText(context: context).getLocal().no_more_products_ucf,
           gravity: Toast.center,
           bgColor: MyTheme.white,
           textStyle: TextStyle(color: Colors.black));
@@ -226,7 +225,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
             ? MyAppBar(
                     context: context,
                     title: LangText(context: context)
-                        .getLocal()!
+                        .getLocal()
                         .wholesale_products_ucf)
                 .show()
             : null,
@@ -294,7 +293,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
                       ),
                       Text(
                         LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .current_package_ucf,
                         style: TextStyle(fontSize: 10, color: MyTheme.grey_153),
                       ),
@@ -317,7 +316,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
                     children: [
                       Text(
                         LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .upgrade_package_ucf,
                         style: TextStyle(
                             fontSize: 12,
@@ -360,7 +359,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    LangText(context: context).getLocal()!.remaining_uploads,
+                    LangText(context: context).getLocal().remaining_uploads,
                     style: MyTextStyle().dashboardBoxText(context),
                   ),
                   Text(
@@ -393,7 +392,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    LangText(context: context).getLocal()!.add_new_product_ucf,
+                    LangText(context: context).getLocal().add_new_product_ucf,
                     style: MyTextStyle()
                         .dashboardBoxText(context)
                         .copyWith(color: MyTheme.app_accent_color),
@@ -426,7 +425,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            LangText(context: context).getLocal()!.all_products_ucf,
+            LangText(context: context).getLocal().all_products_ucf,
             style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -503,7 +502,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
               SizedBox(
                 width: 11,
               ),
-              Container(
+              SizedBox(
                 width: mWidht - 129,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -514,7 +513,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             width: mWidht - 170,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -594,11 +593,11 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
   showDeleteWarningDialog(id) {
     showDialog(
         context: context,
-        builder: (context) => Container(
+        builder: (context) => SizedBox(
               width: DeviceInfo(context).getWidth() * 1.5,
               child: AlertDialog(
                 title: Text(
-                  LangText(context: context).getLocal()!.warning_ucf,
+                  LangText(context: context).getLocal().warning_ucf,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -606,7 +605,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
                 ),
                 content: Text(
                   LangText(context: context)
-                      .getLocal()!
+                      .getLocal()
                       .do_you_want_to_delete_it,
                   style: const TextStyle(
                       fontWeight: FontWeight.w400, fontSize: 14),
@@ -618,7 +617,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        LangText(context: context).getLocal()!.no_ucf,
+                        LangText(context: context).getLocal().no_ucf,
                         style: TextStyle(color: MyTheme.white, fontSize: 12),
                       )),
                   Buttons(
@@ -628,7 +627,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
                         deleteProduct(id);
                       },
                       child: Text(
-                          LangText(context: context).getLocal()!.yes_ucf,
+                          LangText(context: context).getLocal().yes_ucf,
                           style:
                               TextStyle(color: MyTheme.white, fontSize: 12))),
                 ],
@@ -637,7 +636,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
   }
 
   Widget showOptions({listIndex, productId}) {
-    return Container(
+    return SizedBox(
       width: 35,
       child: PopupMenuButton<MenuOptions>(
         offset: Offset(-12, 0),
@@ -689,7 +688,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
         builder: (context) {
           switchContext = context;
           return StatefulBuilder(builder: (context, setState) {
-            return Container(
+            return SizedBox(
               height: 75,
               width: DeviceInfo(context).getWidth(),
               child: AlertDialog(
@@ -729,7 +728,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
         builder: (context) {
           featuredSwitchContext = context;
           return StatefulBuilder(builder: (context, setState) {
-            return Container(
+            return SizedBox(
               height: 75,
               width: DeviceInfo(context).getWidth(),
               child: AlertDialog(
@@ -777,7 +776,7 @@ class WholeSaleProductsState extends State<WholeSaleProducts> {
               SizedBox(
                 width: 10,
               ),
-              Text("${AppLocalizations.of(context)!.please_wait_ucf}"),
+              Text(AppLocalizations.of(context)!.please_wait_ucf),
             ],
           ));
         });

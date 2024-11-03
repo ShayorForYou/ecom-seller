@@ -5,10 +5,10 @@ class PosTextPrice extends StatelessWidget {
   final String? price;
 
   const PosTextPrice({
-    Key? key,
+    super.key,
     this.price = '0.00',
     this.title = '--',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

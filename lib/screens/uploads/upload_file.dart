@@ -21,12 +21,11 @@ import 'package:toast/toast.dart';
 
 class UploadFile extends StatefulWidget {
   const UploadFile(
-      {Key? key,
+      {super.key,
       this.fileType = "",
       this.canSelect = false,
       this.canMultiSelect = false,
-      this.prevData})
-      : super(key: key);
+      this.prevData});
   final String fileType;
   final bool canSelect;
   final bool canMultiSelect;
@@ -105,7 +104,7 @@ class _UploadFileState extends State<UploadFile> {
     FilePickerResult? file = await pickSingleFile();
     if (file == null) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.no_file_is_chosen,
+          LangText(context: context).getLocal().no_file_is_chosen,
           gravity: Toast.center,
           duration: Toast.lengthLong);
       return;
@@ -222,7 +221,7 @@ class _UploadFileState extends State<UploadFile> {
           backgroundColor: MyTheme.white,
           iconTheme: IconThemeData(color: MyTheme.dark_grey),
           title: Text(
-            LangText(context: context).getLocal()!.upload_file_ucf,
+            LangText(context: context).getLocal().upload_file_ucf,
             style: MyTextStyle().appbarText(),
           ),
           // bottom: PreferredSize(child: buildUploadFileContainer(context),preferredSize: Size(DeviceInfo(context).getWidth(),75)),
@@ -251,7 +250,7 @@ class _UploadFileState extends State<UploadFile> {
                     ? _images.isEmpty
                         ? Center(
                             child: Text(LangText(context: context)
-                                .getLocal()!
+                                .getLocal()
                                 .no_data_is_available),
                           )
                         : buildImageListView()
@@ -297,11 +296,11 @@ class _UploadFileState extends State<UploadFile> {
 
   int findIndex(id) {
     int index = 0;
-    _selectedImages!.forEach((element) {
+    for (var element in _selectedImages!) {
       if (element.id == id) {
         index = _selectedImages!.indexOf(element);
       }
-    });
+    }
     return index;
   }
 
@@ -401,7 +400,7 @@ class _UploadFileState extends State<UploadFile> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                LangText(context: context).getLocal()!.upload_file_ucf,
+                LangText(context: context).getLocal().upload_file_ucf,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -545,7 +544,7 @@ class _UploadFileState extends State<UploadFile> {
   }
 
   Widget showOptions({listIndex, imageId}) {
-    return Container(
+    return SizedBox(
       width: 35,
       child: PopupMenuButton<MenuOptions>(
         offset: Offset(-12, 0),

@@ -8,7 +8,7 @@ import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 
 class RefundOrderRepository {
   Future<RefundOrderResponse> getRefundOrderList({int page = 0}) async {
-    String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/refunds?page=${page}");
+    String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/refunds?page=$page");
 
     // print("product url " + url.toString());
 
@@ -24,7 +24,7 @@ class RefundOrderRepository {
   Future<CommonResponse> approveRefundSellerStatusRequest(id) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/refunds/approve");
 
-    var post_body = jsonEncode({"refund_id": id});
+    var postBody = jsonEncode({"refund_id": id});
     // print("refund id ${id}");
     var header = {
       "App-Language": app_language.$!,
@@ -32,7 +32,7 @@ class RefundOrderRepository {
       "Content-Type": "application/json",
     };
     final response =
-        await ApiRequest.post(url: url, headers: header, body: post_body);
+        await ApiRequest.post(url: url, headers: header, body: postBody);
 
     // print("product res  " + response.body.toString());
 
@@ -42,14 +42,14 @@ class RefundOrderRepository {
   Future<CommonResponse> rejectRefundSellerStatusRequest(id, message) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/refunds/reject");
 
-    var post_body = jsonEncode({"refund_id": id, "reject_reason": message});
+    var postBody = jsonEncode({"refund_id": id, "reject_reason": message});
     var header = {
       "App-Language": app_language.$!,
       "Authorization": "Bearer ${access_token.$}",
       "Content-Type": "application/json",
     };
     final response =
-        await ApiRequest.post(url: url, headers: header, body: post_body);
+        await ApiRequest.post(url: url, headers: header, body: postBody);
 
     // print("product res  " + response.body.toString());
 

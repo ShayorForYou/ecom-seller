@@ -339,25 +339,27 @@ class MyWidget {
         margin: EdgeInsets.only(top: 14,left: 14),
         borderRadius:10,
         backgroundColor: MyTheme.white,
-        height: 75,
+        height: DeviceInfo(context).getHeight() / 10,
         width: DeviceInfo(context).getWidth() / 2 - 20,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  style: MyTextStyle().dashboardBoxText(context),
-                ),
-                counter != null ? SizedBox(height: 10,) : SizedBox.shrink(),
-               counter != null ? Text(
-                  counter,
-                  style: MyTextStyle().dashboardBoxNumber(context),
-                ): SizedBox.shrink(),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: MyTextStyle().dashboardBoxText(context),
+                  ),
+                  counter != null ? SizedBox(height: 10,) : SizedBox.shrink(),
+                 counter != null ? Text(
+                    counter,
+                    style: MyTextStyle().dashboardBoxNumber(context),
+                  ): SizedBox.shrink(),
+                ],
+              ),
             ),
             MyWidget.boxImage(iconUrl)
           ],

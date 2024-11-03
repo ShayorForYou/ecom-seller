@@ -37,7 +37,7 @@ import '../../repositories/digital_product_repository.dart';
 class UpdateDigitalProduct extends StatefulWidget {
   final productId;
 
-  UpdateDigitalProduct({Key? key, this.productId}) : super(key: key);
+  const UpdateDigitalProduct({super.key, this.productId});
 
   @override
   State<UpdateDigitalProduct> createState() => _UpdateDigitalProductState();
@@ -104,7 +104,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
       tax,
       taxType;
 
-  Map choice_options = Map();
+  Map choice_options = {};
 
   //ImagePicker pickImage = ImagePicker();
 
@@ -142,7 +142,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
   getCategories() async {
     var categoryResponse = await DigitalProductRepository().getCategoryRes();
 
-    categoryResponse!.data!.forEach((element) {
+    for (var element in categoryResponse.data!) {
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
           title: element.name,
@@ -151,7 +151,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
           height: 0.0,
           children: setChildCategory(element.child!));
       categories.add(model);
-    });
+    }
     isCategoryInit = true;
 
     setState(() {});
@@ -159,7 +159,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
 
   List<CategoryModel> setChildCategory(List<Category> child) {
     List<CategoryModel> list = [];
-    child.forEach((element) {
+    for (var element in child) {
       var children = element.child ?? [];
       CategoryModel model = CategoryModel(
           id: element.id.toString(),
@@ -168,7 +168,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
           children: children.isNotEmpty ? setChildCategory(children) : []);
 
       list.add(model);
-    });
+    }
     return list;
   }
 
@@ -188,7 +188,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
   getTaxType(DigitalProductInfo productInfo) async {
     var taxRes = await ProductRepository().getTaxRes();
     vatTaxList.clear();
-    taxRes.data!.forEach((element) {
+    for (var element in taxRes.data!) {
       var tmpTax = productInfo.tax!
           .where((productTax) => productTax.taxId == element.id);
 
@@ -217,7 +217,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
           ),
         );
       }
-    });
+    }
   }
 
   pickGalleryImages() async {
@@ -235,19 +235,17 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
       ),
     );
     // //print(images != null);
-    if (images != null) {
-      productGalleryImages = images;
-      setChange();
+    productGalleryImages = images;
+    setChange();
     }
-  }
 
   setProductPhotoValue() {
     photos = "";
-    for (int i = 0; i < productGalleryImages!.length; i++) {
-      if (i != (productGalleryImages!.length - 1)) {
-        photos = "$photos " + "${productGalleryImages![i].id},";
+    for (int i = 0; i < productGalleryImages.length; i++) {
+      if (i != (productGalleryImages.length - 1)) {
+        photos = "$photos " "${productGalleryImages[i].id},";
       } else {
-        photos = "$photos " + "${productGalleryImages![i].id}";
+        photos = "$photos " "${productGalleryImages[i].id}";
       }
     }
   }
@@ -256,11 +254,11 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
     taxType = [];
     tax = [];
     taxId = [];
-    vatTaxList.forEach((element) {
+    for (var element in vatTaxList) {
       taxId!.add(element.vatTaxModel.id);
       tax!.add(element.amount.text.trim().toString());
       if (element.selectedItem != null) taxType!.add(element.selectedItem!.key);
-    });
+    }
   }
 
   /// set product value is-> when user put value in the text field
@@ -274,9 +272,9 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
     purchasePrice = purchasePriceTextController.text.trim().toString();
     dateRange = "${dateTimeRange!.start} to ${dateTimeRange!.end}";
     tagMap.clear();
-    tags!.forEach((element) {
+    for (var element in tags!) {
       tagMap.add(jsonEncode({"value": '$element'}));
-    });
+    }
     // add product photo
     setProductPhotoValue();
     if (thumbnailImage != null) thumbnailImg = "${thumbnailImage!.id}";
@@ -333,7 +331,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
 
     await setProductValues();
 
-    Map postValue = Map();
+    Map postValue = {};
     postValue.addAll({
       "added_by": "seller",
       "digital": 1,
@@ -409,14 +407,14 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
     description = productInfo.description;
     getTaxType(productInfo);
 
-    discountTypeList.forEach((element) {
+    for (var element in discountTypeList) {
       if (productInfo.discountType == element.key) {
         selectedProductDiscountType = element;
       }
-    });
+    }
 
     if (productInfo.photos!.data!.isNotEmpty) {
-      productGalleryImages!
+      productGalleryImages
           .addAll(productInfo.photos!.data! as Iterable<FileInfo>);
     }
     if (productInfo.thumbnailImg!.data!.isNotEmpty) {
@@ -435,9 +433,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
     dateTimeRange = DateTimeRange(start: start, end: end);
 
     _statAndEndTime =
-        intl.DateFormat('d/MM/y').format(dateTimeRange!.start).toString() +
-            " - " +
-            intl.DateFormat('d/MM/y').format(dateTimeRange!.end).toString();
+        "${intl.DateFormat('d/MM/y').format(dateTimeRange!.start)} - ${intl.DateFormat('d/MM/y').format(dateTimeRange!.end)}";
     productDiscountEditTextController.text = productInfo.discount!.toString();
 
     // S E O
@@ -524,7 +520,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
             submitProduct();
           },
           child: Text(
-            LangText(context: context).getLocal()!.update_now_ucf,
+            LangText(context: context).getLocal().update_now_ucf,
             style: TextStyle(color: MyTheme.white),
           ),
         ),
@@ -553,45 +549,45 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
 
   Widget buildGeneral() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.product_information_ucf,
+      LangText(context: context).getLocal().product_information_ucf,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildEditTextField(
-            LangText(context: context).getLocal()!.product_name_ucf,
-            LangText(context: context).getLocal()!.product_name_ucf,
+            LangText(context: context).getLocal().product_name_ucf,
+            LangText(context: context).getLocal().product_name_ucf,
             productNameEditTextController,
             isMandatory: true,
           ),
           itemSpacer(),
           _buildMultiCategory(
-              LangText(context: context).getLocal()!.categories_ucf,
+              LangText(context: context).getLocal().categories_ucf,
               isMandatory: true),
           itemSpacer(),
           buildGroupItems(
               '',
               chooseSingleFileField(
-                  LangText(context: context).getLocal()!.product_file_ucf, "",
+                  LangText(context: context).getLocal().product_file_ucf, "",
                   (onChosenFile) {
                 productFile = onChosenFile;
                 setChange();
               }, productFile)),
           itemSpacer(),
           buildTagsEditTextField(
-              LangText(context: context).getLocal()!.tags_ucf,
+              LangText(context: context).getLocal().tags_ucf,
               LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .type_and_hit_enter_to_add_a_tag_ucf,
               tagEditTextController,
               isMandatory: true),
           itemSpacer(),
           buildGroupItems(
-              LangText(context: context).getLocal()!.product_description_ucf,
+              LangText(context: context).getLocal().product_description_ucf,
               summerNote(
-                  LangText(context: context).getLocal()!.description_ucf)),
+                  LangText(context: context).getLocal().description_ucf)),
           itemSpacer(),
           buildGroupItems(
-            LangText(context: context).getLocal()!.vat_n_tax_ucf,
+            LangText(context: context).getLocal().vat_n_tax_ucf,
             Column(
               children: List.generate(
                 vatTaxList.length,
@@ -632,15 +628,15 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
 
   Widget buildMedia() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.product_images_ucf,
+      LangText(context: context).getLocal().product_images_ucf,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           chooseGalleryImageField(),
           itemSpacer(),
           chooseSingleImageField(
-              LangText(context: context).getLocal()!.thumbnail_image_300_ucf,
-              LangText(context: context).getLocal()!.thumbnail_image_300_des,
+              LangText(context: context).getLocal().thumbnail_image_300_ucf,
+              LangText(context: context).getLocal().thumbnail_image_300_des,
               (onChosenImage) {
             thumbnailImage = onChosenImage;
             setChange();
@@ -658,21 +654,21 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildPriceEditTextField(
-            LangText(context: context).getLocal()!.unit_price_ucf,
+            LangText(context: context).getLocal().unit_price_ucf,
             "0",
             unitPriceEditTextController,
             isMandatory: true,
           ),
           itemSpacer(),
           buildPriceEditTextField(
-            LangText(context: context).getLocal()!.purchase_price_ucf,
+            LangText(context: context).getLocal().purchase_price_ucf,
             "0",
             purchasePriceTextController,
             isMandatory: true,
           ),
           itemSpacer(),
           buildGroupItems(
-              LangText(context: context).getLocal()!.discount_date_range_ucf,
+              LangText(context: context).getLocal().discount_date_range_ucf,
               Container(
                 height: 45,
                 width: mWidht,
@@ -681,13 +677,9 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
                   onPressed: () async {
                     dateTimeRange = await _buildPickDate();
 
-                    _statAndEndTime = intl.DateFormat('MM/d/y')
-                            .format(dateTimeRange!.start)
-                            .toString() +
-                        " - " +
-                        intl.DateFormat('MM/d/y')
-                            .format(dateTimeRange!.end)
-                            .toString();
+                    _statAndEndTime = "${intl.DateFormat('MM/d/y')
+                            .format(dateTimeRange!.start)} - ${intl.DateFormat('MM/d/y')
+                            .format(dateTimeRange!.end)}";
                     setChange();
                   },
                   alignment: Alignment.centerLeft,
@@ -705,7 +697,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
               SizedBox(
                 width: (mWidht / 2) - 20,
                 child: buildEditTextField(
-                    LangText(context: context).getLocal()!.discount_ucf,
+                    LangText(context: context).getLocal().discount_ucf,
                     "0",
                     productDiscountEditTextController,
                     isMandatory: true),
@@ -728,19 +720,19 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
 
   Widget buildSEO() {
     return buildTabViewItem(
-      LangText(context: context).getLocal()!.seo_all_capital,
+      LangText(context: context).getLocal().seo_all_capital,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildEditTextField(
-            LangText(context: context).getLocal()!.meta_title_ucf,
-            LangText(context: context).getLocal()!.meta_title_ucf,
+            LangText(context: context).getLocal().meta_title_ucf,
+            LangText(context: context).getLocal().meta_title_ucf,
             metaTitleEditTextController,
             isMandatory: false,
           ),
           itemSpacer(),
           buildGroupItems(
-            LangText(context: context).getLocal()!.description_ucf,
+            LangText(context: context).getLocal().description_ucf,
             Container(
                 padding: EdgeInsets.all(8),
                 height: 150,
@@ -755,20 +747,20 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
                     style: TextStyle(fontSize: 12),
                     decoration: InputDecoration.collapsed(
                         hintText: LangText(context: context)
-                            .getLocal()!
+                            .getLocal()
                             .product_description_ucf))),
           ),
           itemSpacer(),
           chooseSingleImageField(
-              LangText(context: context).getLocal()!.meta_image_ucf, "",
+              LangText(context: context).getLocal().meta_image_ucf, "",
               (onChosenImage) {
             metaImage = onChosenImage;
             setChange();
           }, metaImage),
           itemSpacer(),
           buildEditTextField(
-            LangText(context: context).getLocal()!.slug_ucf,
-            LangText(context: context).getLocal()!.slug_ucf,
+            LangText(context: context).getLocal().slug_ucf,
+            LangText(context: context).getLocal().slug_ucf,
             slugEditTextController,
             isMandatory: false,
           ),
@@ -844,7 +836,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
                     .toList(),
               ),
             ),
-            Container(
+            SizedBox(
               width: mWidht * 0.10,
               child: IconButton(
                   onPressed: () {
@@ -891,7 +883,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              LangText(context: context).getLocal()!.gallery_images_600,
+              LangText(context: context).getLocal().gallery_images_600,
               style: const TextStyle(
                   fontSize: 12,
                   color: MyTheme.font_grey,
@@ -947,23 +939,23 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
         ),
         Text(
           LangText(context: context)
-              .getLocal()!
+              .getLocal()
               .these_images_are_visible_in_product_details_page_gallery_600,
           style: TextStyle(fontSize: 8, color: MyTheme.grey_153),
         ),
         const SizedBox(
           height: 10,
         ),
-        if (productGalleryImages!.isNotEmpty)
+        if (productGalleryImages.isNotEmpty)
           Wrap(
             children: List.generate(
-              productGalleryImages!.length,
+              productGalleryImages.length,
               (index) => Stack(
                 children: [
                   MyWidget.imageWithPlaceholder(
                       height: 60.0,
                       width: 60.0,
-                      url: productGalleryImages![index].url),
+                      url: productGalleryImages[index].url),
                   Positioned(
                     top: 0,
                     right: 5,
@@ -976,7 +968,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
                       child: InkWell(
                         onTap: () {
                           //print(index);
-                          productGalleryImages!.removeAt(index);
+                          productGalleryImages.removeAt(index);
                           setState(() {});
                         },
                         child: Icon(
@@ -1769,7 +1761,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
         firstDate: DateTime.now(),
         lastDate: DateTime.utc(2050),
         builder: (context, child) {
-          return Container(
+          return SizedBox(
             width: 500,
             height: 500,
             child: DateRangePickerDialog(
@@ -1792,16 +1784,16 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
       child: Row(
         children: [
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.general_ucf, 0),
+              LangText(context: context).getLocal().general_ucf, 0),
           tabBarDivider(),
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.media_ucf, 1),
+              LangText(context: context).getLocal().media_ucf, 1),
           tabBarDivider(),
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.price_n_stock_ucf, 2),
+              LangText(context: context).getLocal().price_n_stock_ucf, 2),
           tabBarDivider(),
           buildTopTapBarItem(
-              LangText(context: context).getLocal()!.seo_all_capital, 3),
+              LangText(context: context).getLocal().seo_all_capital, 3),
           tabBarDivider(),
         ],
       ),
@@ -1871,7 +1863,7 @@ class _UpdateDigitalProductState extends State<UpdateDigitalProduct> {
             width: 10,
           ),
           Text(
-            LangText(context: context).getLocal()!.update_product_ucf,
+            LangText(context: context).getLocal().update_product_ucf,
             style: MyTextStyle().appbarText(),
           ),
           const Spacer(),
@@ -1920,9 +1912,9 @@ class Tags {
   static toJson() {
     Map<String, String> map = {};
 
-    tags.forEach((element) {
+    for (var element in tags) {
       map.addAll({"value": element});
-    });
+    }
 
     return map;
   }

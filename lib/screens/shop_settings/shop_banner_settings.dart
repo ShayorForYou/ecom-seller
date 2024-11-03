@@ -16,7 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 
 class ShopBannerSettings extends StatefulWidget {
-  const ShopBannerSettings({Key? key}) : super(key: key);
+  const ShopBannerSettings({super.key});
 
   @override
   State<ShopBannerSettings> createState() => _ShopBannerSettingsState();
@@ -40,17 +40,18 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
 
     _imageUrls.addAll(response.shopInfo!.sliders!);
 
-    if (response.shopInfo!.slidersId != null)
+    if (response.shopInfo!.slidersId != null) {
       _imageIds = response.shopInfo!.slidersId.split(",");
+    }
 
-    print(_imageIds!.join(','));
+    print(_imageIds.join(','));
     setState(() {});
     return true;
   }
 
   updateInfo() async {
     var postBody = jsonEncode({
-      "sliders": _imageIds!.join(','),
+      "sliders": _imageIds.join(','),
     });
     loadingShow(context);
     var response = await ShopRepository().updateShopSetting(postBody);
@@ -89,10 +90,10 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
                   canMultiSelect: true,
                 )));
     if (fileInfo != null && fileInfo.isNotEmpty) {
-      fileInfo.forEach((element) {
+      for (var element in fileInfo) {
         _imageIds.add(element.id.toString());
         _imageUrls.add(element.url!);
-      });
+      }
 
       setState(() {});
     }
@@ -100,9 +101,9 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
 
   formValidation() {
     _errors = [];
-    if (_imageIds!.isEmpty) {
+    if (_imageIds.isEmpty) {
       _errors.add(
-          LangText(context: context).getLocal()!.shop_banner_image_is_required);
+          LangText(context: context).getLocal().shop_banner_image_is_required);
     }
     setState(() {});
   }
@@ -124,7 +125,7 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
     return Scaffold(
       appBar: MyAppBar(
               context: context,
-              title: LangText(context: context).getLocal()!.banner_settings)
+              title: LangText(context: context).getLocal().banner_settings)
           .show(),
       body: RefreshIndicator(
         onRefresh: onRefresh,
@@ -142,7 +143,7 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
                       height: 20,
                     ),
                     Text(
-                      LangText(context: context).getLocal()!.banner_1500_x_450,
+                      LangText(context: context).getLocal().banner_1500_x_450,
                       style: TextStyle(
                           fontSize: 12,
                           color: MyTheme.font_grey,
@@ -193,7 +194,7 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
                   height: 10,
                 ),
                 Text(
-                  LangText(context: context).getLocal()!.banner_1500_x_450_des,
+                  LangText(context: context).getLocal().banner_1500_x_450_des,
                   style: TextStyle(fontSize: 8, color: MyTheme.grey_153),
                 ),
                 SizedBox(
@@ -208,6 +209,8 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
                         MyWidget.imageWithPlaceholder(
                             height: 60.0, width: 60.0, url: _imageUrls[index]),
                         Positioned(
+                          top: 0,
+                          right: 5,
                           child: Container(
                             height: 15,
                             width: 15,
@@ -217,7 +220,7 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
                             child: InkWell(
                               onTap: () {
                                 _imageUrls.removeAt(index);
-                                _imageIds!.removeAt(index);
+                                _imageIds.removeAt(index);
                                 setState(() {});
                               },
                               child: Icon(
@@ -227,8 +230,6 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
                               ),
                             ),
                           ),
-                          top: 0,
-                          right: 5,
                         ),
                       ],
                     ),
@@ -259,7 +260,7 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
                     radius: 6.0,
                     width: DeviceInfo(context).getWidth(),
                     child: Text(
-                      LangText(context: context).getLocal()!.save_ucf,
+                      LangText(context: context).getLocal().save_ucf,
                       style: TextStyle(fontSize: 17, color: MyTheme.white),
                     )),
               ],
@@ -283,7 +284,7 @@ class _ShopBannerSettingsState extends State<ShopBannerSettings> {
               SizedBox(
                 width: 10,
               ),
-              Text("${LangText(context: context).getLocal()!.please_wait_ucf}"),
+              Text(LangText(context: context).getLocal().please_wait_ucf),
             ],
           ));
         });

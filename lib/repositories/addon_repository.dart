@@ -1,7 +1,6 @@
 import 'package:ecom_seller_app/api_request.dart';
 import 'package:ecom_seller_app/app_config.dart';
 import 'package:ecom_seller_app/data_model/addon_response.dart';
-import 'package:ecom_seller_app/dummy_data/allProducts.dart';
 import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 
 class AddonRepository {

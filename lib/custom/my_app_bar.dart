@@ -13,12 +13,13 @@ class MyAppBar {
   AppBar show({var elevation = 5.0}) {
     return AppBar(
       bottom: bottom,
-      leadingWidth: 0.0,
+      automaticallyImplyLeading: false,
       centerTitle: centerTitle,
+      leading: null,
       elevation: elevation,
       title: Row(
         children: [
-          Container(
+          SizedBox(
             width: 24,
             height: 24,
             child: IconButton(
@@ -78,7 +79,7 @@ class MyAppBar {
       elevation: elevation,
       title: Row(
         children: [
-          Container(
+          SizedBox(
             width: 24,
             height: 24,
             child: IconButton(
@@ -107,8 +108,8 @@ class MyAppBar {
       ),
       backgroundColor: Colors.white,
       bottom: PreferredSize(
-        child: bottom,
         preferredSize: size,
+        child: bottom,
       ),
       /*leading:Container(
         margin: EdgeInsets.only(left: 10),

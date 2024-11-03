@@ -8,11 +8,11 @@ class PosCustomerInfoRow extends StatelessWidget {
   final bool? check;
 
   const PosCustomerInfoRow({
-    Key? key,
+    super.key,
     this.title = "--",
     this.content = "--",
     this.check = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

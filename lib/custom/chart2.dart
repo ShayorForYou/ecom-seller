@@ -14,7 +14,7 @@ class MChart extends StatefulWidget {
 class _MChartState extends State<MChart> {
   List<ChartResponse> chartList = [];
 
-  List<ChartSeries> _createSampleData() {
+  List<CartesianSeries> _createSampleData() {
     final data = List.generate(chartList.length, (index) {
       return OrdinalSales(chartList[index].date,
           int.parse(chartList[index].total!.round().toString())

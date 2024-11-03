@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 typedef TypedOnPicked = Function(DateTime);
 
 class DateAndTimePicker extends StatefulWidget {
-  DateAndTimePicker({Key? key,
+  DateAndTimePicker({super.key,
     required this.onPicked,
     this.initialDay,
     this.initialMonth,
     this.initialYear,
     this.initialHour,
-    this.initialMin})
-      : super(key: key);
+    this.initialMin});
   TypedOnPicked onPicked;
   int? initialYear;
   int? initialMonth;
@@ -116,7 +115,7 @@ class _DateAndTimePickerState extends State<DateAndTimePicker> {
   Widget _showYears() {
     // initialYear ??= DateTime.now().year;
     // selectedYear = initialYear;
-    return Container(
+    return SizedBox(
       width: 40,
       height: 100,
       // color: Colors.red,
@@ -166,7 +165,7 @@ class _DateAndTimePickerState extends State<DateAndTimePicker> {
   Widget _showMonth() {
     // initialMonth ??= DateTime.now().month;
 
-    return Container(
+    return SizedBox(
       width: 70,
       height: 100,
       // color: Colors.red,
@@ -201,7 +200,7 @@ class _DateAndTimePickerState extends State<DateAndTimePicker> {
                     months.length,
                         (index) =>
                         Text(
-                          "${months[index]}",
+                          months[index],
                           style: TextStyle(fontSize: 15),
                         ))),
           ),

@@ -100,7 +100,8 @@ class _ManageVendorsState extends State<ManageVendors> {
               surfaceTintColor: MyTheme.golden,
               elevation: 5,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 child: Center(
                     child: Column(
                   children: [
@@ -114,7 +115,7 @@ class _ManageVendorsState extends State<ManageVendors> {
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 2),
                     RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(

@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:ecom_seller_app/const/app_style.dart';
-import 'package:ecom_seller_app/const/homepage_features.dart';
 import 'package:ecom_seller_app/custom/device_info.dart';
 import 'package:ecom_seller_app/custom/localization.dart';
 import 'package:ecom_seller_app/custom/my_widget.dart';
@@ -14,11 +15,9 @@ import 'package:ecom_seller_app/repositories/shop_repository.dart';
 import 'package:ecom_seller_app/screens/orders.dart';
 import 'package:ecom_seller_app/screens/packages.dart';
 import 'package:ecom_seller_app/screens/payment_history.dart';
-import 'package:ecom_seller_app/screens/payment_setting.dart';
 import 'package:ecom_seller_app/screens/pos/pos_manager.dart';
 import 'package:ecom_seller_app/screens/product/products.dart';
 import 'package:ecom_seller_app/screens/refund_request.dart';
-import 'package:ecom_seller_app/screens/shop_settings/shop_settings.dart';
 import 'package:ecom_seller_app/screens/verify_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,14 +29,14 @@ import 'money_withdraw.dart';
 class Home extends StatefulWidget {
   final bool fromBottombar;
 
-  const Home({Key? key, this.fromBottombar = false}) : super(key: key);
+  const Home({super.key, this.fromBottombar = false});
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   //String variables
   // String homePageTitle = "Dashboard";
@@ -145,20 +144,23 @@ class _HomeState extends State<Home> {
     mWidht = MediaQuery.of(context).size.width;
     return RefreshIndicator(
       onRefresh: reFresh,
-      child: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: dashboard(),
-          ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 80),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: dashboard(),
+            ),
+          ],
 
+        ),
       ),
     );
   }
 
   Widget dashboard() {
     return SizedBox(
-      height: DeviceInfo(context).getHeight() ,
+      // height: DeviceInfo(context).getHeight() ,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

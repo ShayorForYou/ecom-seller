@@ -16,19 +16,18 @@ class PaytmScreen extends StatefulWidget {
   String? payment_method_key;
   String? package_id;
 
-  PaytmScreen({Key? key,
+  PaytmScreen({super.key,
     this.amount = 0.00,
     this.payment_type = "",
-    this.payment_method_key = "", this.package_id})
-      : super(key: key);
+    this.payment_method_key = "", this.package_id});
 
   @override
   _PaytmScreenState createState() => _PaytmScreenState();
 }
 
 class _PaytmScreenState extends State<PaytmScreen> {
-  int _combined_order_id = 0;
-  bool _order_init = false;
+  final int _combined_order_id = 0;
+  final bool _order_init = false;
   String initial_url = "";
   late WebViewController _webViewController;
 
@@ -38,7 +37,7 @@ class _PaytmScreenState extends State<PaytmScreen> {
     super.initState();
     initial_url =
     "${AppConfig.BASE_URL}/paytm/payment/pay?payment_type=${widget
-        .payment_type}&combined_order_id=${_combined_order_id}&amount=${widget
+        .payment_type}&combined_order_id=$_combined_order_id&amount=${widget
         .amount}&user_id=${seller_id.$}&package_id=${widget.package_id}";
 
     _webViewController = WebViewController()
@@ -104,7 +103,7 @@ class _PaytmScreenState extends State<PaytmScreen> {
     print(initial_url);
 
     return SingleChildScrollView(
-      child: Container(
+      child: SizedBox(
         width: MediaQuery
             .of(context)
             .size

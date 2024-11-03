@@ -15,7 +15,7 @@ import 'package:shimmer/shimmer.dart';
 class Orders extends StatefulWidget {
   final bool fromBottomBar;
 
-  const Orders({Key? key, this.fromBottomBar = false}) : super(key: key);
+  const Orders({super.key, this.fromBottomBar = false});
 
   @override
   _OrdersState createState() => _OrdersState();
@@ -53,7 +53,7 @@ class _OrdersState extends State<Orders> {
 
     _xcrollController.addListener(() {
       //print("position: " + _xcrollController.position.pixels.toString());
-      print("max: " + _xcrollController.position.maxScrollExtent.toString());
+      print("max: ${_xcrollController.position.maxScrollExtent}");
 
       if (_xcrollController.position.pixels ==
           _xcrollController.position.maxScrollExtent) {
@@ -202,7 +202,7 @@ class _OrdersState extends State<Orders> {
     return Visibility(
         visible: !widget.fromBottomBar,
         child: SizedBox(
-          height: AppBar().preferredSize.height + 20,
+          height: AppBar().preferredSize.height + 60,
           child: MyAppBar(
                   context: context,
                   title: LangText(context: context).getLocal().orders_ucf)

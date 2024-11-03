@@ -29,7 +29,7 @@ import '../../providers/product_provider.dart';
 class Products extends StatefulWidget {
   final bool fromBottomBar;
 
-  const Products({Key? key, this.fromBottomBar = false}) : super(key: key);
+  const Products({super.key, this.fromBottomBar = false});
 
   @override
   _ProductsState createState() => _ProductsState();
@@ -530,7 +530,7 @@ class _ProductsState extends State<Products> {
               const SizedBox(
                 width: 11,
               ),
-              Container(
+              SizedBox(
                 width: mWidth - 129,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -541,7 +541,7 @@ class _ProductsState extends State<Products> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             width: mWidth - 170,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -621,7 +621,7 @@ class _ProductsState extends State<Products> {
   showDeleteWarningDialog(id) {
     showDialog(
         context: context,
-        builder: (context) => Container(
+        builder: (context) => SizedBox(
               width: DeviceInfo(context).getWidth() * 1.5,
               child: AlertDialog(
                 title: Text(
@@ -663,7 +663,7 @@ class _ProductsState extends State<Products> {
   }
 
   Widget showOptions({listIndex, productId}) {
-    return Container(
+    return SizedBox(
       width: 35,
       child: PopupMenuButton<MenuOptions>(
         offset: const Offset(-12, 0),
@@ -719,7 +719,7 @@ class _ProductsState extends State<Products> {
         builder: (context) {
           switchContext = context;
           return StatefulBuilder(builder: (context, setState) {
-            return Container(
+            return SizedBox(
               height: 75,
               width: DeviceInfo(context).getWidth(),
               child: AlertDialog(
@@ -759,7 +759,7 @@ class _ProductsState extends State<Products> {
         builder: (context) {
           featuredSwitchContext = context;
           return StatefulBuilder(builder: (context, setState) {
-            return Container(
+            return SizedBox(
               height: 75,
               width: DeviceInfo(context).getWidth(),
               child: AlertDialog(
@@ -807,7 +807,7 @@ class _ProductsState extends State<Products> {
               const SizedBox(
                 width: 10,
               ),
-              Text("${AppLocalizations.of(context)!.please_wait_ucf}"),
+              Text(AppLocalizations.of(context)!.please_wait_ucf),
             ],
           ));
         });

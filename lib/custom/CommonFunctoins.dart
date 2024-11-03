@@ -20,7 +20,7 @@ class CommonFunctions {
                   app_language_rtl.$! ? TextDirection.rtl : TextDirection.ltr,
               child: AlertDialog(
                 content: Text(LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .do_you_want_close_the_app),
                 actions: [
                   Buttons(

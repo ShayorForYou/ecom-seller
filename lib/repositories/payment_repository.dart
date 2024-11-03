@@ -21,7 +21,7 @@ class PaymentRepository {
   Future<List<PaymentTypeResponse>> getPaymentResponseList(
       {mode = "", list = "both"}) async {
     String url =
-        ("${AppConfig.BASE_URL}/payment-types?mode=${mode}&list=${list}");
+        ("${AppConfig.BASE_URL}/payment-types?mode=$mode&list=$list");
     // print(url.toString() + " url.toString()");
     final response = await ApiRequest.get(url: url, headers: {
       "App-Language": app_language.$!,
@@ -34,12 +34,12 @@ class PaymentRepository {
   }
 
   Future<PaypalUrlResponse> getPaypalUrlResponse(
-      @required String payment_type,
-      @required int combined_order_id,
-      @required var package_id,
+      @required String paymentType,
+      @required int combinedOrderId,
+      @required var packageId,
       @required double amount) async {
     String url =
-        ("${AppConfig.BASE_URL}/paypal/payment/url?payment_type=${payment_type}&combined_order_id=${combined_order_id}&amount=${amount}&user_id=${seller_id.$}&package_id=${package_id}");
+        ("${AppConfig.BASE_URL}/paypal/payment/url?payment_type=$paymentType&combined_order_id=$combinedOrderId&amount=$amount&user_id=${seller_id.$}&package_id=$packageId");
     final response = await ApiRequest.get(url: url, headers: {
       "App-Language": app_language.$!,
     });
@@ -48,12 +48,12 @@ class PaymentRepository {
   }
 
   Future<FlutterwaveUrlResponse> getFlutterwaveUrlResponse(
-      @required String payment_type,
-      @required int combined_order_id,
-      @required var package_id,
+      @required String paymentType,
+      @required int combinedOrderId,
+      @required var packageId,
       @required double amount) async {
     String url =
-        ("${AppConfig.BASE_URL}/flutterwave/payment/url?payment_type=${payment_type}&combined_order_id=${combined_order_id}&amount=${amount}&user_id=${seller_id.$}&package_id=${package_id}");
+        ("${AppConfig.BASE_URL}/flutterwave/payment/url?payment_type=$paymentType&combined_order_id=$combinedOrderId&amount=$amount&user_id=${seller_id.$}&package_id=$packageId");
 
     final response = await ApiRequest.get(url: url, headers: {
       "App-Language": app_language.$!,
@@ -65,16 +65,16 @@ class PaymentRepository {
   }
 
   Future<RazorpayPaymentSuccessResponse> getRazorpayPaymentSuccessResponse(
-      @required payment_type,
+      @required paymentType,
       @required double amount,
-      @required int combined_order_id,
-      @required String? payment_details) async {
-    var post_body = jsonEncode({
+      @required int combinedOrderId,
+      @required String? paymentDetails) async {
+    var postBody = jsonEncode({
       "user_id": "${seller_id.$}",
-      "payment_type": "${payment_type}",
-      "combined_order_id": "${combined_order_id}",
-      "amount": "${amount}",
-      "payment_details": "${payment_details}"
+      "payment_type": "$paymentType",
+      "combined_order_id": "$combinedOrderId",
+      "amount": "$amount",
+      "payment_details": "$paymentDetails"
     });
 
     // print(post_body.toString());
@@ -88,23 +88,23 @@ class PaymentRepository {
           "Authorization": "Bearer ${access_token.$}",
           "App-Language": app_language.$!
         },
-        body: post_body);
+        body: postBody);
 
     //print(response.body.toString());
     return razorpayPaymentSuccessResponseFromJson(response.body);
   }
 
   Future<PaystackPaymentSuccessResponse> getPaystackPaymentSuccessResponse(
-      @required payment_type,
+      @required paymentType,
       @required double amount,
-      @required int combined_order_id,
-      @required String? payment_details) async {
-    var post_body = jsonEncode({
+      @required int combinedOrderId,
+      @required String? paymentDetails) async {
+    var postBody = jsonEncode({
       "user_id": "${seller_id.$}",
-      "payment_type": "${payment_type}",
-      "combined_order_id": "${combined_order_id}",
-      "amount": "${amount}",
-      "payment_details": "${payment_details}"
+      "payment_type": "$paymentType",
+      "combined_order_id": "$combinedOrderId",
+      "amount": "$amount",
+      "payment_details": "$paymentDetails"
     });
 
     String url = ("${AppConfig.BASE_URL}/paystack/success");
@@ -114,23 +114,23 @@ class PaymentRepository {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${access_token.$}"
         },
-        body: post_body);
+        body: postBody);
 
     //print(response.body.toString());
     return paystackPaymentSuccessResponseFromJson(response.body);
   }
 
   Future<IyzicoPaymentSuccessResponse> getIyzicoPaymentSuccessResponse(
-      @required payment_type,
+      @required paymentType,
       @required double amount,
-      @required int combined_order_id,
-      @required String? payment_details) async {
-    var post_body = jsonEncode({
+      @required int combinedOrderId,
+      @required String? paymentDetails) async {
+    var postBody = jsonEncode({
       "user_id": "${seller_id.$}",
-      "payment_type": "${payment_type}",
-      "combined_order_id": "${combined_order_id}",
-      "amount": "${amount}",
-      "payment_details": "${payment_details}"
+      "payment_type": "$paymentType",
+      "combined_order_id": "$combinedOrderId",
+      "amount": "$amount",
+      "payment_details": "$paymentDetails"
     });
 
     String url = ("${AppConfig.BASE_URL}/paystack/success");
@@ -140,19 +140,19 @@ class PaymentRepository {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${access_token.$}"
         },
-        body: post_body);
+        body: postBody);
 
     //print(response.body.toString());
     return iyzicoPaymentSuccessResponseFromJson(response.body);
   }
 
   Future<BkashBeginResponse> getBkashBeginResponse(
-      @required String payment_type,
-      @required int combined_order_id,
-      @required var package_id,
+      @required String paymentType,
+      @required int combinedOrderId,
+      @required var packageId,
       @required double amount) async {
     String url =
-        ("${AppConfig.BASE_URL}/bkash/begin?payment_type=${payment_type}&combined_order_id=${combined_order_id}&amount=${amount}&user_id=${seller_id.$}&package_id=${package_id}");
+        ("${AppConfig.BASE_URL}/bkash/begin?payment_type=$paymentType&combined_order_id=$combinedOrderId&amount=$amount&user_id=${seller_id.$}&package_id=$packageId");
 
     final response = await ApiRequest.get(
       url: url,
@@ -171,14 +171,14 @@ class PaymentRepository {
     required String? token,
     required String? package_id,
   }) async {
-    var post_body = jsonEncode({
+    var postBody = jsonEncode({
       "user_id": "${seller_id.$}",
-      "payment_type": "${payment_type}",
-      "combined_order_id": "${combined_order_id}",
-      "package_id": "${package_id}",
-      "amount": "${amount}",
-      "payment_id": "${payment_id}",
-      "token": "${token}"
+      "payment_type": "$payment_type",
+      "combined_order_id": "$combined_order_id",
+      "package_id": "$package_id",
+      "amount": "$amount",
+      "payment_id": "$payment_id",
+      "token": "$token"
     });
 
     String url = ("${AppConfig.BASE_URL}/bkash/api/success");
@@ -189,19 +189,19 @@ class PaymentRepository {
           "Authorization": "Bearer ${access_token.$}",
           "App-Language": app_language.$!,
         },
-        body: post_body);
+        body: postBody);
 
     //print(response.body.toString());
     return bkashPaymentProcessResponseFromJson(response.body);
   }
 
   Future<SslcommerzBeginResponse> getSslcommerzBeginResponse(
-      @required String payment_type,
-      @required int combined_order_id,
-      @required String package_id,
+      @required String paymentType,
+      @required int combinedOrderId,
+      @required String packageId,
       @required double amount) async {
     String url =
-        ("${AppConfig.BASE_URL}/sslcommerz/begin?payment_type=${payment_type}&combined_order_id=${combined_order_id}&amount=${amount}&user_id=${seller_id.$}&package_id=${package_id}");
+        ("${AppConfig.BASE_URL}/sslcommerz/begin?payment_type=$paymentType&combined_order_id=$combinedOrderId&amount=$amount&user_id=${seller_id.$}&package_id=$packageId");
 
     final response = await ApiRequest.get(
       url: url,
@@ -216,12 +216,12 @@ class PaymentRepository {
   }
 
   Future<NagadBeginResponse> getNagadBeginResponse(
-      @required String payment_type,
-      @required int combined_order_id,
-      @required var package_id,
+      @required String paymentType,
+      @required int combinedOrderId,
+      @required var packageId,
       @required double amount) async {
     String url =
-        ("${AppConfig.BASE_URL}/nagad/begin?payment_type=${payment_type}&combined_order_id=${combined_order_id}&amount=${amount}&user_id=${seller_id.$}&package_id=${package_id}");
+        ("${AppConfig.BASE_URL}/nagad/begin?payment_type=$paymentType&combined_order_id=$combinedOrderId&amount=$amount&user_id=${seller_id.$}&package_id=$packageId");
 
     final response = await ApiRequest.get(
       url: url,
@@ -236,16 +236,16 @@ class PaymentRepository {
   }
 
   Future<NagadPaymentProcessResponse> getNagadPaymentProcessResponse(
-      @required payment_type,
+      @required paymentType,
       @required double amount,
-      @required int combined_order_id,
-      @required String? payment_details) async {
-    var post_body = jsonEncode({
+      @required int combinedOrderId,
+      @required String? paymentDetails) async {
+    var postBody = jsonEncode({
       "user_id": "${seller_id.$}",
-      "payment_type": "${payment_type}",
-      "combined_order_id": "${combined_order_id}",
-      "amount": "${amount}",
-      "payment_details": "${payment_details}"
+      "payment_type": "$paymentType",
+      "combined_order_id": "$combinedOrderId",
+      "amount": "$amount",
+      "payment_details": "$paymentDetails"
     });
 
     String url = ("${AppConfig.BASE_URL}/nagad/process");
@@ -257,7 +257,7 @@ class PaymentRepository {
           "Authorization": "Bearer ${access_token.$}",
           "App-Language": app_language.$!,
         },
-        body: post_body);
+        body: postBody);
 
     //print(response.body.toString());
     return nagadPaymentProcessResponseFromJson(response.body);
@@ -269,11 +269,11 @@ class PaymentRepository {
       required String trx_id,
       required int? package_id,
       required int? photo}) async {
-    var post_body = jsonEncode({
+    var postBody = jsonEncode({
       "package_id": package_id,
-      "amount": "$amount",
+      "amount": amount,
       "payment_option": "Offline Payment",
-      "trx_id": "$trx_id",
+      "trx_id": trx_id,
       "photo": "$photo",
     });
     String url =
@@ -288,7 +288,7 @@ class PaymentRepository {
           "Authorization": "Bearer ${access_token.$}",
           "App-Language": app_language.$!
         },
-        body: post_body);
+        body: postBody);
 
     // print("hello Offline wallet recharge" + response.body.toString());
     return offlinePaymentResponseFromJson(response.body);

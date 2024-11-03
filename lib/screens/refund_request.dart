@@ -14,7 +14,7 @@ import 'package:one_context/one_context.dart';
 import 'package:toast/toast.dart';
 
 class RefundRequest extends StatefulWidget {
-  const RefundRequest({Key? key}) : super(key: key);
+  const RefundRequest({super.key});
 
   @override
   State<RefundRequest> createState() => _RefundRequestState();
@@ -27,7 +27,7 @@ class _RefundRequestState extends State<RefundRequest> {
   bool _faceData = false;
   RefundOptions? _refundOptions;
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   TextEditingController rejectReasonController = TextEditingController();
 
   String? _rejectReason;
@@ -38,7 +38,7 @@ class _RefundRequestState extends State<RefundRequest> {
 
     if (response.data!.isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.no_more_refund_requests_ucf,
+          LangText(context: context).getLocal().no_more_refund_requests_ucf,
           gravity: Toast.center,
           bgColor: MyTheme.white,
           textStyle: TextStyle(color: Colors.black));
@@ -50,7 +50,7 @@ class _RefundRequestState extends State<RefundRequest> {
     _showLoadingContainer = false;
 
     _faceData = true;
-    print("data face" + _faceData.toString());
+    print("data face$_faceData");
     setState(() {});
   }
 
@@ -67,7 +67,7 @@ class _RefundRequestState extends State<RefundRequest> {
 
     if (sms.isEmpty) {
       ToastComponent.showDialog(
-          LangText(context: context).getLocal()!.provide_reason,
+          LangText(context: context).getLocal().provide_reason,
           gravity: Toast.bottom,
           duration: 2,
           bgColor: MyTheme.white);
@@ -136,7 +136,7 @@ class _RefundRequestState extends State<RefundRequest> {
     return Scaffold(
       appBar: MyAppBar(
               context: context,
-              title: LangText(context: context).getLocal()!.refund_requests_ucf)
+              title: LangText(context: context).getLocal().refund_requests_ucf)
           .show(),
       body: RefreshIndicator(
         onRefresh: refresh,
@@ -165,11 +165,11 @@ class _RefundRequestState extends State<RefundRequest> {
                                     }
                                     return refundReqItem(context, index);
                                   })
-                              : Container(
+                              : SizedBox(
                                   height: DeviceInfo(context).getHeight() / 1.5,
                                   child: Center(
                                       child: Text(LangText(context: context)
-                                          .getLocal()!
+                                          .getLocal()
                                           .no_data_is_available)),
                                 ),
                     )
@@ -207,7 +207,7 @@ class _RefundRequestState extends State<RefundRequest> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            SizedBox(
               width: DeviceInfo(context).getWidth() / 2,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,7 +298,7 @@ class _RefundRequestState extends State<RefundRequest> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 16,
                     width: 8,
                     child: Image.asset(
@@ -328,9 +328,9 @@ class _RefundRequestState extends State<RefundRequest> {
   }
 
   Future showStatusChangeDialog(
-      id, refundStatus, seller_approval, String? refundSMS, rejectReason) {
+      id, refundStatus, sellerApproval, String? refundSMS, rejectReason) {
     _refundOptions =
-        seller_approval == 2 ? RefundOptions.Reject : RefundOptions.Approve;
+        sellerApproval == 2 ? RefundOptions.Reject : RefundOptions.Approve;
     setDataInTextEditingController(rejectReason);
 
     var showFullText = false;
@@ -407,11 +407,11 @@ class _RefundRequestState extends State<RefundRequest> {
                             Row(
                               children: [
                                 Visibility(
-                                  visible: seller_approval == 0 ||
-                                      seller_approval == 1,
+                                  visible: sellerApproval == 0 ||
+                                      sellerApproval == 1,
                                   child: Row(
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 15,
                                         width: 15,
                                         child: Radio(
@@ -419,7 +419,7 @@ class _RefundRequestState extends State<RefundRequest> {
                                             value: RefundOptions.Approve,
                                             groupValue: _refundOptions,
                                             onChanged: (dynamic newValue) {
-                                              if (seller_approval == 0) {
+                                              if (sellerApproval == 0) {
                                                 setState(() {
                                                   _refundOptions = newValue;
                                                 });
@@ -430,12 +430,12 @@ class _RefundRequestState extends State<RefundRequest> {
                                         width: 10,
                                       ),
                                       Text(
-                                        seller_approval == 1
+                                        sellerApproval == 1
                                             ? LangText(context: context)
-                                                .getLocal()!
+                                                .getLocal()
                                                 .approved_ucf
                                             : LangText(context: context)
-                                                .getLocal()!
+                                                .getLocal()
                                                 .approve_ucf,
                                         style: TextStyle(
                                             fontSize: 14,
@@ -448,19 +448,19 @@ class _RefundRequestState extends State<RefundRequest> {
                                   ),
                                 ),
                                 Visibility(
-                                  visible: seller_approval == 0 ||
-                                      seller_approval == 2,
+                                  visible: sellerApproval == 0 ||
+                                      sellerApproval == 2,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width: 15,
                                         height: 15,
                                         child: Radio(
                                             value: RefundOptions.Reject,
                                             groupValue: _refundOptions,
                                             onChanged: (dynamic newValue) {
-                                              if (seller_approval == 0) {
+                                              if (sellerApproval == 0) {
                                                 setState(() {
                                                   _refundOptions = newValue;
                                                 });
@@ -471,12 +471,12 @@ class _RefundRequestState extends State<RefundRequest> {
                                         width: 10,
                                       ),
                                       Text(
-                                        seller_approval == 2
+                                        sellerApproval == 2
                                             ? LangText(context: context)
-                                                .getLocal()!
+                                                .getLocal()
                                                 .rejected_ucf
                                             : LangText(context: context)
-                                                .getLocal()!
+                                                .getLocal()
                                                 .reject_ucf,
                                         style: TextStyle(
                                             fontSize: 14,
@@ -500,7 +500,7 @@ class _RefundRequestState extends State<RefundRequest> {
                                 alignment: Alignment.topLeft,
                                 child: SingleChildScrollView(
                                   child: TextField(
-                                    readOnly: seller_approval != 0,
+                                    readOnly: sellerApproval != 0,
                                     controller: rejectReasonController,
                                     style: TextStyle(
                                       fontSize: 14,
@@ -537,11 +537,11 @@ class _RefundRequestState extends State<RefundRequest> {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      LangText(context: context).getLocal()!.close_ucf,
+                      LangText(context: context).getLocal().close_ucf,
                       style: TextStyle(color: MyTheme.white, fontSize: 12),
                     )),
                 Visibility(
-                  visible: seller_approval == 0 && refundStatus != 2,
+                  visible: sellerApproval == 0 && refundStatus != 2,
                   child: Buttons(
                       color: MyTheme.app_accent_color,
                       onPressed: () {
@@ -555,7 +555,7 @@ class _RefundRequestState extends State<RefundRequest> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                          LangText(context: context).getLocal()!.submit_ucf,
+                          LangText(context: context).getLocal().submit_ucf,
                           style:
                               TextStyle(color: MyTheme.white, fontSize: 12))),
                 ),
@@ -566,7 +566,7 @@ class _RefundRequestState extends State<RefundRequest> {
   }
 
   double? setAlertDialogHeight(mytext, maxWidth, showFullText) {
-    var height;
+    double? height;
     if (_refundOptions!.index == 0 &&
         textIsOverFlow(mytext, maxWidth) &&
         showFullText) {

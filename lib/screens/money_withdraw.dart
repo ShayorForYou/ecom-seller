@@ -7,9 +7,7 @@ import 'package:ecom_seller_app/custom/my_widget.dart';
 import 'package:ecom_seller_app/custom/route_transaction.dart';
 import 'package:ecom_seller_app/custom/submitButton.dart';
 import 'package:ecom_seller_app/data_model/shop_info_response.dart';
-import 'package:ecom_seller_app/data_model/shop_response.dart';
 import 'package:ecom_seller_app/data_model/withdraw_list_response.dart';
-import 'package:ecom_seller_app/dummy_data/withdrawList.dart';
 import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 import 'package:ecom_seller_app/helpers/shimmer_helper.dart';
 import 'package:ecom_seller_app/my_theme.dart';
@@ -19,7 +17,7 @@ import 'package:ecom_seller_app/screens/withdraw_req.dart';
 import 'package:flutter/material.dart';
 
 class MoneyWithdraw extends StatefulWidget {
-  const MoneyWithdraw({Key? key}) : super(key: key);
+  const MoneyWithdraw({super.key});
 
   @override
   State<MoneyWithdraw> createState() => _MoneyWithdrawState();
@@ -32,7 +30,7 @@ class _MoneyWithdrawState extends State<MoneyWithdraw> {
 
   bool _isLoadData = false;
   bool _isLoadShop = false;
-  int _page = 1;
+  final int _page = 1;
 
   Future<bool> getReviews() async {
     var response = await WithdrawRepository().getList(_page);
@@ -85,7 +83,7 @@ class _MoneyWithdrawState extends State<MoneyWithdraw> {
         appBar: MyAppBar(
                 context: context,
                 title: LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .money_withdraw_ucf)
             .show(),
         body: LayoutBuilder(builder: (context, constraints) {
@@ -169,13 +167,22 @@ class _MoneyWithdrawState extends State<MoneyWithdraw> {
                 children: [
                   Text(
                     LangText(context: context)
-                        .getLocal()!
+                        .getLocal()
                         .pending_balance_ucf,
-                    style: MyTextStyle().dashboardBoxText(context),
+                    style: TextStyle(
+
+                        fontSize: (DeviceInfo(context).getWidth()/100)*3.5,
+                        color: MyTheme.white,
+                        fontWeight: FontWeight.normal
+                    ),
                   ),
                   Text(
                     _isLoadShop ? _shop!.adminToPay.toString() : "...",
-                    style: MyTextStyle().dashboardBoxNumber(context),
+                    style: TextStyle(
+                        fontSize: (DeviceInfo(context).getWidth()/100)*5,
+                        color: MyTheme.white,
+                        fontWeight: FontWeight.bold
+                    ),
                   ),
                 ],
               )),
@@ -200,14 +207,14 @@ class _MoneyWithdrawState extends State<MoneyWithdraw> {
               // ),
               height: 75,
               width: DeviceInfo(context).getWidth() / 2 - 25,
-              child: Container(
+              child: SizedBox(
                 height: 75,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
                       LangText(context: context)
-                          .getLocal()!
+                          .getLocal()
                           .send_withdraw_request_ucf,
                       style: MyTextStyle()
                           .dashboardBoxText(context)
@@ -265,49 +272,51 @@ class _MoneyWithdrawState extends State<MoneyWithdraw> {
         borderColor: MyTheme.light_grey,
         borderRadius: 6,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: DeviceInfo(context).getWidth() - 160,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    withdrawStatus,
-                    style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color:withdrawStatus=="Pending"?MyTheme.grey_153: MyTheme.app_accent_color),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Image.asset(
-                        "assets/icon/calender.png",
-                        width: 12,
-                        height: 12,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        withdrawCreatedAt,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: MyTheme.grey_153,
+            Expanded(
+              child: SizedBox(
+                width: DeviceInfo(context).getWidth() - 160,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      withdrawStatus,
+                      style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color:withdrawStatus=="Pending"?MyTheme.grey_153: MyTheme.app_accent_color),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Image.asset(
+                          "assets/icon/calender.png",
+                          width: 12,
+                          height: 12,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ],
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          withdrawCreatedAt,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: MyTheme.grey_153,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Text(withdrawPrice,

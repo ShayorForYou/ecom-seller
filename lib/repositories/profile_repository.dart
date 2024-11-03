@@ -6,7 +6,6 @@ import 'package:ecom_seller_app/data_model/profile_response.dart';
 import 'package:ecom_seller_app/data_model/profile_update_response.dart';
 import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 
 class ProfileRepository {
   Future<SellerProfileResponse> getSellerInfo() async {
@@ -19,7 +18,7 @@ class ProfileRepository {
 
   Future<ProfileUpdateResponse> getProfileUpdateResponse(
       String name, String password) async {
-    var post_body = jsonEncode({"name": "${name}", "password": "$password"});
+    var postBody = jsonEncode({"name": name, "password": password});
 
     String url = ("${AppConfig.BASE_URL}/profile/update");
     final response = await ApiRequest.post(
@@ -27,7 +26,7 @@ class ProfileRepository {
         headers: {
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
 
     //print(response.body.toString());
     return profileUpdateResponseFromJson(response.body);
@@ -35,7 +34,7 @@ class ProfileRepository {
 
   Future<ProfileImageUpdateResponse> getProfileImageUpdateResponse(
       String image, String filename) async {
-    var post_body = jsonEncode({"image": "${image}", "filename": "$filename"});
+    var postBody = jsonEncode({"image": image, "filename": filename});
     //print(post_body.toString());
 
     String url = ("${AppConfig.BASE_URL}/profile/update-image");
@@ -44,7 +43,7 @@ class ProfileRepository {
         headers: {
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
 
     return profileImageUpdateResponseFromJson(response.body);
   }

@@ -24,7 +24,7 @@ class WithdrawRepository {
       String? message, String? amount) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/withdraw-request/store");
 
-    var post_body = jsonEncode({"amount": "$amount", "message": "$message"});
+    var postBody = jsonEncode({"amount": "$amount", "message": "$message"});
 
     Map<String, String> header = {
       "App-Language": app_language.$!,
@@ -33,7 +33,7 @@ class WithdrawRepository {
     };
 
     final response =
-        await ApiRequest.post(url: url, headers: header, body: post_body);
+        await ApiRequest.post(url: url, headers: header, body: postBody);
     // print("withdraw list " + response.body);
     return commonResponseFromJson(response.body);
   }

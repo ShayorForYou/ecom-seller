@@ -8,7 +8,7 @@ class BusinessSettingHelper {
     List<BusinessSettingListResponse> businessLists =
         await BusinessSettingRepository().getBusinessSettingList();
 
-    businessLists.forEach((element) {
+    for (var element in businessLists) {
       switch (element.type) {
         case 'conversation_system':
           {
@@ -77,6 +77,6 @@ class BusinessSettingHelper {
           {}
           break;
       }
-    });
+    }
   }
 }

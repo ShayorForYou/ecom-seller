@@ -6,7 +6,6 @@ import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/repositories/payment_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
-import 'dart:io';
 import 'dart:convert';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,20 +17,19 @@ class IyzicoScreen extends StatefulWidget {
   String? package_id;
 
   IyzicoScreen(
-      {Key? key,
+      {super.key,
       this.amount = 0.00,
       this.payment_type = "",
       this.payment_method_key = "",
-      this.package_id})
-      : super(key: key);
+      this.package_id});
 
   @override
   _IyzicoScreenState createState() => _IyzicoScreenState();
 }
 
 class _IyzicoScreenState extends State<IyzicoScreen> {
-  int _combined_order_id = 0;
-  bool _order_init = false;
+  final int _combined_order_id = 0;
+  final bool _order_init = false;
   String initial_url = "";
   late WebViewController _webViewController;
 
@@ -40,7 +38,7 @@ class _IyzicoScreenState extends State<IyzicoScreen> {
     // TODO: implement initState
     super.initState();
     initial_url =
-        "${AppConfig.BASE_URL}/iyzico/init?payment_type=${widget.payment_type}&combined_order_id=${_combined_order_id}&amount=${widget.amount}&user_id=${seller_id.$}&package_id=${widget.package_id}";
+        "${AppConfig.BASE_URL}/iyzico/init?payment_type=${widget.payment_type}&combined_order_id=$_combined_order_id&amount=${widget.amount}&user_id=${seller_id.$}&package_id=${widget.package_id}";
 
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -70,7 +68,7 @@ class _IyzicoScreenState extends State<IyzicoScreen> {
 
   void getData() {
     print('called.........');
-    String? payment_details = '';
+    String? paymentDetails = '';
     _webViewController
         .runJavaScriptReturningResult("document.body.innerText")
         .then((data) {
@@ -86,22 +84,22 @@ class _IyzicoScreenState extends State<IyzicoScreen> {
           Navigator.pop(context);
         } else if (responseJSON["result"] == true) {
           print("a");
-          payment_details = responseJSON['payment_details'];
-          onPaymentSuccess(payment_details);
+          paymentDetails = responseJSON['payment_details'];
+          onPaymentSuccess(paymentDetails);
         }
-      } on Exception catch (e) {
+      } on Exception {
         print("error");
         // TODO
       }
     });
   }
 
-  onPaymentSuccess(payment_details) async {
+  onPaymentSuccess(paymentDetails) async {
     print("b");
 
     var iyzicoPaymentSuccessResponse = await PaymentRepository()
         .getIyzicoPaymentSuccessResponse(widget.payment_type, widget.amount,
-            _combined_order_id, payment_details);
+            _combined_order_id, paymentDetails);
 
     if (iyzicoPaymentSuccessResponse.result == false) {
       print("c");

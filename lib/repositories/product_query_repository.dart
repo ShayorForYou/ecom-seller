@@ -3,7 +3,6 @@ import '../app_config.dart';
 import '../data_model/common_response.dart';
 import '../data_model/product_queries_response.dart';
 import '../data_model/product_query_reply_response.dart';
-import '../dummy_data/allProducts.dart';
 import '../helpers/shared_value_helper.dart';
 
 class ProductQueryRepository {

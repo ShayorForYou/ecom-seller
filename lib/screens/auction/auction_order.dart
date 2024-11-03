@@ -17,18 +17,18 @@ import '../../data_model/order_mini_response.dart';
 class AuctionOrder extends StatefulWidget {
   final bool fromBottomBar;
 
-  const AuctionOrder({Key? key, this.fromBottomBar = false}) : super(key: key);
+  const AuctionOrder({super.key, this.fromBottomBar = false});
 
   @override
   _AuctionOrderState createState() => _AuctionOrderState();
 }
 
 class _AuctionOrderState extends State<AuctionOrder> {
-  ScrollController _scrollController = ScrollController();
-  ScrollController _xcrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _xcrollController = ScrollController();
 
-  List<PaymentStatus> _paymentStatusList = PaymentStatus.getPaymentStatusList();
-  List<DeliveryStatus> _deliveryStatusList =
+  final List<PaymentStatus> _paymentStatusList = PaymentStatus.getPaymentStatusList();
+  final List<DeliveryStatus> _deliveryStatusList =
       DeliveryStatus.getDeliveryStatusList();
 
   PaymentStatus? _selectedPaymentStatus;
@@ -38,7 +38,7 @@ class _AuctionOrderState extends State<AuctionOrder> {
   List<DropdownMenuItem<DeliveryStatus>>? _dropdownDeliveryStatusItems;
 
   //------------------------------------
-  List<Order> _orderList = [];
+  final List<Order> _orderList = [];
   bool _isInitial = true;
   int _page = 1;
   int? _totalData = 0;
@@ -178,7 +178,7 @@ class _AuctionOrderState extends State<AuctionOrder> {
     return Scaffold(
       appBar: MyAppBar(
         context: context,
-        title: LangText(context: context).getLocal()!.auction_order_ucf,
+        title: LangText(context: context).getLocal().auction_order_ucf,
         bottom: buildFilterSection(context),
       ).show(),
       body: buildOrderListList(),
@@ -246,7 +246,7 @@ class _AuctionOrderState extends State<AuctionOrder> {
                               (AppBar().preferredSize.height + 75),
                           child: Center(
                             child: Text(LangText(context: context)
-                                .getLocal()!
+                                .getLocal()
                                 .no_data_is_available),
                           ),
                         ),
@@ -354,7 +354,7 @@ class _AuctionOrderState extends State<AuctionOrder> {
                         ),
                       ),
                       Text(
-                          "${LangText(context: context).getLocal()!.payment_status_ucf} - ",
+                          "${LangText(context: context).getLocal().payment_status_ucf} - ",
                           style: const TextStyle(
                               color: MyTheme.font_grey,
                               fontSize: 12,
@@ -402,7 +402,7 @@ class _AuctionOrderState extends State<AuctionOrder> {
                       ),
                     ),
                     Text(
-                        "${LangText(context: context).getLocal()!.delivery_status_ucf} -",
+                        "${LangText(context: context).getLocal().delivery_status_ucf} -",
                         style: const TextStyle(
                             color: MyTheme.font_grey,
                             fontSize: 12,
@@ -456,7 +456,7 @@ class _AuctionOrderState extends State<AuctionOrder> {
                     child: Icon(Icons.expand_more, color: Colors.black54),
                   ),
                   hint: Text(
-                    LangText(context: context).getLocal()!.all_ucf,
+                    LangText(context: context).getLocal().all_ucf,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 13,
@@ -491,7 +491,7 @@ class _AuctionOrderState extends State<AuctionOrder> {
                     child: Icon(Icons.expand_more, color: Colors.black54),
                   ),
                   hint: Text(
-                    LangText(context: context).getLocal()!.all_ucf,
+                    LangText(context: context).getLocal().all_ucf,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 13,

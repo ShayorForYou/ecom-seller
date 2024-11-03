@@ -19,7 +19,7 @@ import 'package:toast/toast.dart';
 import '../../data_model/uploaded_file_list_response.dart';
 
 class ShopGeneralSetting extends StatefulWidget {
-  const ShopGeneralSetting({Key? key}) : super(key: key);
+  const ShopGeneralSetting({super.key});
 
   @override
   State<ShopGeneralSetting> createState() => _ShopGeneralSettingState();
@@ -112,26 +112,26 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
   formValidation() {
     _errors = [];
     if (nameEditingController.text.trim().isEmpty) {
-      _errors.add(LangText(context: context).getLocal()!.shop_name_is_required);
+      _errors.add(LangText(context: context).getLocal().shop_name_is_required);
     }
     if (phoneEditingController.text.trim().isEmpty) {
       _errors
-          .add(LangText(context: context).getLocal()!.shop_phone_is_required);
+          .add(LangText(context: context).getLocal().shop_phone_is_required);
     }
     if (addressEditingController.text.trim().isEmpty) {
       _errors
-          .add(LangText(context: context).getLocal()!.shop_address_is_required);
+          .add(LangText(context: context).getLocal().shop_address_is_required);
     }
     if (titleEditingController.text.trim().isEmpty) {
       _errors
-          .add(LangText(context: context).getLocal()!.shop_title_is_required);
+          .add(LangText(context: context).getLocal().shop_title_is_required);
     }
     if (descriptionEditingController.text.trim().isEmpty) {
       _errors.add(
-          LangText(context: context).getLocal()!.shop_description_is_required);
+          LangText(context: context).getLocal().shop_description_is_required);
     }
     if (_imageId!.isEmpty) {
-      _errors.add(LangText(context: context).getLocal()!.shop_logo_is_required);
+      _errors.add(LangText(context: context).getLocal().shop_logo_is_required);
     }
 
     setState(() {});
@@ -154,7 +154,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
     return Scaffold(
       appBar: MyAppBar(
               context: context,
-              title: LangText(context: context).getLocal()!.general_setting_ucf)
+              title: LangText(context: context).getLocal().general_setting_ucf)
           .show(),
       body: RefreshIndicator(
         onRefresh: onRefresh,
@@ -218,7 +218,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
                       }
                     },
                     child: Text(
-                      LangText(context: context).getLocal()!.save_ucf,
+                      LangText(context: context).getLocal().save_ucf,
                       style: TextStyle(fontSize: 17, color: MyTheme.white),
                     )),
                 SizedBox(
@@ -237,7 +237,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.shop_description,
+          LangText(context: context).getLocal().shop_description,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -272,7 +272,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.shop_title,
+          LangText(context: context).getLocal().shop_title,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -305,7 +305,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.shop_phone,
+          LangText(context: context).getLocal().shop_phone,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -341,7 +341,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.shop_address,
+          LangText(context: context).getLocal().shop_address,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -378,7 +378,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.shop_name_ucf,
+          LangText(context: context).getLocal().shop_name_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -412,7 +412,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          LangText(context: context).getLocal()!.shop_logo_ucf,
+          LangText(context: context).getLocal().shop_logo_ucf,
           style: TextStyle(
               fontSize: 12,
               color: MyTheme.font_grey,
@@ -473,6 +473,8 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
                   MyWidget.imageWithPlaceholder(
                       height: 120.0, width: 120.0, url: avatar_original),
                   Positioned(
+                    top: 0,
+                    right: 5,
                     child: InkWell(
                       onTap: () {
                         avatar_original = "";
@@ -485,8 +487,6 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
                         color: MyTheme.red,
                       ),
                     ),
-                    top: 0,
-                    right: 5,
                   ),
                 ],
               ),
@@ -508,7 +508,7 @@ class _ShopGeneralSettingState extends State<ShopGeneralSetting> {
               SizedBox(
                 width: 10,
               ),
-              Text("${LangText(context: context).getLocal()!.please_wait_ucf}"),
+              Text(LangText(context: context).getLocal().please_wait_ucf),
             ],
           ));
         });

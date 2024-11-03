@@ -20,9 +20,9 @@ class ProductQueryReply extends StatefulWidget {
   int? id;
 
   ProductQueryReply({
-    Key? key,
+    super.key,
     this.id,
-  }) : super(key: key);
+  });
 
   @override
   State<ProductQueryReply> createState() => _ProductQueryReplyState();
@@ -228,7 +228,7 @@ class _ProductQueryReplyState extends State<ProductQueryReply> {
           style: const TextStyle(fontSize: 12),
           decoration: InputDecoration.collapsed(
               hintText:
-                  LangText(context: context).getLocal()!.type_your_reply_ucf),
+                  LangText(context: context).getLocal().type_your_reply_ucf),
         ),
       ),
     );
@@ -240,11 +240,10 @@ class _ProductQueryReplyState extends State<ProductQueryReply> {
       children: [
         TextButton(
           style: TextButton.styleFrom(
-            minimumSize: const Size(30, 30),
+            foregroundColor: Colors.white, minimumSize: const Size(30, 30),
             backgroundColor: MyTheme.app_accent_color,
             padding: const EdgeInsets.all(8),
             elevation: 0.0,
-            primary: Colors.white,
             textStyle: const TextStyle(color: Colors.white),
           ),
           onPressed: _submitReply,

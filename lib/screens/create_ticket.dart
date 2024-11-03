@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:one_context/one_context.dart';
 
 class CreateTicket extends StatefulWidget {
-  const CreateTicket({Key? key}) : super(key: key);
+  const CreateTicket({super.key});
 
   @override
   State<CreateTicket> createState() => _CreateTicketState();
@@ -22,7 +22,7 @@ class _CreateTicketState extends State<CreateTicket> {
     return Scaffold(
       appBar: MyAppBar(
               context: context,
-              title: LangText(context: context).getLocal()!.create_a_ticket)
+              title: LangText(context: context).getLocal().create_a_ticket)
           .show(),
       body: SingleChildScrollView(
         child: Container(
@@ -33,7 +33,7 @@ class _CreateTicketState extends State<CreateTicket> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    LangText(context: context).getLocal()!.subject_ucf,
+                    LangText(context: context).getLocal().subject_ucf,
                     style: TextStyle(
                         fontSize: 12,
                         color: MyTheme.font_grey,
@@ -45,7 +45,7 @@ class _CreateTicketState extends State<CreateTicket> {
                   TextField(
                     decoration: InputDecorations.buildInputDecoration_1(
                         hint_text:
-                            LangText(context: context).getLocal()!.subject_ucf,
+                            LangText(context: context).getLocal().subject_ucf,
                         borderColor: MyTheme.light_grey,
                         hintTextColor: MyTheme.grey_153),
                   ),
@@ -59,7 +59,7 @@ class _CreateTicketState extends State<CreateTicket> {
                 children: [
                   Text(
                     LangText(context: context)
-                        .getLocal()!
+                        .getLocal()
                         .provide_a_detailed_description,
                     style: TextStyle(
                         fontSize: 12,
@@ -94,7 +94,7 @@ class _CreateTicketState extends State<CreateTicket> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    LangText(context: context).getLocal()!.photo_ucf,
+                    LangText(context: context).getLocal().photo_ucf,
                     style: TextStyle(
                         fontSize: 12,
                         color: MyTheme.font_grey,
@@ -136,7 +136,7 @@ class _CreateTicketState extends State<CreateTicket> {
               SizedBox(
                 height: 18,
               ),
-              Container(
+              SizedBox(
                 width: DeviceInfo(context).getWidth(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -145,7 +145,7 @@ class _CreateTicketState extends State<CreateTicket> {
                         height: 30.0,
                         width: 120.0,
                         child: Text(
-                          LangText(context: context).getLocal()!.cancel_ucf,
+                          LangText(context: context).getLocal().cancel_ucf,
                           style: TextStyle(color: MyTheme.white, fontSize: 13),
                         ),
                         backgroundColor: MyTheme.grey_153,
@@ -160,7 +160,7 @@ class _CreateTicketState extends State<CreateTicket> {
                         height: 30.0,
                         width: 120.0,
                         child: Text(
-                          LangText(context: context).getLocal()!.send_ticket,
+                          LangText(context: context).getLocal().send_ticket,
                           style: TextStyle(color: MyTheme.white, fontSize: 13),
                         ),
                         backgroundColor: MyTheme.app_accent_color,

@@ -14,7 +14,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../helpers/shared_value_helper.dart';
 
 class CommissionHistory extends StatefulWidget {
-  const CommissionHistory({Key? key}) : super(key: key);
+  const CommissionHistory({super.key});
 
   @override
   _CommissionHistoryState createState() => _CommissionHistoryState();
@@ -25,7 +25,7 @@ class _CommissionHistoryState extends State<CommissionHistory> {
   bool _isFetchAllData = false;
   bool _showMoreCommissionLoading = false;
   ScrollController _scrollController =
-      new ScrollController(initialScrollOffset: 0);
+      ScrollController(initialScrollOffset: 0);
   int _page = 1;
 
   Future<bool> getCommissionList() async {
@@ -44,7 +44,7 @@ class _CommissionHistoryState extends State<CommissionHistory> {
   }
 
   clearData() {
-    _scrollController = new ScrollController(initialScrollOffset: 0);
+    _scrollController = ScrollController(initialScrollOffset: 0);
     _page = 1;
     _isFetchAllData = false;
     _commission = [];
@@ -147,7 +147,7 @@ class _CommissionHistoryState extends State<CommissionHistory> {
     return MyWidget.customCardView(
         backgroundColor: MyTheme.app_accent_color_extra_light,
         elevation: 5,
-        height: 90,
+        height: 100,
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         width: DeviceInfo(context).getWidth(),
@@ -170,21 +170,19 @@ class _CommissionHistoryState extends State<CommissionHistory> {
             SizedBox(
               height: 5,
             ),
-            Container(
+            SizedBox(
               width: DeviceInfo(context).getWidth(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     width: DeviceInfo(context).getWidth() / 2,
                     child: Row(
                       children: [
                         Text(
-                          LangText(context: context)
-                                  .getLocal()!
-                                  .admin_commission_ucf +
-                              " : " +
-                              adminCommission,
+                          "${LangText(context: context)
+                                  .getLocal()
+                                  .admin_commission_ucf} : $adminCommission",
                           style: TextStyle(
                             fontSize: 12,
                             color: MyTheme.app_accent_color,
@@ -207,7 +205,7 @@ class _CommissionHistoryState extends State<CommissionHistory> {
             SizedBox(
               height: 5,
             ),
-            Container(
+            SizedBox(
               width: DeviceInfo(context).getWidth() / 3,
               child: Row(
                 children: [

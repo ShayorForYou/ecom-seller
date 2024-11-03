@@ -6,7 +6,7 @@ import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 class PaymentHistoryRepository {
   Future<PaymentHistoryResponse> getList({int page = 1}) async {
     String url =
-        ("${AppConfig.BASE_URL_WITH_PREFIX}/payment-history" + "?page=${page}");
+        ("${AppConfig.BASE_URL_WITH_PREFIX}/payment-history" "?page=$page");
 
     // print("get order list url " + url.toString());
 

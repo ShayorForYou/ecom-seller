@@ -1,4 +1,4 @@
-library flutter_summernote;
+library;
 
 import 'dart:async';
 import 'dart:convert';
@@ -29,7 +29,7 @@ class FlutterSummernote extends StatefulWidget {
   final Function(String)? returnContent;
 
   const FlutterSummernote({
-    Key? key,
+    super.key,
     this.value,
     this.height,
     this.decoration,
@@ -40,7 +40,7 @@ class FlutterSummernote extends StatefulWidget {
     this.hasAttachment = false,
     this.showBottomToolbar = true,
     this.returnContent,
-  }) : super(key: key);
+  });
 
   @override
   FlutterSummernoteState createState() => FlutterSummernoteState();

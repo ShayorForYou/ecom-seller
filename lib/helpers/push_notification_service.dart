@@ -75,7 +75,7 @@ class PushNotificationService {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
-                icon: android?.smallIcon,
+                icon: android.smallIcon,
                 // other properties...
               ),
             ));
@@ -133,8 +133,8 @@ class PushNotificationService {
       OneContext().showDialog(
           // barrierDismissible: false,
           builder: (context) => AlertDialog(
-                title: new Text("You are not logged in"),
-                content: new Text("Please log in"),
+                title: Text("You are not logged in"),
+                content: Text("Please log in"),
                 actions: <Widget>[
                   TextButton(
                     child: Text('close'),

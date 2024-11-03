@@ -10,14 +10,14 @@ class PosBtn extends StatelessWidget {
   final FontWeight? fontWeight;
   final VoidCallback? onTap;
   const PosBtn({
-    Key? key,
+    super.key,
     this.text = '--',
     this.icon,
     this.color,
     this.textColor = MyTheme.app_accent_color,
     this.fontWeight = FontWeight.normal,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

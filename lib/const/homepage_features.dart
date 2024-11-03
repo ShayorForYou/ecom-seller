@@ -53,7 +53,7 @@ class FeaturesList {
           onTap: () {
             MyTransaction(context: context).push(ChatList());
           },
-          child: Container(
+          child: SizedBox(
             height: 40,
             child: Column(
               children: [
@@ -67,7 +67,7 @@ class FeaturesList {
                   height: 5,
                 ),
                 Text(
-                  LangText(context: context).getLocal()!.messages_ucf,
+                  LangText(context: context).getLocal().messages_ucf,
                   style: TextStyle(
                     fontSize: 12,
                     color: MyTheme.white,
@@ -86,7 +86,7 @@ class FeaturesList {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => RefundRequest()));
             },
-            child: Container(
+            child: SizedBox(
               height: 40,
               child: Column(
                 children: [
@@ -100,7 +100,7 @@ class FeaturesList {
                     height: 5,
                   ),
                   Text(
-                    LangText(context: context).getLocal()!.refund_requests_ucf,
+                    LangText(context: context).getLocal().refund_requests_ucf,
                     style: TextStyle(
                       fontSize: 12,
                       color: MyTheme.white,
@@ -145,7 +145,7 @@ class FeaturesList {
             onTap: () {
               MyTransaction(context: context).push(Coupons());
             },
-            child: Container(
+            child: SizedBox(
               height: 40,
               child: Column(
                 children: [
@@ -159,7 +159,7 @@ class FeaturesList {
                     height: 5,
                   ),
                   Text(
-                    LangText(context: context).getLocal()!.coupons_ucf,
+                    LangText(context: context).getLocal().coupons_ucf,
                     style: TextStyle(
                       fontSize: 12,
                       color: MyTheme.white,
@@ -175,7 +175,7 @@ class FeaturesList {
           onTap: () {
             MyTransaction(context: context).push(MoneyWithdraw());
           },
-          child: Container(
+          child: SizedBox(
             height: 40,
             child: Column(
               children: [
@@ -189,7 +189,7 @@ class FeaturesList {
                   height: 5,
                 ),
                 Text(
-                  LangText(context: context).getLocal()!.money_withdraw_ucf,
+                  LangText(context: context).getLocal().money_withdraw_ucf,
                   style: TextStyle(
                     fontSize: 12,
                     color: MyTheme.white,
@@ -204,7 +204,7 @@ class FeaturesList {
           onTap: () {
             MyTransaction(context: context).push(PaymentHistory());
           },
-          child: Container(
+          child: SizedBox(
             height: 40,
             child: Column(
               children: [
@@ -218,7 +218,7 @@ class FeaturesList {
                   height: 5,
                 ),
                 Text(
-                  LangText(context: context).getLocal()!.payment_history_ucf,
+                  LangText(context: context).getLocal().payment_history_ucf,
                   style: TextStyle(
                     fontSize: 12,
                     color: MyTheme.white,

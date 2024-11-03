@@ -17,6 +17,8 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:toast/toast.dart';
 
 class PasswordForget extends StatefulWidget {
+  const PasswordForget({super.key});
+
   @override
   _PasswordForgetState createState() => _PasswordForgetState();
 }
@@ -29,8 +31,8 @@ class _PasswordForgetState extends State<PasswordForget> {
   String? _phone = "";
 
   //controllers
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   fetch_country() async {
     var data = await AddressRepository().getCountryList();
@@ -98,8 +100,8 @@ class _PasswordForgetState extends State<PasswordForget> {
 
   @override
   Widget build(BuildContext context) {
-    final _screen_height = MediaQuery.of(context).size.height;
-    final _screen_width = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Directionality(
       textDirection:
           app_language_rtl.$! ? TextDirection.rtl : TextDirection.ltr,
@@ -143,7 +145,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                 ),
               ),
               SizedBox(
-                width: _screen_width * (3 / 4),
+                width: screenWidth * (3 / 4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -179,7 +181,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                                         borderColor: MyTheme.noColor,
                                         fillColor: MyTheme.app_accent_color_extra_light,
                                         hint_text: LangText(context: context)
-                                            .getLocal()!
+                                            .getLocal()
                                             .sellerexample,
                                         hintTextColor: MyTheme.dark_grey),
                               ),
@@ -207,7 +209,7 @@ class _PasswordForgetState extends State<PasswordForget> {
                                   });
                                 },
                                 onInputValidated: (bool value) {
-                                  print('on input validation ${value}');
+                                  print('on input validation $value');
                                 },
                                 selectorConfig: SelectorConfig(
                                   selectorType: PhoneInputSelectorType.DIALOG,
@@ -264,10 +266,10 @@ class _PasswordForgetState extends State<PasswordForget> {
                     Text(
                       _send_code_by == "email"
                           ? LangText(context: context)
-                              .getLocal()!
+                              .getLocal()
                               .we_will_send_you_a_OTP_code_if_the_mail_id_is_correct_ucf
                           : LangText(context: context)
-                              .getLocal()!
+                              .getLocal()
                               .we_will_send_you_a_OTP_code_if_the_phone_no_is_correct_ucf,
                       style: TextStyle(
                         fontSize: 12,

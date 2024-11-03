@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShopSettings extends StatefulWidget {
-  const ShopSettings({Key? key}) : super(key: key);
+  const ShopSettings({super.key});
 
   @override
   ShopSettingsState createState() => ShopSettingsState();

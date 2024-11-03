@@ -99,7 +99,7 @@ class PosRepository {
 
     final response =
         await ApiRequest.post(url: url, headers: reqHeader, body: postBody);
-    print("cart: ${postBody}");
+    print("cart: $postBody");
 
     return posUserCartDataResponseFromJson(response.body);
   }

@@ -23,7 +23,6 @@ import 'package:ecom_seller_app/screens/profile.dart';
 import 'package:ecom_seller_app/screens/shop_settings/shop_settings.dart';
 import 'package:ecom_seller_app/screens/uploads/upload_file.dart';
 import 'package:ecom_seller_app/screens/vendors.dart';
-import 'package:ecom_seller_app/screens/vendors_details.dart';
 import 'package:ecom_seller_app/screens/whole_sale_product/products.dart';
 import 'package:flutter/material.dart';
 import 'package:one_context/one_context.dart';
@@ -36,7 +35,7 @@ import 'digital_product/digital_product.dart';
 import 'product_queries/product_queries.dart';
 
 class Account extends StatefulWidget {
-  const Account({Key? key}) : super(key: key);
+  const Account({super.key});
 
   @override
   AccountState createState() => AccountState();
@@ -67,9 +66,9 @@ class AccountState extends State<Account> with TickerProviderStateMixin {
   }
 
   getSellerPackage() async {
-    var _shopInfo = await ShopRepository().getShopInfo();
-    _package = _shopInfo.shopInfo!.sellerPackage;
-    _packageImg = _shopInfo.shopInfo!.sellerPackageImg;
+    var shopInfo = await ShopRepository().getShopInfo();
+    _package = shopInfo.shopInfo!.sellerPackage;
+    _packageImg = shopInfo.shopInfo!.sellerPackageImg;
     print(_packageImg);
     setState(() {});
   }

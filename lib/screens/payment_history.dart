@@ -2,7 +2,6 @@ import 'package:ecom_seller_app/custom/device_info.dart';
 import 'package:ecom_seller_app/custom/my_app_bar.dart';
 import 'package:ecom_seller_app/custom/my_widget.dart';
 import 'package:ecom_seller_app/data_model/payment_history_response.dart';
-import 'package:ecom_seller_app/dummy_data/payment_history_list.dart';
 
 import 'package:ecom_seller_app/helpers/shimmer_helper.dart';
 import 'package:ecom_seller_app/my_theme.dart';
@@ -11,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentHistory extends StatefulWidget {
-  const PaymentHistory({Key? key}) : super(key: key);
+  const PaymentHistory({super.key});
 
   @override
   _PaymentHistoryState createState() => _PaymentHistoryState();
@@ -19,7 +18,7 @@ class PaymentHistory extends StatefulWidget {
 
 class _PaymentHistoryState extends State<PaymentHistory> {
   ScrollController _scrollController =
-      new ScrollController(initialScrollOffset: 0);
+      ScrollController(initialScrollOffset: 0);
 
   int _page = 1;
   bool _isFetchAllData = false, _showMoreProductLoadingContainer = false;
@@ -42,7 +41,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   }
 
   clearAllData() {
-    _scrollController = new ScrollController(initialScrollOffset: 0);
+    _scrollController = ScrollController(initialScrollOffset: 0);
     _page = 1;
     _isFetchAllData = false;
     _payments = [];
@@ -173,7 +172,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                 SizedBox(
                   height: 5,
                 ),
-                Container(
+                SizedBox(
                   width: DeviceInfo(context).getWidth() / 3,
                   child: Row(
                     children: [

@@ -10,93 +10,29 @@ import 'package:ecom_seller_app/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:org_chart/controller.dart';
-import 'package:org_chart/org_chart.dart';
 import 'package:toast/toast.dart';
 
 import '../custom/device_info.dart';
 
 class ProfileEdit extends StatefulWidget {
-  const ProfileEdit({Key? key}) : super(key: key);
+  const ProfileEdit({super.key});
 
   @override
   _ProfileEditState createState() => _ProfileEditState();
 }
 
 class _ProfileEditState extends State<ProfileEdit> {
-  ScrollController _mainScrollController = ScrollController();
+  final ScrollController _mainScrollController = ScrollController();
 
   String? avatar_original = "";
 
-  TextEditingController _nameController = TextEditingController(text: "");
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _passwordConfirmController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController(text: "");
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmController = TextEditingController();
 
   //for image uploading
   final ImagePicker _picker = ImagePicker();
   XFile? _file;
-
-  final OrgChartController<Map> orgChartController = OrgChartController<Map>(
-    orientation: OrgChartOrientation.topToBottom,
-    items: [
-      {
-        "id": '0',
-        "text": 'Managing Director',
-        'role': 'Overall responsibility',
-      },
-      {
-        "id": '1',
-        "text": 'General Manager',
-        'role': 'Second in command',
-        "to": '0',
-      },
-      {
-        "id": '2',
-        "text": 'Finance Manager',
-        'role': 'Financial matters',
-        "to": '0',
-      },
-      {
-        "id": '3',
-        "text": 'HR Manager',
-        'role': 'Human resources',
-        "to": '1',
-      },
-      {
-        "id": '4',
-        "text": 'Marketing Manager',
-        'role': 'Marketing',
-        "to": '1',
-      },
-      {
-        "id": '5',
-        "text": 'Accountant',
-        'role': 'Accounting',
-        "to": '2',
-      },
-      {
-        "id": '6',
-        "text": 'Recruiter',
-        'role': 'Recruitment',
-        "to": '3',
-      },
-      {
-        "id": '7',
-        "text": 'Sales Manager',
-        'role': 'Sales',
-        "to": '4',
-      },
-      {
-        "id": '8',
-        "text": 'Salesman',
-        'role': 'Sales',
-        "to": '7',
-      },
-    ],
-    idProvider: (data) => data["id"],
-    toProvider: (data) => data["to"],
-    toSetter: (data, newID) => data["to"] = newID,
-  );
 
   sellerInfo() async {
     var response = await ProfileRepository().getSellerInfo();
@@ -106,35 +42,39 @@ class _ProfileEditState extends State<ProfileEdit> {
   }
 
   chooseAndUploadImage(context) async {
-    //file = await ImagePicker.pickImage(source: ImageSource.camera);
-    _file = await _picker.pickImage(source: ImageSource.gallery);
+    try {
+      //file = await ImagePicker.pickImage(source: ImageSource.camera);
+      _file = await _picker.pickImage(source: ImageSource.gallery);
 
-    if (_file == null) {
-      ToastComponent.showDialog(AppLocalizations.of(context)!.no_file_is_chosen,
-          gravity: Toast.center, duration: Toast.lengthLong);
-      return;
-    }
+      if (_file == null) {
+        ToastComponent.showDialog(AppLocalizations.of(context)!.no_file_is_chosen,
+            gravity: Toast.center, duration: Toast.lengthLong);
+        return;
+      }
 
-    //return;
-    String base64Image = FileHelper.getBase64FormateFile(_file!.path);
-    String fileName = _file!.path.split("/").last;
+      //return;
+      String base64Image = FileHelper.getBase64FormateFile(_file!.path);
+      String fileName = _file!.path.split("/").last;
 
-    var profileImageUpdateResponse =
-        await ProfileRepository().getProfileImageUpdateResponse(
-      base64Image,
-      fileName,
-    );
+      var profileImageUpdateResponse =
+      await ProfileRepository().getProfileImageUpdateResponse(
+        base64Image,
+        fileName,
+      );
 
-    if (profileImageUpdateResponse.result == false) {
-      ToastComponent.showDialog(profileImageUpdateResponse.message!,
-          gravity: Toast.center, duration: Toast.lengthLong);
-      return;
-    } else {
-      ToastComponent.showDialog(profileImageUpdateResponse.message!,
-          gravity: Toast.center, duration: Toast.lengthLong);
-      avatar_original = profileImageUpdateResponse.path;
+      if (profileImageUpdateResponse.result == false) {
+        ToastComponent.showDialog(profileImageUpdateResponse.message!,
+            gravity: Toast.center, duration: Toast.lengthLong);
+        return;
+      } else {
+        ToastComponent.showDialog(profileImageUpdateResponse.message!,
+            gravity: Toast.center, duration: Toast.lengthLong);
+        avatar_original = profileImageUpdateResponse.path;
 
-      setState(() {});
+        setState(() {});
+      }
+    } catch(e) {
+      print(e);
     }
   }
 
@@ -143,10 +83,10 @@ class _ProfileEditState extends State<ProfileEdit> {
   onPressUpdate() async {
     var name = _nameController.text.toString();
     var password = _passwordController.text.toString();
-    var password_confirm = _passwordConfirmController.text.toString();
+    var passwordConfirm = _passwordConfirmController.text.toString();
 
-    var change_password = password != "" ||
-        password_confirm !=
+    var changePassword = password != "" ||
+        passwordConfirm !=
             ""; // if both fields are empty we will not change user's password
 
     if (name == "") {
@@ -154,19 +94,19 @@ class _ProfileEditState extends State<ProfileEdit> {
           gravity: Toast.center, duration: Toast.lengthLong);
       return;
     }
-    if (change_password && password == "") {
+    if (changePassword && password == "") {
       ToastComponent.showDialog(AppLocalizations.of(context)!.enter_password,
           gravity: Toast.center, duration: Toast.lengthLong);
       return;
     }
-    if (change_password && password_confirm == "") {
+    if (changePassword && passwordConfirm == "") {
       ToastComponent.showDialog(
           AppLocalizations.of(context)!.confirm_your_password,
           gravity: Toast.center,
           duration: Toast.lengthLong);
       return;
     }
-    if (change_password && password.length < 6) {
+    if (changePassword && password.length < 6) {
       ToastComponent.showDialog(
           AppLocalizations.of(context)!
               .password_must_contain_at_least_6_characters,
@@ -174,7 +114,7 @@ class _ProfileEditState extends State<ProfileEdit> {
           duration: Toast.lengthLong);
       return;
     }
-    if (change_password && password != password_confirm) {
+    if (changePassword && password != passwordConfirm) {
       ToastComponent.showDialog(
           AppLocalizations.of(context)!.passwords_do_not_match,
           gravity: Toast.center,
@@ -185,7 +125,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     var profileUpdateResponse =
         await ProfileRepository().getProfileUpdateResponse(
       name,
-      change_password ? password : "",
+      changePassword ? password : "",
     );
 
     if (profileUpdateResponse.result == false) {
@@ -335,7 +275,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     //   ),
     // );
     if (!is_logged_in.$) {
-      return Container(
+      return SizedBox(
           height: 100,
           child: Center(
               child: Text(
@@ -409,19 +349,19 @@ class _ProfileEditState extends State<ProfileEdit> {
                   height: 24,
                   child: Buttons(
                     padding: const EdgeInsets.all(0),
-                    child: const Icon(
-                      Icons.edit,
-                      color: MyTheme.font_grey,
-                      size: 14,
-                    ),
                     shape: CircleBorder(
                       side:
-                          new BorderSide(color: MyTheme.light_grey, width: 1.0),
+                          BorderSide(color: MyTheme.light_grey, width: 1.0),
                     ),
                     color: MyTheme.light_grey,
                     onPressed: () {
                       chooseAndUploadImage(context);
                     },
+                    child: const Icon(
+                      Icons.edit,
+                      color: MyTheme.font_grey,
+                      size: 14,
+                    ),
                   ),
                 ),
               )

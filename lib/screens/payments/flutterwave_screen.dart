@@ -18,20 +18,19 @@ class FlutterwaveScreen extends StatefulWidget {
   String? package_id;
 
   FlutterwaveScreen(
-      {Key? key,
+      {super.key,
       this.amount = 0.00,
       this.payment_type = "",
       this.payment_method_key = "",
-      this.package_id})
-      : super(key: key);
+      this.package_id});
 
   @override
   _FlutterwaveScreenState createState() => _FlutterwaveScreenState();
 }
 
 class _FlutterwaveScreenState extends State<FlutterwaveScreen> {
-  int _combined_order_id = 0;
-  bool _order_init = false;
+  final int _combined_order_id = 0;
+  final bool _order_init = false;
   String? _initial_url = "";
   bool _initial_url_fetched = false;
 
@@ -128,19 +127,19 @@ class _FlutterwaveScreenState extends State<FlutterwaveScreen> {
         widget.payment_type == "cart_payment") {
       return Container(
         child: Center(
-          child: Text(LangText(context: context).getLocal()!.creating_order),
+          child: Text(LangText(context: context).getLocal().creating_order),
         ),
       );
     } else if (_initial_url_fetched == false) {
       return Container(
         child: Center(
           child: Text(
-              LangText(context: context).getLocal()!.fetching_flutterwave_url),
+              LangText(context: context).getLocal().fetching_flutterwave_url),
         ),
       );
     } else {
       return SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: WebViewWidget(
@@ -162,7 +161,7 @@ class _FlutterwaveScreenState extends State<FlutterwaveScreen> {
         ),
       ),
       title: Text(
-        LangText(context: context).getLocal()!.pay_with_flutterwave,
+        LangText(context: context).getLocal().pay_with_flutterwave,
         style: TextStyle(fontSize: 16, color: MyTheme.app_accent_color),
       ),
       elevation: 0.0,

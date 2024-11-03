@@ -31,23 +31,23 @@ class UserByTokenResponse {
 
   factory UserByTokenResponse.fromJson(Map<String, dynamic> json) =>
       UserByTokenResponse(
-        result: json["result"] == null ? null : json["result"],
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        email: json["email"] == null ? null : json["email"],
-        avatar: json["avatar"] == null ? null : json["avatar"],
+        result: json["result"],
+        id: json["id"],
+        name: json["name"],
+        email: json["email"],
+        avatar: json["avatar"],
         avatar_original:
-            json["avatar_original"] == null ? null : json["avatar_original"],
-        phone: json["phone"] == null ? null : json["phone"],
+            json["avatar_original"],
+        phone: json["phone"],
       );
 
   Map<String, dynamic> toJson() => {
-        "result": result == null ? null : result,
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-        "email": email == null ? null : email,
-        "avatar": avatar == null ? null : avatar,
-        "avatar_original": avatar_original == null ? null : avatar_original,
-        "phone": phone == null ? null : phone,
+        "result": result,
+        "id": id,
+        "name": name,
+        "email": email,
+        "avatar": avatar,
+        "avatar_original": avatar_original,
+        "phone": phone,
       };
 }

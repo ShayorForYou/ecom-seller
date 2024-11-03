@@ -2,7 +2,7 @@ var this_year = DateTime.now().year.toString();
 
 class AppConfig {
   //this shows in the splash screen
-  static String copyright_text = "@ e-Com " + this_year;
+  static String copyright_text = "@ e-Com $this_year";
   //this shows in the splash screen
   static String app_name = "Upokari eCom Seller";
 
@@ -30,7 +30,7 @@ class AppConfig {
   static const String PUBLIC_FOLDER = "public";
   static const String PROTOCOL = HTTPS ? "https://" : "http://";
   static const String SELLER_PREFIX = "seller";
-  static const String RAW_BASE_URL = "${PROTOCOL}${DOMAIN_PATH}";
-  static const String BASE_URL = "${RAW_BASE_URL}/${API_ENDPATH}";
-  static const String BASE_URL_WITH_PREFIX = "${BASE_URL}/${SELLER_PREFIX}";
+  static const String RAW_BASE_URL = "$PROTOCOL$DOMAIN_PATH";
+  static const String BASE_URL = "$RAW_BASE_URL/$API_ENDPATH";
+  static const String BASE_URL_WITH_PREFIX = "$BASE_URL/$SELLER_PREFIX";
 }

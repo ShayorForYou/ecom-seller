@@ -9,12 +9,10 @@ import 'package:ecom_seller_app/custom/submitButton.dart';
 import 'package:ecom_seller_app/custom/toast_component.dart';
 import 'package:ecom_seller_app/data_model/payment_type_response.dart';
 import 'package:ecom_seller_app/data_model/seller_package_response.dart';
-import 'package:ecom_seller_app/dummy_data/package_list.dart';
 import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
 import 'package:ecom_seller_app/helpers/shimmer_helper.dart';
 import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/repositories/payment_repository.dart';
-import 'package:ecom_seller_app/repositories/payment_type_repository.dart';
 import 'package:ecom_seller_app/repositories/shop_repository.dart';
 import 'package:ecom_seller_app/screens/payments/bkash_screen.dart';
 import 'package:ecom_seller_app/screens/payments/flutterwave_screen.dart';
@@ -31,7 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 class Packages extends StatefulWidget {
-  const Packages({Key? key}) : super(key: key);
+  const Packages({super.key});
 
   @override
   State<Packages> createState() => _PackagesState();
@@ -42,7 +40,7 @@ class _PackagesState extends State<Packages> {
   bool _isFetchAllData = false;
 
   List<PaymentTypeResponse> _onlinePaymentList = [];
-  List<PaymentTypeResponse> _offlinePaymentList = [];
+  final List<PaymentTypeResponse> _offlinePaymentList = [];
  final List<PaymentType> _paymentOptions = PaymentOption.getList();
 
   PaymentTypeResponse? _selectedOnlinePaymentTypeValue;
@@ -235,7 +233,7 @@ class _PackagesState extends State<Packages> {
       appBar: MyAppBar(
               context: context,
               title: LangText(context: context)
-                  .getLocal()!
+                  .getLocal()
                   .premium_package_for_seller_ucf)
           .show(),
       body: RefreshIndicator(
@@ -278,7 +276,7 @@ class _PackagesState extends State<Packages> {
   }
 
   Widget packageItem(int index,BuildContext context, String? url, String packageName,
-      String packagePrice, String packageDate, String packageProduct, price,package_id) {
+      String packagePrice, String packageDate, String packageProduct, price,packageId) {
     print(url);
     return MyWidget.customCardView(
       elevation: 5,
@@ -321,20 +319,20 @@ class _PackagesState extends State<Packages> {
               packageName,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal),
             ),
-            Container(
+            SizedBox(
               width: DeviceInfo(context).getWidth() / 2,
               child: SubmitBtn.show(
                   height: 30,
                   width: DeviceInfo(context).getWidth() / 3,
                   onTap: () {
                     if(double.parse(price.toString())<=0){
-                      sendFreePackageReq(package_id);
+                      sendFreePackageReq(packageId);
                       return;
                     }
                     if (offline_payment_addon.$) {
-                      selectPaymentOption(price,package_id);
+                      selectPaymentOption(price,packageId);
                     } else {
-                      selectOnlinePaymentType(price,package_id);
+                      selectOnlinePaymentType(price,packageId);
                     }
                   },
                   backgroundColor: MyTheme.app_accent_color,
@@ -359,11 +357,9 @@ class _PackagesState extends State<Packages> {
                             color: MyTheme.white),
                       ),
                       Text(
-                        packageDate +
-                            '' +
-                            LangText(context: context)
-                                .getLocal()!
-                                .days_ucf,
+                        '$packageDate${LangText(context: context)
+                                .getLocal()
+                                .days_ucf}',
                         style: TextStyle(
                             fontSize: 10, color: MyTheme.light_grey),
                         textAlign: TextAlign.end,
@@ -371,7 +367,7 @@ class _PackagesState extends State<Packages> {
                     ],
                   )),
             ),
-            Container(
+            SizedBox(
               width: DeviceInfo(context).getWidth() / 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -382,11 +378,9 @@ class _PackagesState extends State<Packages> {
                     size: 11,
                   ),
                   Text(
-                    packageProduct +
-                        " " +
-                        LangText(context: context)
-                            .getLocal()!
-                            .product_upload_limit_ucf,
+                    "$packageProduct ${LangText(context: context)
+                            .getLocal()
+                            .product_upload_limit_ucf}",
                     style:
                         TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
                   ),
@@ -397,7 +391,7 @@ class _PackagesState extends State<Packages> {
         ));
   }
 
-  selectOnlinePaymentType(amount,package_id) {
+  selectOnlinePaymentType(amount,packageId) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -405,7 +399,7 @@ class _PackagesState extends State<Packages> {
             return Container(
               child: AlertDialog(
                 title: Text(LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .select_payment_type_ucf),
                 content: DropdownButton<PaymentTypeResponse>(
                   underline: Container(),
@@ -414,8 +408,8 @@ class _PackagesState extends State<Packages> {
                   items: _onlinePaymentList
                       .map<DropdownMenuItem<PaymentTypeResponse>>(
                           (paymentType) => DropdownMenuItem(
+                                value: paymentType,
                                 child: Text(paymentType.name!),
-                            value: paymentType,
                               ))
                       .toList(),
                   value: _selectedOnlinePaymentTypeValue,
@@ -435,7 +429,7 @@ class _PackagesState extends State<Packages> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        LangText(context: context).getLocal()!.cancel_ucf,
+                        LangText(context: context).getLocal().cancel_ucf,
                         style: TextStyle(color: MyTheme.white, fontSize: 12),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 5)),
@@ -449,11 +443,11 @@ class _PackagesState extends State<Packages> {
                         sendPaymentPage(
                           payment_method_key: _selectedOnlinePaymentTypeValue!.payment_type_key,
                           amount: amount,
-                          package_id: package_id
+                          package_id: packageId
                         );
                       },
                       child: Text(
-                          LangText(context: context).getLocal()!.continue_ucf,
+                          LangText(context: context).getLocal().continue_ucf,
                           style: TextStyle(color: MyTheme.white, fontSize: 12)),
                       padding: EdgeInsets.symmetric(horizontal: 5))
                 ],
@@ -463,7 +457,7 @@ class _PackagesState extends State<Packages> {
         });
   }
 
-  selectOfflinePaymentType(amount,package_id) {
+  selectOfflinePaymentType(amount,packageId) {
 
     return showDialog(
         context: context,
@@ -472,7 +466,7 @@ class _PackagesState extends State<Packages> {
             return Container(
               child: AlertDialog(
                 title: Text(LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .select_payment_type_ucf),
                 content: DropdownButton<PaymentTypeResponse>(
                   underline: Container(),
@@ -481,8 +475,8 @@ class _PackagesState extends State<Packages> {
                   items: _offlinePaymentList
                       .map<DropdownMenuItem<PaymentTypeResponse>>(
                           (paymentType) => DropdownMenuItem(
-                                child: Text(paymentType.name!),
                                 value: paymentType,
+                                child: Text(paymentType.name!),
                               ))
                       .toList(),
                   value: _selectedOfflinePaymentTypeValue,
@@ -502,7 +496,7 @@ class _PackagesState extends State<Packages> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        LangText(context: context).getLocal()!.cancel_ucf,
+                        LangText(context: context).getLocal().cancel_ucf,
                         style: TextStyle(color: MyTheme.white, fontSize: 12),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 5)),
@@ -515,7 +509,7 @@ class _PackagesState extends State<Packages> {
                         Navigator.pop(context);
                         MyTransaction(context: context).push(
                             OfflineScreen(details:_selectedOfflinePaymentTypeValue!.details, offline_payment_id:_selectedOfflinePaymentTypeValue!.offline_payment_id,rechargeAmount:double.parse(amount.toString()),
-                            package_id: package_id,
+                            package_id: packageId,
                             ));
                         // sendPaymentPage(
                         //   payment_method_key: _selectedOnlinePaymentTypeValue.key,
@@ -523,7 +517,7 @@ class _PackagesState extends State<Packages> {
                         // );
                       },
                       child: Text(
-                          LangText(context: context).getLocal()!.continue_ucf,
+                          LangText(context: context).getLocal().continue_ucf,
                           style: TextStyle(color: MyTheme.white, fontSize: 12)),
                       padding: EdgeInsets.symmetric(horizontal: 5))
                 ],
@@ -533,7 +527,7 @@ class _PackagesState extends State<Packages> {
         });
   }
 
-  selectPaymentOption(amount,package_id) {
+  selectPaymentOption(amount,packageId) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -541,7 +535,7 @@ class _PackagesState extends State<Packages> {
             return Container(
               child: AlertDialog(
                 title: Text(LangText(context: context)
-                    .getLocal()!.select_payment_option_ucf),
+                    .getLocal().select_payment_option_ucf),
                 content: DropdownButton<PaymentType>(
                   underline: Container(),
                   elevation: 2,
@@ -549,8 +543,8 @@ class _PackagesState extends State<Packages> {
                   items: _paymentOptions
                       .map<DropdownMenuItem<PaymentType>>(
                           (paymentType) => DropdownMenuItem(
-                                child: Text(paymentType.value),
                                 value: paymentType,
+                                child: Text(paymentType.value),
                               ))
                       .toList(),
                   value: _selectedPaymentOption,
@@ -560,10 +554,10 @@ class _PackagesState extends State<Packages> {
                     });
                     Navigator.pop(context);
                     if (_selectedPaymentOption!.key == "online") {
-                      selectOnlinePaymentType(amount,package_id);
+                      selectOnlinePaymentType(amount,packageId);
                     }
                     if (_selectedPaymentOption!.key == "offline") {
-                      selectOfflinePaymentType(amount,package_id);
+                      selectOfflinePaymentType(amount,packageId);
                      // MyTransaction(context: context).push(OfflineScreen());
                     }
 
@@ -579,7 +573,7 @@ class _PackagesState extends State<Packages> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        LangText(context: context).getLocal()!.cancel_ucf,
+                        LangText(context: context).getLocal().cancel_ucf,
                         style: TextStyle(color: MyTheme.white, fontSize: 12),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 5)),

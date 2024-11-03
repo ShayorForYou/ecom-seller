@@ -1,5 +1,4 @@
 import 'package:ecom_seller_app/middlewares/middleware.dart';
-import 'package:ecom_seller_app/screens/otp.dart';
 import 'package:flutter/material.dart';
 
 class AIZRoute {

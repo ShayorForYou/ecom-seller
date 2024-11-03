@@ -1,7 +1,6 @@
 import 'package:ecom_seller_app/custom/buttons.dart';
 import 'package:ecom_seller_app/custom/localization.dart';
 import 'package:ecom_seller_app/my_theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DialogBox {
@@ -13,7 +12,7 @@ class DialogBox {
         builder: (context) {
           DialogBox.context = context;
           return AlertDialog(
-            title: Text(LangText(context: context).getLocal()!.warning_ucf),
+            title: Text(LangText(context: context).getLocal().warning_ucf),
             content: Container(
               constraints: BoxConstraints(maxHeight: 60),
               child: SingleChildScrollView(
@@ -36,7 +35,7 @@ class DialogBox {
                 width: 40,
                 height: 40,
                 child: Text(
-                  LangText(context: context).getLocal()!.close_all_capital,
+                  LangText(context: context).getLocal().close_all_capital,
                   style: TextStyle(color: MyTheme.white),
                 ),
                 onPressed: () {

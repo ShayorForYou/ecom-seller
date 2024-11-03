@@ -8,10 +8,20 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Upokari eCom needs access to your gallery to upload photos.</string>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>Need location when in use</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>Always and when in use!</string>
+        <key>NSLocationUsageDescription</key>
+        <string>Older devices need location.</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>Can I have location always?</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Active eCommerce seller app</string>
+	<string>Upokari eCom</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

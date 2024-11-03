@@ -7,7 +7,6 @@ import 'package:ecom_seller_app/custom/my_widget.dart';
 import 'package:ecom_seller_app/custom/route_transaction.dart';
 import 'package:ecom_seller_app/custom/toast_component.dart';
 import 'package:ecom_seller_app/data_model/coupon_list_response.dart';
-import 'package:ecom_seller_app/dummy_data/coupons.dart';
 import 'package:ecom_seller_app/helpers/shimmer_helper.dart';
 import 'package:ecom_seller_app/my_theme.dart';
 import 'package:ecom_seller_app/repositories/coupon_repository.dart';
@@ -17,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 class Coupons extends StatefulWidget {
-  const Coupons({Key? key}) : super(key: key);
+  const Coupons({super.key});
 
   @override
   State<Coupons> createState() => _CouponsState();
@@ -25,7 +24,7 @@ class Coupons extends StatefulWidget {
 
 class _CouponsState extends State<Coupons> {
   List<Coupon> _coupons = [];
-  Loading _loading = Loading();
+  final Loading _loading = Loading();
   bool _faceData=false;
 
 
@@ -84,7 +83,7 @@ Loading.setInstance(context);
     return Scaffold(
       appBar: MyAppBar(
               context: context,
-              title: LangText(context: context).getLocal()!.coupons_ucf)
+              title: LangText(context: context).getLocal().coupons_ucf)
           .show(),
       body: RefreshIndicator(
         onRefresh: refresh,
@@ -101,7 +100,7 @@ Loading.setInstance(context);
                   SizedBox(
                     height: 20,
                   ),
-                   _faceData?_coupons.isEmpty?Center(child: Text(LangText(context: context).getLocal()!.no_data_is_available),):
+                   _faceData?_coupons.isEmpty?Center(child: Text(LangText(context: context).getLocal().no_data_is_available),):
                    buildCouponsListView():buildShimmerList(context),
 
                 ],
@@ -144,7 +143,7 @@ Loading.setInstance(context);
       borderRadius: 10,
       child: Row(
         children: [
-          Container(
+          SizedBox(
             width: DeviceInfo(context).getWidth() - 85,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +169,7 @@ Loading.setInstance(context);
                   ],
                 ),
                 Text(
-                  _coupons[index].startDate!+"-"+_coupons[index].startDate!,
+                  "${_coupons[index].startDate!}-${_coupons[index].startDate!}",
                   style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.normal,
@@ -244,7 +243,7 @@ Loading.setInstance(context);
             children: [
               Text(
                 LangText(context: context)
-                    .getLocal()!
+                    .getLocal()
                     .add_new_coupon_ucf,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -263,23 +262,23 @@ Loading.setInstance(context);
   }
 
   showDeleteWarningDialog(id){
-    showDialog(context: context, builder: (context)=>Container(
+    showDialog(context: context, builder: (context)=>SizedBox(
       width: DeviceInfo(context).getWidth()*1.5,
       child: AlertDialog(
-        title: Text(LangText(context: context).getLocal()!.warning_ucf,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: MyTheme.red),),
-        content: Text(LangText(context: context).getLocal()!.do_you_want_to_delete_it,style:const TextStyle(fontWeight: FontWeight.w400,fontSize: 14),),
+        title: Text(LangText(context: context).getLocal().warning_ucf,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: MyTheme.red),),
+        content: Text(LangText(context: context).getLocal().do_you_want_to_delete_it,style:const TextStyle(fontWeight: FontWeight.w400,fontSize: 14),),
         actions: [
           Buttons(
               color: MyTheme.app_accent_color,
               onPressed: (){
                 Navigator.pop(context);
-              }, child: Text(LangText(context: context).getLocal()!.no_ucf,style: TextStyle(color: MyTheme.white,fontSize: 12),)),
+              }, child: Text(LangText(context: context).getLocal().no_ucf,style: TextStyle(color: MyTheme.white,fontSize: 12),)),
           Buttons(
               color: MyTheme.app_accent_color,
               onPressed: (){
                 Navigator.pop(context);
                 deleteCoupon(id);
-              }, child: Text(LangText(context: context).getLocal()!.yes_ucf,style: TextStyle(color: MyTheme.white,fontSize: 12))),
+              }, child: Text(LangText(context: context).getLocal().yes_ucf,style: TextStyle(color: MyTheme.white,fontSize: 12))),
         ],
       ),
     ));

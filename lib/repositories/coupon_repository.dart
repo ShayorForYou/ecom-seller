@@ -20,7 +20,7 @@ class CouponRepository {
     return couponListResponseFromJson(response.body);
   }
 
-  Future<CouponCreateResponse> createCoupon(var post_body) async {
+  Future<CouponCreateResponse> createCoupon(var postBody) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/coupon/create");
 
     Map<String, String> header = {
@@ -32,7 +32,7 @@ class CouponRepository {
     // print("create coupon body " + post_body);
 
     final response =
-        await ApiRequest.post(url: url, headers: header, body: post_body);
+        await ApiRequest.post(url: url, headers: header, body: postBody);
 
     // print("create coupon res " + response.body);
 
@@ -55,7 +55,7 @@ class CouponRepository {
     return editCouponResponseFromJson(response.body);
   }
 
-  Future<CouponCreateResponse> updateCoupon(var post_body, String id) async {
+  Future<CouponCreateResponse> updateCoupon(var postBody, String id) async {
     String url = ("${AppConfig.BASE_URL_WITH_PREFIX}/coupon/update/$id");
 
     Map<String, String> header = {
@@ -68,7 +68,7 @@ class CouponRepository {
     // print("update coupon url " + url.toString());
 
     final response =
-        await ApiRequest.post(url: url, headers: header, body: post_body);
+        await ApiRequest.post(url: url, headers: header, body: postBody);
 
     // print("update coupon res " + response.body);
 

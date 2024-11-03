@@ -2,8 +2,6 @@ import 'package:ecom_seller_app/api_request.dart';
 import 'package:ecom_seller_app/app_config.dart';
 import 'package:ecom_seller_app/data_model/language_list_response.dart';
 import 'package:ecom_seller_app/helpers/shared_value_helper.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class LanguageRepository {
   Future<LanguageListResponse> getLanguageList() async {
